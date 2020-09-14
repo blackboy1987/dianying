@@ -1,0 +1,16 @@
+server:
+  port: 9900
+spring:
+  profiles:
+    active: dev
+  messages:
+    encoding: utf-8
+  main:
+    allow-bean-definition-overriding: true
+  jpa:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+        dialect: org.hibernate.dialect.MySQL5Dialect
+    show-sql: true
