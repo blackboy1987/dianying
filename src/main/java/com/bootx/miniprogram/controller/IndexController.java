@@ -46,9 +46,11 @@ public class IndexController {
         params.put("grant_type","authorization_code");
         Map<String,String> result = JsonUtils.toObject(WebUtils.get(url, params), new TypeReference<Map<String, String>>() {});
         String openId = result.get("openid");
-        Member member = memberService.create(openId,app);
-        data.put("id",member.getId());
-        data.put("token",member.getId());
+        if(StringUtils.isNotEmpty(openId)){
+            Member member = memberService.create(openId,app);
+            data.put("id",member.getId());
+            data.put("token",member.getId());
+        }
         return Result.success(data);
     }
 
