@@ -23,17 +23,16 @@ public class IndexController {
 
     @GetMapping("/level")
     public Result level(){
-       List<Level> levels = levelService.findList(36L,37L,38L);
+       List<Level> levels = levelService.findAll();
         for (Level level:levels) {
             List<LevelImage> content = level.getContent();
             for (LevelImage levelImage:content) {
                 if(StringUtils.equals("layer",levelImage.getName())){
-                    levelImage.setUrl("https://bootx-xxl.oss-cn-hangzhou.aliyuncs.com/zhaocha/lv/"+level.getId()+"/"+levelImage.getName()+".jpg");
+                    levelImage.setUrl("https://bootx-zhaocha.oss-cn-hangzhou.aliyuncs.com/images/lv/"+level.getId()+"/"+levelImage.getName()+".jpg");
                 }else{
-                    levelImage.setUrl("https://bootx-xxl.oss-cn-hangzhou.aliyuncs.com/zhaocha/lv/"+level.getId()+"/"+levelImage.getName()+".png");
+                    levelImage.setUrl("https://bootx-zhaocha.oss-cn-hangzhou.aliyuncs.com/images/lv/"+level.getId()+"/"+levelImage.getName()+".png");
                 }
             }
-            System.out.println("----------------------"+level.getId());
             levelService.update(level);
 
         }
