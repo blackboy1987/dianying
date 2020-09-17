@@ -8,6 +8,7 @@ import com.bootx.miniprogram.entity.Member;
 import com.bootx.miniprogram.service.AppService;
 import com.bootx.miniprogram.service.MemberService;
 import com.bootx.service.LevelService;
+import com.bootx.util.JWTUtils;
 import com.bootx.util.JsonUtils;
 import com.bootx.util.WebUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -45,11 +46,13 @@ public class IndexController {
         params.put("js_code",code);
         params.put("grant_type","authorization_code");
         Map<String,String> result = JsonUtils.toObject(WebUtils.get(url, params), new TypeReference<Map<String, String>>() {});
-        String openId = result.get("openid");
-        if(StringUtils.isNotEmpty(openId)){
-            Member member = memberService.create(openId,app);
+        Member member = memberService.create(result,app);
+        if(member!=null){
+            Map<String,Object> data1 = new HashMap<>(result);
+            data1.put("id",member.getId());
             data.put("id",member.getId());
-            data.put("token",member.getId());
+            data.putAll(memberService.getData(member));
+            data.put("token", JWTUtils.create(member.getId()+"",data1));
         }
         return Result.success(data);
     }

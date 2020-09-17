@@ -1,13 +1,15 @@
 package com.bootx.miniprogram.entity;
 
+import com.bootx.common.BaseAttributeConverter;
 import com.bootx.entity.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Entity
 
@@ -77,6 +79,11 @@ public class SiteInfo extends BaseEntity<Long> {
      */
     @JsonView({ViewView.class})
     private Boolean adshow;
+
+    @NotEmpty
+    @Column(nullable = false, length = 4000)
+    @Convert(converter = RewardConverter.class)
+    private Reward reward;
 
 
     public App getApp() {
@@ -173,5 +180,78 @@ public class SiteInfo extends BaseEntity<Long> {
 
     public void setAdshow(Boolean adshow) {
         this.adshow = adshow;
+    }
+
+    public Reward getReward() {
+        return reward;
+    }
+
+    public void setReward(Reward reward) {
+        this.reward = reward;
+    }
+
+    /**
+     * 类型转换 - 可选项
+     *
+     * @author IGOMALL  Team
+     * @version 1.0
+     */
+    @Converter
+    public static class RewardConverter extends BaseAttributeConverter<Reward> {
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class Reward implements Serializable {
+
+        private Boolean isOpen;
+
+        private String unit;
+
+        @Column(nullable = false, precision = 27, scale = 12)
+        private BigDecimal maxUnit;
+
+        private String img;
+
+        private String msg;
+
+        public Boolean getIsOpen() {
+            return isOpen;
+        }
+
+        public void setIsOpen(Boolean isOpen) {
+            this.isOpen = isOpen;
+        }
+
+        public String getUnit() {
+            return unit;
+        }
+
+        public void setUnit(String unit) {
+            this.unit = unit;
+        }
+
+        public BigDecimal getMaxUnit() {
+            return maxUnit;
+        }
+
+        public void setMaxUnit(BigDecimal maxUnit) {
+            this.maxUnit = maxUnit;
+        }
+
+        public String getImg() {
+            return img;
+        }
+
+        public void setImg(String img) {
+            this.img = img;
+        }
+
+        public String getMsg() {
+            return msg;
+        }
+
+        public void setMsg(String msg) {
+            this.msg = msg;
+        }
     }
 }

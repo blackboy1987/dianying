@@ -5,6 +5,8 @@ import com.bootx.miniprogram.entity.App;
 import com.bootx.miniprogram.entity.Member;
 import com.bootx.service.BaseService;
 
+import java.util.Map;
+
 /**
  * Service - 插件
  * 
@@ -15,5 +17,10 @@ public interface MemberService extends BaseService<Member,Long> {
 
     Member find(String openId, App app);
 
-    Member create(String openId,App app);
+    Member create(Map<String,String > map, App app);
+
+    Member findByUserTokenAndApp(String userToken, App app);
+
+
+    Map<String,Object> getData(Member member);
 }

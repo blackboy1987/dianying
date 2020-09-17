@@ -7,8 +7,13 @@ import com.bootx.miniprogram.entity.Member;
 import com.bootx.miniprogram.service.MemberRankService;
 import com.bootx.miniprogram.service.MemberService;
 import com.bootx.service.impl.BaseServiceImpl;
+import com.bootx.util.JWTUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Service - 素材目录
@@ -30,16 +35,40 @@ public class MemberServiceImpl extends BaseServiceImpl<Member, Long> implements 
 	}
 
 	@Override
-	public Member create(String openId, App app) {
+	public Member create(Map<String,String> map, App app) {
+		String openId = map.get("openid");
+		String unionid = map.get("unionid");
+		String sessionKey = map.get("session_key");
+
+		Map<String,Object> result = new HashMap<>();
+		result.put("openId",openId);
+		result.put("unionid",unionid);
+		result.put("sessionKey",sessionKey);
+
 		Member member = memberDao.find("openId",openId);
 		if(member==null){
 			member = new Member();
 			member.setOpenId(openId);
+			member.setUnionid(unionid);
+			member.setSessionKey(sessionKey);
 			member.setApp(app);
+			member.setMoney(BigDecimal.ZERO);
 			member.setMemberRank(memberRankService.findDefault());
 			return super.save(member);
 		}
-		return member;
+		return super.update(member);
+	}
 
+	@Override
+	public Member findByUserTokenAndApp(String userToken, App app) {
+		return find(JWTUtils.getKey(userToken,"openid"),app);
+	}
+
+	@Override
+	public Map<String, Object> getData(Member member) {
+		Map<String,Object> data = new HashMap<>();
+		data.put("nickName",member.getNickName());
+		data.put("money",member.getMoney());
+		return data;
 	}
 }

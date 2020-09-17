@@ -1,12 +1,10 @@
 package com.bootx.miniprogram.entity;
 
+import com.bootx.common.Constants;
 import com.bootx.entity.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonView;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -37,6 +35,12 @@ public class MemberRank extends BaseEntity<Long> {
     @Min(0)
     @Column(nullable = false,unique = true)
     private Integer level;
+
+    @OneToOne
+    private MemberRank next;
+
+    @OneToOne
+    private MemberRank prv;
 
 
 
@@ -89,14 +93,35 @@ public class MemberRank extends BaseEntity<Long> {
         this.level = level;
     }
 
+    public MemberRank getNext() {
+        return next;
+    }
+
+    public void setNext(MemberRank next) {
+        this.next = next;
+    }
+
+    public MemberRank getPrv() {
+        return prv;
+    }
+
+    public void setPrv(MemberRank prv) {
+        this.prv = prv;
+    }
+
     @Transient
     @JsonView({BaseEntity.ViewView.class})
     public String getImg(){
-        return "https://bootx-xxl.oss-cn-hangzhou.aliyuncs.com/zhaocha/rank/dg"+getId()+".png";
+        return Constants.RESOURCEURL+ "images/rank/dg"+getId()+".png";
     }
     @Transient
     @JsonView({BaseEntity.ViewView.class})
     public String getRankImg(){
-        return "https://bootx-xxl.oss-cn-hangzhou.aliyuncs.com/zhaocha/rank/rank"+getId()+".png";
+        return Constants.RESOURCEURL+ "images/rank/rank"+getId()+".png";
+    }
+    @Transient
+    @JsonView({BaseEntity.ViewView.class})
+    public String getRankNameImg(){
+        return Constants.RESOURCEURL+ "images/rank/rank"+getId()+"_1.png";
     }
 }
