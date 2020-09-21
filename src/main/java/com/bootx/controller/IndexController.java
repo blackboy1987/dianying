@@ -44,19 +44,19 @@ public class IndexController {
 
     /**
      * 连续剧：https://www.i-gomall.com/app/index.php?i=2&t=2&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
-     * 综艺：https://www.i-gomall.com/app/index.php?i=2&t=3&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
-     * 动漫：https://www.i-gomall.com/app/index.php?i=2&t=4&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
-     * 动作片：https://www.i-gomall.com/app/index.php?i=2&t=20&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
-     * 喜剧片：https://www.i-gomall.com/app/index.php?i=2&t=21&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
-     * 科幻片：https://www.i-gomall.com/app/index.php?i=2&t=23&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
-     * 爱情片：https://www.i-gomall.com/app/index.php?i=2&t=22&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
-     * 恐怖片：https://www.i-gomall.com/app/index.php?i=2&t=24&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
-     * 剧情片：https://www.i-gomall.com/app/index.php?i=2&t=25&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
-     * 战争片：https://www.i-gomall.com/app/index.php?i=2&t=26&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
-     * 国产片：https://www.i-gomall.com/index.php?i=2&t=27&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
-     * 港台剧：https://www.i-gomall.com/app/index.php?i=2&t=28&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
-     * 日韩剧：https://www.i-gomall.com/app/index.php?i=2&t=29&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
-     * 欧美剧：https://www.i-gomall.com/app/index.php?i=2&t=30&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
+     * 综艺   https://www.i-gomall.com/app/index.php?i=2&t=3&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
+     * 动漫： https://www.i-gomall.com/app/index.php?i=2&t=4&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
+     * 动作片https://www.i-gomall.com/app/index.php?i=2&t=20&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
+     * 喜剧片 ========================== https://www.i-gomall.com/app/index.php?i=2&t=21&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
+     * 科幻片 https://www.i-gomall.com/app/index.php?i=2&t=23&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
+     * 爱情片 https://www.i-gomall.com/app/index.php?i=2&t=22&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
+     * 恐怖片 https://www.i-gomall.com/app/index.php?i=2&t=24&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
+     * 剧情片 https://www.i-gomall.com/app/index.php?i=2&t=25&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
+     * 战争片 https://www.i-gomall.com/app/index.php?i=2&t=26&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
+     * 国产片 https://www.i-gomall.com/index.php?i=2&t=27&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
+     * 港台剧 https://www.i-gomall.com/app/index.php?i=2&t=28&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
+     * 日韩剧 https://www.i-gomall.com/app/index.php?i=2&t=29&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
+     * 欧美剧 https://www.i-gomall.com/app/index.php?i=2&t=30&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
      * @return
      */
 
@@ -64,7 +64,7 @@ public class IndexController {
     @GetMapping("/index1")
     public String index1 (int type) {
         boolean flag = true;
-        String url = "https://bg.zqbkk.cn/app/index.php?i=2&t="+type+"&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&page=";
+        String url = "https://www.i-gomall.com/app/index.php?i=2&t="+type+"&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=";
 
         int index = 1;
         while (flag){
@@ -78,7 +78,7 @@ public class IndexController {
                             BeanUtils.copyProperties(data,movie);
                             movieService.save(movie);
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            // e.printStackTrace();
                         }
                     }
                 }).start();
