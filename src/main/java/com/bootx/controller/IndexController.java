@@ -54,7 +54,7 @@ public class IndexController {
      * 爱情片 https://www.i-gomall.com/app/index.php?i=2&t=22&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
      * 恐怖片 https://www.i-gomall.com/app/index.php?i=2&t=24&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
      * 剧情片 https://www.i-gomall.com/app/index.php?i=2&t=25&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
-     * 战争片 https://www.i-gomall.com/app/index.php?i=2&t=26&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
+     * 战争片 ========================== https://www.i-gomall.com/app/index.php?i=2&t=26&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
      * 国产片 https://www.i-gomall.com/index.php?i=2&t=27&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
      * 港台剧 https://www.i-gomall.com/app/index.php?i=2&t=28&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
      * 日韩剧 https://www.i-gomall.com/app/index.php?i=2&t=29&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
