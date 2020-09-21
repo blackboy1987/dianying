@@ -109,9 +109,6 @@ public class Movie extends BaseEntity<Long> {
     private String vod_plot_detail;
     private String type_name;
 
-    @OneToMany(mappedBy = "movie",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    private List<PlayUrl> playUrls = new ArrayList<>();
-
     @ManyToMany(fetch = FetchType.LAZY)
     @OrderBy("order asc")
     private Set<MovieCategory> movieCategories = new HashSet<>();
@@ -806,13 +803,5 @@ public class Movie extends BaseEntity<Long> {
 
     public void setVod_plot(Integer vod_plot) {
         this.vod_plot = vod_plot;
-    }
-
-    public List<PlayUrl> getPlayUrls() {
-        return playUrls;
-    }
-
-    public void setPlayUrls(List<PlayUrl> playUrls) {
-        this.playUrls = playUrls;
     }
 }

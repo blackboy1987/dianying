@@ -8,7 +8,6 @@ import java.util.List;
 
 public class PlayUrl implements Serializable{
 
-    @ManyToOne(fetch = FetchType.LAZY)
     private Movie movie;
 
     private String title;
