@@ -1,0 +1,39 @@
+/**
+  * Copyright 2020 bejson.com 
+  */
+package com.bootx.vo;
+import java.util.List;
+
+/**
+ * Auto-generated: 2020-09-20 20:56:26
+ *
+ * @author bejson.com (i@bejson.com)
+ * @website http://www.bejson.com/java2pojo/
+ */
+public class JsonRootBean {
+
+    private int errno;
+    private String message;
+    private List<Data> data;
+    public void setErrno(int errno) {
+         this.errno = errno;
+     }
+     public int getErrno() {
+         return errno;
+     }
+
+    public void setMessage(String message) {
+         this.message = message;
+     }
+     public String getMessage() {
+         return message;
+     }
+
+    public void setData(List<Data> data) {
+         this.data = data;
+     }
+     public List<Data> getData() {
+         return data;
+     }
+
+}
