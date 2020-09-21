@@ -43,6 +43,8 @@ public class IndexController {
     private MovieService movieService;
 
     /**
+     *
+     * https://www.i-gomall.com/app/index.php?i=2&t=21&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&page=1
      * 连续剧：https://www.i-gomall.com/app/index.php?i=2&t=2&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
      * 综艺   https://www.i-gomall.com/app/index.php?i=2&t=3&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
      * 动漫： https://www.i-gomall.com/app/index.php?i=2&t=4&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=1
