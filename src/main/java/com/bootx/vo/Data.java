@@ -2,26 +2,20 @@
   * Copyright 2020 bejson.com 
   */
 package com.bootx.vo;
+import org.hibernate.validator.constraints.Length;
 
-import com.bootx.entity.BaseEntity;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.Lob;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
+import java.util.Date;
 
 /**
- * Auto-generated: 2020-09-20 20:56:26
+ * Auto-generated: 2020-09-21 19:51:50
  *
  * @author bejson.com (i@bejson.com)
  * @website http://www.bejson.com/java2pojo/
  */
-public class Data implements Serializable {
+public class Data {
 
-    @NotNull
-    @Column(nullable = false,updatable = false,unique = true)
-    private Long vod_id;
+    private long vod_id;
     private int type_id;
     private int type_id_1;
     private int group_id;
@@ -39,6 +33,7 @@ public class Data implements Serializable {
     private String vod_actor;
     private String vod_director;
     private String vod_writer;
+    private String vod_behind;
     private String vod_blurb;
     private String vod_remarks;
     private String vod_pubdate;
@@ -59,6 +54,8 @@ public class Data implements Serializable {
     private int vod_isend;
     private int vod_lock;
     private int vod_level;
+    private int vod_copyright;
+    private int vod_points;
     private int vod_points_play;
     private int vod_points_down;
     private int vod_hits;
@@ -73,7 +70,7 @@ public class Data implements Serializable {
     private int vod_score_num;
     private String vod_time;
     private long vod_time_add;
-    private int vod_time_hits;
+    private long vod_time_hits;
     private int vod_time_make;
     private int vod_trysee;
     private int vod_douban_id;
@@ -81,23 +78,27 @@ public class Data implements Serializable {
     private String vod_reurl;
     private String vod_rel_vod;
     private String vod_rel_art;
-
-    @Lob
+    private String vod_pwd;
+    private String vod_pwd_url;
+    private String vod_pwd_play;
+    private String vod_pwd_play_url;
+    private String vod_pwd_down;
+    private String vod_pwd_down_url;
     private String vod_content;
     private String vod_play_from;
     private String vod_play_server;
     private String vod_play_note;
+
     @Lob
     private String vod_play_url;
     private String vod_down_from;
     private String vod_down_server;
     private String vod_down_note;
     private String vod_down_url;
+    private int vod_plot;
+    private String vod_plot_name;
+    private String vod_plot_detail;
     private String type_name;
-
-
-
-
     public void setVod_id(long vod_id) {
          this.vod_id = vod_id;
      }
@@ -222,6 +223,13 @@ public class Data implements Serializable {
      }
      public String getVod_writer() {
          return vod_writer;
+     }
+
+    public void setVod_behind(String vod_behind) {
+         this.vod_behind = vod_behind;
+     }
+     public String getVod_behind() {
+         return vod_behind;
      }
 
     public void setVod_blurb(String vod_blurb) {
@@ -364,6 +372,20 @@ public class Data implements Serializable {
          return vod_level;
      }
 
+    public void setVod_copyright(int vod_copyright) {
+         this.vod_copyright = vod_copyright;
+     }
+     public int getVod_copyright() {
+         return vod_copyright;
+     }
+
+    public void setVod_points(int vod_points) {
+         this.vod_points = vod_points;
+     }
+     public int getVod_points() {
+         return vod_points;
+     }
+
     public void setVod_points_play(int vod_points_play) {
          this.vod_points_play = vod_points_play;
      }
@@ -462,10 +484,10 @@ public class Data implements Serializable {
          return vod_time_add;
      }
 
-    public void setVod_time_hits(int vod_time_hits) {
+    public void setVod_time_hits(long vod_time_hits) {
          this.vod_time_hits = vod_time_hits;
      }
-     public int getVod_time_hits() {
+     public long getVod_time_hits() {
          return vod_time_hits;
      }
 
@@ -516,6 +538,48 @@ public class Data implements Serializable {
      }
      public String getVod_rel_art() {
          return vod_rel_art;
+     }
+
+    public void setVod_pwd(String vod_pwd) {
+         this.vod_pwd = vod_pwd;
+     }
+     public String getVod_pwd() {
+         return vod_pwd;
+     }
+
+    public void setVod_pwd_url(String vod_pwd_url) {
+         this.vod_pwd_url = vod_pwd_url;
+     }
+     public String getVod_pwd_url() {
+         return vod_pwd_url;
+     }
+
+    public void setVod_pwd_play(String vod_pwd_play) {
+         this.vod_pwd_play = vod_pwd_play;
+     }
+     public String getVod_pwd_play() {
+         return vod_pwd_play;
+     }
+
+    public void setVod_pwd_play_url(String vod_pwd_play_url) {
+         this.vod_pwd_play_url = vod_pwd_play_url;
+     }
+     public String getVod_pwd_play_url() {
+         return vod_pwd_play_url;
+     }
+
+    public void setVod_pwd_down(String vod_pwd_down) {
+         this.vod_pwd_down = vod_pwd_down;
+     }
+     public String getVod_pwd_down() {
+         return vod_pwd_down;
+     }
+
+    public void setVod_pwd_down_url(String vod_pwd_down_url) {
+         this.vod_pwd_down_url = vod_pwd_down_url;
+     }
+     public String getVod_pwd_down_url() {
+         return vod_pwd_down_url;
      }
 
     public void setVod_content(String vod_content) {
@@ -581,6 +645,27 @@ public class Data implements Serializable {
          return vod_down_url;
      }
 
+    public void setVod_plot(int vod_plot) {
+         this.vod_plot = vod_plot;
+     }
+     public int getVod_plot() {
+         return vod_plot;
+     }
+
+    public void setVod_plot_name(String vod_plot_name) {
+         this.vod_plot_name = vod_plot_name;
+     }
+     public String getVod_plot_name() {
+         return vod_plot_name;
+     }
+
+    public void setVod_plot_detail(String vod_plot_detail) {
+         this.vod_plot_detail = vod_plot_detail;
+     }
+     public String getVod_plot_detail() {
+         return vod_plot_detail;
+     }
+
     public void setType_name(String type_name) {
          this.type_name = type_name;
      }
@@ -588,7 +673,4 @@ public class Data implements Serializable {
          return type_name;
      }
 
-    public void setVod_id(Long vod_id) {
-        this.vod_id = vod_id;
-    }
 }

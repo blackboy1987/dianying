@@ -1,15 +1,19 @@
 package com.bootx.controller;
 
+import cn.hutool.core.date.DateUtil;
 import com.bootx.entity.Movie;
 import com.bootx.service.MovieService;
 import com.bootx.util.JsonUtils;
 import com.bootx.util.WebUtils;
 import com.bootx.vo.Data;
 import com.bootx.vo.JsonRootBean;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Date;
 
 @RestController
 @RequestMapping
@@ -38,41 +42,23 @@ public class IndexController {
     @Autowired
     private MovieService movieService;
 
-    @GetMapping("/index")
-    public String index (Integer page) {
-        String url = "https://www.i-gomall.com/app/index.php?i=2&t=1&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page="+page;
-        String result = WebUtils.get(url,null);
-        JsonRootBean jsonRootBean = JsonUtils.toObject(result,JsonRootBean.class);
-        if(jsonRootBean.getData().size()>0) {
-            for (Data data : jsonRootBean.getData()) {
-                try {
-                    Movie movie = new Movie();
-                    movie.setName(data.getVod_name());
-                    movieService.save(movie);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return "ok";
 
-    }
-
-
-    /*@GetMapping("/index1")
+    @GetMapping("/index1")
     public String index1 () {
         boolean flag = true;
         String url = "https://bg.zqbkk.cn/app/index.php?i=2&t=1&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&page=";
-        int index = 3248;
+        int index = 1;
         while (flag){
             String result = WebUtils.get(url+index,null);
             JsonRootBean jsonRootBean = JsonUtils.toObject(result,JsonRootBean.class);
             if(jsonRootBean.getData().size()>0){
-                for (Data data:jsonRootBean.getData()) {
+                for (Data data : jsonRootBean.getData()) {
                     try {
-                        dataService.save(data);
-                    }catch (Exception e){
-                        // e.printStackTrace();
+                        Movie movie = new Movie();
+                        BeanUtils.copyProperties(data,movie);
+                        movieService.save(movie);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
                 System.out.println(String.format("=============================" + index + ":" + DateUtil.format(new Date(),"yyyy-MM-dd HH:mm:ss")));
@@ -83,5 +69,5 @@ public class IndexController {
         }
         return "ok";
 
-    }*/
+    }
 }

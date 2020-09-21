@@ -1,12 +1,6 @@
-/*
- * Copyright 2005-2017 shopxx.net. All rights reserved.
- * Support: http://www.shopxx.net
- * License: http://www.shopxx.net/license
- */
-package com.igomall.entity;
 
-import com.bootx.entity.Movie;
-import com.bootx.entity.OrderedEntity;
+package com.bootx.entity;
+
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
