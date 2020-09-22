@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -75,13 +77,11 @@ public class IndexController {
     @GetMapping("/index1")
     public String index1 () {
         long start = System.currentTimeMillis();
-        for (int type=1;type<=100;type++){
-            System.out.println(type+"================================================================================================================================================================================================开始");
+        List<MovieCategory> movieCategories = movieCategoryService.findAll();
+        for (MovieCategory mo:movieCategories) {
+            System.out.println(mo.getCategoryId()+"==========================================================================================开始");
             boolean flag = true;
-            String url = "https://www.i-gomall.com/app/index.php?i=2&t="+type+"&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=";
-            if(type==100){
-                url = "https://www.i-gomall.com/app/index.php?i=2&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=";
-            }
+            String url = "https://www.i-gomall.com/app/index.php?i=2&t="+mo.getCategoryId()+"&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=";
             int index = 1;
             while (flag){
                 String result = WebUtils.get(url+index,null);
@@ -93,6 +93,7 @@ public class IndexController {
                                 Movie movie = new Movie();
                                 BeanUtils.copyProperties(data,movie);
                                 parseUrl(movie);
+                                movie.setMovieCategory(mo);
                                 movieService.save(movie);
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -100,14 +101,14 @@ public class IndexController {
                         }
                     }).start();
 
-                    System.out.println(type+"============================="+String.format("===============================================================================================" + index + ":" + DateUtil.format(new Date(),"yyyy-MM-dd HH:mm:ss")));
+                    System.out.println(mo.getCategoryId()+"================="+String.format("===========================" + index + ":" + DateUtil.format(new Date(),"yyyy-MM-dd HH:mm:ss")));
                     index = index+1;
                 }else{
                     flag = false;
                 }
             }
 
-            System.out.println(type+"=================================================================================================================================================================结束");
+            System.out.println(mo.getCategoryId()+"===============================================结束");
         }
 
         System.out.println("end===="+(System.currentTimeMillis()-start)/1000);
@@ -119,27 +120,81 @@ public class IndexController {
 
     @GetMapping("/category")
     public String movieCategory(){
-        // 语言
+        // 电影
         MovieCategory movieCategory = new MovieCategory();
-        movieCategory.setName("语言");
-        movieCategory.setFullName(null);
-        movieCategory.setTreePath(null);
-        movieCategory.setGrade(null);
-        movieCategory.setChildren(null);
-        movieCategory.setOrder(null);
+        movieCategory.setName("电影");
+        movieCategory.setCategoryId(1L);
         movieCategoryService.save(movieCategory);
-        // 类型
+        // 连续剧
         MovieCategory movieCategory1 = new MovieCategory();
-        movieCategory1.setName("类型");
+        movieCategory1.setName("连续剧");
+        movieCategory1.setCategoryId(2L);
         movieCategoryService.save(movieCategory1);
-        // 地区
+        // 综艺
         MovieCategory movieCategory2 = new MovieCategory();
-        movieCategory2.setName("地区");
+        movieCategory2.setName("综艺");
+        movieCategory2.setCategoryId(3L);
         movieCategoryService.save(movieCategory2);
-        // 上映时间
+        // 动漫
         MovieCategory movieCategory3 = new MovieCategory();
-        movieCategory3.setName("上映时间");
+        movieCategory3.setName("动漫");
+        movieCategory3.setCategoryId(4L);
         movieCategoryService.save(movieCategory3);
+        // 动漫
+        MovieCategory movieCategory4 = new MovieCategory();
+        movieCategory4.setName("动作片");
+        movieCategory4.setCategoryId(20L);
+        movieCategoryService.save(movieCategory4);
+        // 动漫
+        MovieCategory movieCategory5 = new MovieCategory();
+        movieCategory5.setName("喜剧片");
+        movieCategory5.setCategoryId(21L);
+        movieCategoryService.save(movieCategory5);
+        // 动漫
+        MovieCategory movieCategory6 = new MovieCategory();
+        movieCategory6.setCategoryId(22L);
+        movieCategory6.setName("爱情片");
+        movieCategoryService.save(movieCategory6);
+        // 动漫
+        MovieCategory movieCategory7 = new MovieCategory();
+        movieCategory7.setCategoryId(23L);
+        movieCategory7.setName("科幻片");
+        movieCategoryService.save(movieCategory7);
+        // 动漫
+        MovieCategory movieCategory8 = new MovieCategory();
+        movieCategory8.setCategoryId(24L);
+        movieCategory8.setName("恐怖片");
+        movieCategoryService.save(movieCategory8);
+        // 动漫
+        MovieCategory movieCategory9 = new MovieCategory();
+        movieCategory9.setName("剧情片");
+        movieCategory9.setCategoryId(25L);
+        movieCategoryService.save(movieCategory9);
+        // 动漫
+        MovieCategory movieCategory10 = new MovieCategory();
+        movieCategory10.setName("战争片");
+        movieCategory10.setCategoryId(26L);
+        movieCategoryService.save(movieCategory10);
+        // 动漫
+        MovieCategory movieCategory11 = new MovieCategory();
+        movieCategory11.setName("国产片");
+        movieCategory11.setCategoryId(27L);
+        movieCategoryService.save(movieCategory11);
+        // 动漫
+        MovieCategory movieCategory12 = new MovieCategory();
+        movieCategory12.setName("港台剧");
+        movieCategory12.setCategoryId(28L);
+        movieCategoryService.save(movieCategory12);
+        // 动漫
+        MovieCategory movieCategory13 = new MovieCategory();
+        movieCategory13.setName("日韩剧");
+        movieCategory13.setCategoryId(29L);
+        movieCategoryService.save(movieCategory13);
+        // 动漫
+        MovieCategory movieCategory14 = new MovieCategory();
+        movieCategory14.setName("欧美剧");
+        movieCategory14.setCategoryId(30L);
+        movieCategoryService.save(movieCategory14);
         return "abc";
     }
 
@@ -159,72 +214,6 @@ public class IndexController {
 
 
     private void parseUrl(Movie movie) {
-        // 语言：1
-       String vodLang = movie.getVod_lang();
-        MovieCategory lang = movieCategoryService.find(1L);
-        if(StringUtils.isNotEmpty(vodLang)){
-            MovieCategory langChild = movieCategoryService.findByName(vodLang);
-            if(langChild==null){
-                langChild = new MovieCategory();
-                langChild.setName(vodLang);
-                langChild.setParent(lang);
-                langChild = movieCategoryService.save(langChild);
-            }
-        }
-
-
-
-        // 类型：2
-       String vodType = movie.getType_name();
-        MovieCategory type = movieCategoryService.find(1L);
-
-        if(StringUtils.isNotEmpty(vodType)){
-            MovieCategory langChild = movieCategoryService.findByName(vodType);
-            if(langChild==null){
-                langChild = new MovieCategory();
-                langChild.setName(vodType);
-                langChild.setParent(type);
-                langChild = movieCategoryService.save(langChild);
-            }
-        }
-
-
-
-        // 地区：3
-       String vodArea = movie.getVod_area();
-        MovieCategory area = movieCategoryService.find(1L);
-        if(StringUtils.isNotEmpty(vodArea)){
-            MovieCategory langChild = movieCategoryService.findByName(vodArea);
-            if(langChild==null){
-                langChild = new MovieCategory();
-                langChild.setName(vodArea);
-                langChild.setParent(area);
-                langChild = movieCategoryService.save(langChild);
-            }
-        }
-        // 上映时间：4
-        String vodYear = movie.getVod_year();
-        MovieCategory year = movieCategoryService.find(1L);
-        if(StringUtils.isNotEmpty(vodYear)){
-            MovieCategory langChild = movieCategoryService.findByName(vodYear);
-            if(langChild==null){
-                langChild = new MovieCategory();
-                langChild.setName(vodYear);
-                langChild.setParent(year);
-                langChild = movieCategoryService.save(langChild);
-            }
-        }
-
-
-
-
-
-
-
-
-
-
-
         String vodPlayUrl = movie.getVod_play_url();
         String regEx="[$]";
         Pattern p = Pattern.compile(regEx);
@@ -241,15 +230,19 @@ public class IndexController {
                 String[] aa = jishu.split("=");
                 Url url = new Url();
                 url.setPlayUrl(playUrl);
-                url.setTitle(aa[0]);
-                try{
-                    url.setOrder(Integer.valueOf(aa[0].replaceAll("第","").replaceAll("集","")));
-                }catch (Exception e){
-                    e.printStackTrace();
-                    url.setOrder(null);
-                }
-                url.setUrl(aa[1]);
 
+                if(aa.length==2){
+                    url.setTitle(aa[0]);
+                    url.setUrl(aa[1]);
+                    try{
+                        url.setOrder(Integer.valueOf(aa[0].replaceAll("第","").replaceAll("集","")));
+                    }catch (Exception e){
+                        // e.printStackTrace();
+                        url.setOrder(null);
+                    }
+                }else{
+                    url.setUrl(aa[0]);
+                }
                 playUrl.getUrls().add(url);
 
             }

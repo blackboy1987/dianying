@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -59,6 +60,10 @@ public class MovieCategory extends OrderedEntity<Long> {
     @ManyToOne(fetch = FetchType.LAZY)
     private MovieCategory parent;
 
+    @NotNull
+    @Column(nullable = false,updatable = false,unique = true)
+    private Long categoryId;
+
     /**
      * 下级地区
      */
@@ -69,11 +74,8 @@ public class MovieCategory extends OrderedEntity<Long> {
     /**
      * 会员
      */
-    @ManyToMany(mappedBy = "movieCategories", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "movieCategory", fetch = FetchType.LAZY)
     private Set<Movie> movies = new HashSet<>();
-
-    private Long categoryId;
-
 
     /**
      * 获取名称
@@ -270,7 +272,7 @@ public class MovieCategory extends OrderedEntity<Long> {
         Set<Movie> movies = getMovies();
         if (movies != null) {
             for (Movie movie : movies) {
-                movie.getMovieCategories().remove(this);
+                movie.setMovieCategory(null);
             }
         }
     }

@@ -110,9 +110,8 @@ public class Movie extends BaseEntity<Long> {
     private String vod_plot_detail;
     private String type_name;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @OrderBy("order asc")
-    private Set<MovieCategory> movieCategories = new HashSet<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    private MovieCategory movieCategory;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @OrderBy("order asc")
@@ -696,14 +695,13 @@ public class Movie extends BaseEntity<Long> {
         return type_name;
     }
 
-    public Set<MovieCategory> getMovieCategories() {
-        return movieCategories;
+    public MovieCategory getMovieCategory() {
+        return movieCategory;
     }
 
-    public void setMovieCategories(Set<MovieCategory> movieCategories) {
-        this.movieCategories = movieCategories;
+    public void setMovieCategory(MovieCategory movieCategory) {
+        this.movieCategory = movieCategory;
     }
-
 
     public void setVod_id(Long vod_id) {
         this.vod_id = vod_id;
