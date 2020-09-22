@@ -6,9 +6,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -90,6 +88,8 @@ public class Movie extends BaseEntity<Long> {
     private String vod_pwd;
     private String vod_pwd_url;
     private String vod_pwd_play;
+
+    @Lob
     private String vod_pwd_play_url;
     private String vod_pwd_down;
     private String vod_pwd_down_url;
@@ -99,6 +99,7 @@ public class Movie extends BaseEntity<Long> {
     private String vod_play_from;
     private String vod_play_server;
     private String vod_play_note;
+    @Lob
     private String vod_play_url;
     private String vod_down_from;
     private String vod_down_server;
@@ -112,6 +113,13 @@ public class Movie extends BaseEntity<Long> {
     @ManyToMany(fetch = FetchType.LAZY)
     @OrderBy("order asc")
     private Set<MovieCategory> movieCategories = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @OrderBy("order asc")
+    private Set<MovieTag> movieTags = new HashSet<>();
+
+    @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private Set<PlayUrl> playUrls = new HashSet<>();
 
 
     public void setVod_id(long vod_id) {
@@ -803,5 +811,32 @@ public class Movie extends BaseEntity<Long> {
 
     public void setVod_plot(Integer vod_plot) {
         this.vod_plot = vod_plot;
+    }
+
+    public Set<PlayUrl> getPlayUrls() {
+        return playUrls;
+    }
+
+    public void setPlayUrls(Set<PlayUrl> playUrls) {
+        this.playUrls = playUrls;
+    }
+
+    /**
+     * 获取文章标签
+     *
+     * @return 文章标签
+     */
+    public Set<MovieTag> getMovieTags() {
+        return movieTags;
+    }
+
+    /**
+     * 设置文章标签
+     *
+     * @param movieTags
+     *            文章标签
+     */
+    public void setMovieTags(Set<MovieTag> movieTags) {
+        this.movieTags = movieTags;
     }
 }

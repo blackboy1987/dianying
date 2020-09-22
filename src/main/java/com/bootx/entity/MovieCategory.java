@@ -32,7 +32,7 @@ public class MovieCategory extends OrderedEntity<Long> {
      */
     @NotEmpty
     @Length(max = 200)
-    @Column(nullable = false)
+    @Column(nullable = false,updatable = false,unique = true)
     private String name;
 
     /**
@@ -71,6 +71,8 @@ public class MovieCategory extends OrderedEntity<Long> {
      */
     @ManyToMany(mappedBy = "movieCategories", fetch = FetchType.LAZY)
     private Set<Movie> movies = new HashSet<>();
+
+    private Long categoryId;
 
 
     /**
@@ -194,6 +196,14 @@ public class MovieCategory extends OrderedEntity<Long> {
      */
     public Set<Movie> getMovies() {
         return movies;
+    }
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 
     /**
