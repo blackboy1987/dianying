@@ -37,9 +37,8 @@ public class IndexController {
             data.put("new",movies("new",null,null));
             return Result.success(data);
         }
-
-
     }
+
 
 
     private List<Map<String,Object>> movies(String type,MovieCategory movieCategory,Integer pageNumber){
