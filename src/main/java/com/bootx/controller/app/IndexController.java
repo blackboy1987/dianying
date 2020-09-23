@@ -37,11 +37,7 @@ public class IndexController {
             data.put("new",movies("new",null,null));
             return Result.success(data);
         }
-
-
     }
-
-
 
     private List<Map<String,Object>> movies(String type,MovieCategory movieCategory,Integer pageNumber){
         StringBuilder sql = new StringBuilder("select vod_name,vod_pic,vod_id,vod_lang,vod_remarks from movie.Movie where 1=1");
