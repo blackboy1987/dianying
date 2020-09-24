@@ -25,6 +25,25 @@ public class IndexController {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+
+    @GetMapping("/list")
+    public Result list(Long categoryId,Integer pageNumber){
+        Map<String,Object> data = new HashMap<>();
+        if(pageNumber==null||pageNumber<=0){
+            pageNumber = 1;
+        }
+        if(categoryId==0){
+            data.put("hotMovies",movies("hotMovies",null,null));
+            data.put("hottv",movies("hottv",null,null));
+            data.put("new",movies("new",null,null));
+            return Result.success(data);
+        }
+        return Result.success(movies(null,movieCategoryService.find(categoryId),pageNumber));
+
+    }
+
+
+
     @GetMapping("/index")
     public Result index(Long categoryId){
         Map<String,Object> data = new HashMap<>();
@@ -48,7 +67,6 @@ public class IndexController {
         try{
            data = (List<Map<String,Object>>)EhCacheUtils.getCacheValue(CACHENAME,"movies_"+type+"_"+movieCategory+"_"+pageNumber);
         }catch (Exception e){
-            System.out.println("====================movies==============================================数据库");
             e.printStackTrace();
             StringBuilder sql = new StringBuilder("select vod_name,vod_pic,vod_id,vod_lang,vod_remarks from movie.Movie where 1=1");
             String orderBy = "";
@@ -88,7 +106,8 @@ public class IndexController {
      * 分类
      * @return
      */
-    private List<Map<String,Object>> categories(){
+    @GetMapping("/categories")
+    public Result categories(){
         String key = "categories";
         List<Map<String, Object>> categories = new ArrayList<>();
         try{
@@ -105,7 +124,7 @@ public class IndexController {
             }
             EhCacheUtils.setCacheValue(CACHENAME,key,categories);
         }
-        return categories;
+        return Result.success(categories);
     }
 
 
@@ -114,7 +133,7 @@ public class IndexController {
      * @return
      */
     @GetMapping("/info/{id}")
-    public Map<String,Object> detail(@PathVariable Long id){
+    public Result detail(@PathVariable Long id){
         String key = "detail_"+id;
         Map<String,Object> data = new HashMap<>();
         try{
@@ -123,7 +142,7 @@ public class IndexController {
             data = jdbcTemplate.queryForMap("select * from movie.Movie where id="+id);
             EhCacheUtils.setCacheValue(CACHENAME,key,data);
         }
-        return data;
+        return Result.success(data);
     }
 
 

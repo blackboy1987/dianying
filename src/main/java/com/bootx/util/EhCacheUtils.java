@@ -84,9 +84,6 @@ public final class EhCacheUtils {
     public static Object getCacheValue(String cacheName,String cacheKey) {
         Ehcache cache = CACHE_MANAGER.getEhcache(cacheName);
         Element cacheElement = cache.get(cacheKey);
-        if (cacheElement == null) {
-           return null;
-        }
         return cacheElement.getObjectValue();
     }
 
