@@ -33,12 +33,12 @@ public class IndexController {
             pageNumber = 1;
         }
         if(categoryId==0){
-            data.put("hotMovies",movies("hotMovies",null,null));
-            data.put("hottv",movies("hottv",null,null));
-            data.put("new",movies("new",null,null));
+            data.put("hotMovies",movies("hotMovies",null,null,18));
+            data.put("hottv",movies("hottv",null,null,18));
+            data.put("new",movies("new",null,null,18));
             return Result.success(data);
         }
-        return Result.success(movies(null,movieCategoryService.find(categoryId),pageNumber));
+        return Result.success(movies(null,movieCategoryService.find(categoryId),pageNumber,18));
 
     }
 
@@ -50,21 +50,24 @@ public class IndexController {
         if(categoryId!=null){
             MovieCategory movieCategory = movieCategoryService.find(categoryId);
             if(movieCategory!=null){
-                return Result.success(movies(null,movieCategory,1));
+                return Result.success(movies(null,movieCategory,1,18));
             }
             return Result.success(Collections.emptyList());
         }else {
             data.put("categories",categories());
-            data.put("hotMovies",movies("hotMovies",null,null));
-            data.put("hottv",movies("hottv",null,null));
-            data.put("new",movies("new",null,null));
+            data.put("hotMovies",movies("hotMovies",null,null,18));
+            data.put("hottv",movies("hottv",null,null,18));
+            data.put("new",movies("new",null,null,18));
             return Result.success(data);
         }
     }
 
 
 
-    private List<Map<String,Object>> movies(String type,MovieCategory movieCategory,Integer pageNumber){
+    private List<Map<String,Object>> movies(String type,MovieCategory movieCategory,Integer pageNumber,Integer count){
+        if(count==null){
+            count = 12;
+        }
         List<Map<String,Object>> data = new ArrayList<>();
         try{
            data = (List<Map<String,Object>>)EhCacheUtils.getCacheValue(CACHENAME,"movies_"+type+"_"+movieCategory+"_"+pageNumber);
@@ -80,14 +83,14 @@ public class IndexController {
             if(StringUtils.equals(type,"hotMovies")){
                 sql.append(" and type_name='电影'");
                 orderBy=" order by vod_score desc";
-                limit = " limit 10";
+                limit = " limit "+count;
             }else if(StringUtils.equals(type,"hottv")){
                 sql.append(" and type_name='连续剧'");
                 orderBy=" order by vod_score desc";
-                limit = " limit 10";
+                limit = " limit "+count;
             }else if(StringUtils.equals(type,"new")){
                 orderBy=" order by vod_score desc";
-                limit = " limit 10";
+                limit = " limit "+count;
             }
             if(StringUtils.isEmpty(orderBy)){
                 orderBy=" order by vod_time desc";
