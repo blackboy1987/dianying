@@ -26,7 +26,6 @@ public class CacheEventListener extends CacheEventListenerAdapter {
 	@Override
 	public void notifyElementExpired(Ehcache ehcache, Element element) {
 		String cacheName = ehcache.getName();
-		System.out.println(cacheName+":=======================================================================================================");
 	}
 
 }

@@ -11,14 +11,12 @@ import com.bootx.util.JsonUtils;
 import com.bootx.util.WebUtils;
 import com.bootx.vo.Data;
 import com.bootx.vo.JsonRootBean;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -79,7 +77,6 @@ public class IndexController {
         long start = System.currentTimeMillis();
         List<MovieCategory> movieCategories = movieCategoryService.findAll();
         for (MovieCategory mo:movieCategories) {
-            System.out.println(mo.getCategoryId()+"==========================================================================================开始");
             boolean flag = true;
             String url = "https://www.i-gomall.com/app/index.php?i=2&t="+mo.getCategoryId()+"&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426&page=";
             int index = 1;

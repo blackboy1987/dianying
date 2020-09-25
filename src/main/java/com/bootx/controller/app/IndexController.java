@@ -65,12 +65,13 @@ public class IndexController {
 
 
     private List<Map<String,Object>> movies(String type,MovieCategory movieCategory,Integer pageNumber,Integer count){
+        String cacheKey = "movies_"+type+"_"+movieCategory+"_"+pageNumber;
         if(count==null){
             count = 12;
         }
         List<Map<String,Object>> data = new ArrayList<>();
         try{
-           data = (List<Map<String,Object>>)EhCacheUtils.getCacheValue(CACHENAME,"movies_"+type+"_"+movieCategory+"_"+pageNumber);
+           data = (List<Map<String,Object>>)EhCacheUtils.getCacheValue(CACHENAME,cacheKey);
         }catch (Exception e){
             e.printStackTrace();
             StringBuilder sql = new StringBuilder("select vod_name,vod_pic,vod_id,vod_lang,vod_remarks from movie.Movie where 1=1");
@@ -102,7 +103,7 @@ public class IndexController {
             sql.append(orderBy);
             sql.append(limit);
             data = jdbcTemplate.queryForList(sql.toString());
-            EhCacheUtils.setCacheValue(CACHENAME,"movies_"+type+"_"+movieCategory+"_"+pageNumber,data);
+            EhCacheUtils.setCacheValue(CACHENAME,cacheKey,data);
         }
         return data;
     }
@@ -118,7 +119,6 @@ public class IndexController {
         try{
             categories = (List<Map<String,Object>>)EhCacheUtils.getCacheValue(CACHENAME,key);
         }catch (Exception e) {
-            System.out.println("====================categories==============================================数据库");
             e.printStackTrace();
             List<MovieCategory> movieCategories = movieCategoryService.findAll();
             for (MovieCategory movieCategory : movieCategories) {
@@ -150,5 +150,21 @@ public class IndexController {
         return Result.success(data);
     }
 
+    /**
+     * 分类
+     * @return
+     */
+    @GetMapping("/cache")
+    public Result cache(){
+        return Result.success(EhCacheUtils.getCacheValue());
+    }
 
+    /**
+     * 分类
+     * @return
+     */
+    @GetMapping("/remove")
+    public Result cache(String cacheName,String cacheKey){
+        return Result.success(EhCacheUtils.removeCache(cacheName,cacheKey));
+    }
 }

@@ -2,7 +2,6 @@ package com.bootx.util;
 
 import com.bootx.common.CommonAttributes;
 import com.bootx.common.EnumConverter;
-import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Element;
@@ -84,7 +83,11 @@ public final class EhCacheUtils {
     public static Object getCacheValue(String cacheName,String cacheKey) {
         Ehcache cache = CACHE_MANAGER.getEhcache(cacheName);
         Element cacheElement = cache.get(cacheKey);
-        return cacheElement.getObjectValue();
+        try {
+            return cacheElement.getObjectValue();
+        }catch (Exception e){
+            return null;
+        }
     }
 
     /**
@@ -114,29 +117,16 @@ public final class EhCacheUtils {
             Ehcache cache = CACHE_MANAGER.getEhcache(cacheName);
             List keys = cache.getKeys();
             for (Object key:keys) {
-                data.put(key,cache.get(key).getObjectValue());
+                try {
+                    data.put(key,cache.get(key).getObjectValue());
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
             map.put(cacheName,data);
         }
         return map;
     }
-
-    private static Cache getOrAddCache(String cacheName) {
-        Cache cache = CACHE_MANAGER.getCache(cacheName);
-        if (cache == null) {
-            synchronized (locker) {
-                cache = CACHE_MANAGER.getCache(cacheName);
-                if (cache == null) {
-                    CACHE_MANAGER.addCacheIfAbsent(cacheName);
-                    cache = CACHE_MANAGER.getCache(cacheName);
-                }
-            }
-        }
-
-
-        return cache;
-    }
-
 
     /**
      * 设置缓存的数据
@@ -145,8 +135,7 @@ public final class EhCacheUtils {
      * @return
      */
     public static void setCacheValue(String cacheName,String cacheKey,Object value) {
-        Ehcache cache = getOrAddCache(cacheName);
-
+        Ehcache cache = CACHE_MANAGER.getCache(cacheName);
         cache.put(new Element(cacheKey,value));
     }
 

@@ -837,4 +837,10 @@ public class Movie extends BaseEntity<Long> {
     public void setMovieTags(Set<MovieTag> movieTags) {
         this.movieTags = movieTags;
     }
+
+
+    @Override
+    public String toString() {
+        return String.format("%s", getClass().getName(), getId());
+    }
 }
