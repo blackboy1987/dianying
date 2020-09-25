@@ -244,6 +244,9 @@ public class IndexController {
 
             }
             movie.getPlayUrls().add(playUrl);
+            // 解析标签
+
+
         }
 
     }

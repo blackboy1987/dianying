@@ -1,30 +1,27 @@
 package com.bootx.controller.app;
 
 import com.bootx.common.Result;
-import com.bootx.entity.MovieCategory;
+import com.bootx.service.IndexService;
 import com.bootx.service.MovieCategoryService;
 import com.bootx.util.EhCacheUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController("appIndexController")
 @RequestMapping("/api")
 public class IndexController {
 
-    private static final String  CACHENAME = "appIndexController";
+
+    @Autowired
+    private IndexService indexService;
 
     @Autowired
     private MovieCategoryService movieCategoryService;
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-
 
     @GetMapping("/list")
     public Result list(Long categoryId,Integer pageNumber){
@@ -33,79 +30,13 @@ public class IndexController {
             pageNumber = 1;
         }
         if(categoryId==0){
-            data.put("hotMovies",movies("hotMovies",null,null,18));
-            data.put("hottv",movies("hottv",null,null,18));
-            data.put("new",movies("new",null,null,18));
+            data.put("hotMovies",indexService.movies("hotMovies",null,null,18));
+            data.put("hottv",indexService.movies("hottv",null,null,18));
+            data.put("new",indexService.movies("new",null,null,18));
             return Result.success(data);
         }
-        return Result.success(movies(null,movieCategoryService.find(categoryId),pageNumber,18));
+        return Result.success(indexService.movies(null,movieCategoryService.find(categoryId),pageNumber,18));
 
-    }
-
-
-
-    @GetMapping("/index")
-    public Result index(Long categoryId){
-        Map<String,Object> data = new HashMap<>();
-        if(categoryId!=null){
-            MovieCategory movieCategory = movieCategoryService.find(categoryId);
-            if(movieCategory!=null){
-                return Result.success(movies(null,movieCategory,1,18));
-            }
-            return Result.success(Collections.emptyList());
-        }else {
-            data.put("categories",categories());
-            data.put("hotMovies",movies("hotMovies",null,null,18));
-            data.put("hottv",movies("hottv",null,null,18));
-            data.put("new",movies("new",null,null,18));
-            return Result.success(data);
-        }
-    }
-
-
-
-    private List<Map<String,Object>> movies(String type,MovieCategory movieCategory,Integer pageNumber,Integer count){
-        String cacheKey = "movies_"+type+"_"+movieCategory+"_"+pageNumber;
-        if(count==null){
-            count = 12;
-        }
-        List<Map<String,Object>> data = new ArrayList<>();
-        try{
-           data = (List<Map<String,Object>>)EhCacheUtils.getCacheValue(CACHENAME,cacheKey);
-        }catch (Exception e){
-            e.printStackTrace();
-            StringBuilder sql = new StringBuilder("select vod_name,vod_pic,vod_id,vod_lang,vod_remarks from movie.Movie where 1=1");
-            String orderBy = "";
-            String limit = "";
-            if(movieCategory!=null){
-                sql.append(" and type_id="+movieCategory.getCategoryId());
-            }
-
-            if(StringUtils.equals(type,"hotMovies")){
-                sql.append(" and type_name='电影'");
-                orderBy=" order by vod_score desc";
-                limit = " limit "+count;
-            }else if(StringUtils.equals(type,"hottv")){
-                sql.append(" and type_name='连续剧'");
-                orderBy=" order by vod_score desc";
-                limit = " limit "+count;
-            }else if(StringUtils.equals(type,"new")){
-                orderBy=" order by vod_score desc";
-                limit = " limit "+count;
-            }
-            if(StringUtils.isEmpty(orderBy)){
-                orderBy=" order by vod_time desc";
-            }
-            if(StringUtils.isEmpty(limit)&&pageNumber!=null&&pageNumber>0){
-                limit = " limit "+(pageNumber-1)*10+", 10";
-            }
-
-            sql.append(orderBy);
-            sql.append(limit);
-            data = jdbcTemplate.queryForList(sql.toString());
-            EhCacheUtils.setCacheValue(CACHENAME,cacheKey,data);
-        }
-        return data;
     }
 
     /**
@@ -114,22 +45,7 @@ public class IndexController {
      */
     @GetMapping("/categories")
     public Result categories(){
-        String key = "categories";
-        List<Map<String, Object>> categories = new ArrayList<>();
-        try{
-            categories = (List<Map<String,Object>>)EhCacheUtils.getCacheValue(CACHENAME,key);
-        }catch (Exception e) {
-            e.printStackTrace();
-            List<MovieCategory> movieCategories = movieCategoryService.findAll();
-            for (MovieCategory movieCategory : movieCategories) {
-                Map<String, Object> mo = new HashMap<>();
-                mo.put("id", movieCategory.getId());
-                mo.put("name", movieCategory.getName());
-                categories.add(mo);
-            }
-            EhCacheUtils.setCacheValue(CACHENAME,key,categories);
-        }
-        return Result.success(categories);
+        return Result.success(indexService.categories());
     }
 
 
@@ -137,17 +53,9 @@ public class IndexController {
      * 分类
      * @return
      */
-    @GetMapping("/info/{id}")
-    public Result detail(@PathVariable Long id){
-        String key = "detail_"+id;
-        Map<String,Object> data = new HashMap<>();
-        try{
-            data = (Map<String,Object>)EhCacheUtils.getCacheValue(CACHENAME,key);
-        }catch (Exception e) {
-            data = jdbcTemplate.queryForMap("select * from movie.Movie where id="+id);
-            EhCacheUtils.setCacheValue(CACHENAME,key,data);
-        }
-        return Result.success(data);
+    @GetMapping("/info")
+    public Result detail(Long id){
+        return Result.success(indexService.detail(id));
     }
 
     /**
