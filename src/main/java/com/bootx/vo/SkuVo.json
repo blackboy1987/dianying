@@ -1,0 +1,49 @@
+{
+  "mappings": {
+    "properties": {
+      "type_name":{
+        "type": "text"
+      },
+      "id":{
+        "type": "keyword"
+      },
+      "vod_name":{
+        "type": "text",
+        "analyzer": "ik_smart"
+      },
+      "vod_actor":{
+        "type": "text",
+        "analyzer": "ik_smart"
+      },
+      "vod_area":{
+        "type": "text"
+      },
+      "vod_director":{
+        "type": "text"
+      },
+      "vod_class":{
+        "type": "text"
+      },
+      "vod_lang":{
+        "type": "text"
+      },
+      "vod_pic":{
+        "type": "keyword",
+        "index": false,
+        "doc_values": false
+      },
+      "vod_play_url":{
+        "type": "text"
+      },
+      "vod_year":{
+        "type": "text"
+      },
+      "vod_time_add":{
+        "type": "text"
+      },
+      "vod_time":{
+        "type": "date"
+      }
+    }
+  }
+}

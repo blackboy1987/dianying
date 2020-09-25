@@ -21,7 +21,6 @@ repositories {
 dependencies {
     compile group: 'org.jsoup', name: 'jsoup', version: '1.13.1'
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.11'
-    compile group: 'org.hibernate', name: 'hibernate-search-orm', version: '5.11.5.Final'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.3.3.RELEASE'
     compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.4'
     compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.4'
@@ -35,6 +34,10 @@ dependencies {
     compile group: 'net.sf.ehcache', name: 'ehcache-web', version: '2.0.4'
 
     implementation 'org.springframework.boot:spring-boot-starter-cache'
+
+    compile group: 'org.elasticsearch', name: 'elasticsearch', version: '7.9.1'
+    compile group: 'org.elasticsearch.client', name: 'elasticsearch-rest-high-level-client', version: '7.9.1'
+
 
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
