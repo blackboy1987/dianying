@@ -1,8 +1,10 @@
 package com.bootx.entity;
 
+import com.bootx.common.BaseAttributeConverter;
+
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class PlayUrl extends BaseEntity<Long>{
@@ -12,9 +14,9 @@ public class PlayUrl extends BaseEntity<Long>{
 
     private String title;
 
-    @OneToMany(mappedBy = "playUrl",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @OrderBy("order asc ")
-    private Set<Url> urls = new HashSet<>();
+    @Lob
+    @Convert(converter = OptionConverter.class)
+    private List<String> urls = new ArrayList<>();
 
     public Movie getMovie() {
         return movie;
@@ -32,12 +34,22 @@ public class PlayUrl extends BaseEntity<Long>{
         this.title = title;
     }
 
-    public Set<Url> getUrls() {
+    public List<String> getUrls() {
         return urls;
     }
 
-    public void setUrls(Set<Url> urls) {
+    public void setUrls(List<String> urls) {
         this.urls = urls;
+    }
+
+    /**
+     * 类型转换 - 可选项
+     *
+     * @author bootx Team
+     * @version 6.1
+     */
+    @Converter
+    public static class OptionConverter extends BaseAttributeConverter<List<String>> {
     }
 }
 
