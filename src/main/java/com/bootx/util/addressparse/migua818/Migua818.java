@@ -1,5 +1,7 @@
 package com.bootx.util.addressparse.migua818;
 
+import com.bootx.util.addressparse.vo.Movie;
+import com.bootx.util.addressparse.vo.Tag;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;

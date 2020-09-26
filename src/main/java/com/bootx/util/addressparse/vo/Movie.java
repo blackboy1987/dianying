@@ -1,4 +1,6 @@
-package com.bootx.util.addressparse.migua818;
+package com.bootx.util.addressparse.vo;
+
+import com.bootx.util.addressparse.migua818.PlayInfo;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -17,6 +19,10 @@ public class Movie implements Serializable {
     private String jianjie;
 
     private String playUrl;
+
+    private String score;
+
+    private String actors;
 
     private Set<PlayInfo> playInfos = new HashSet<>();
 
@@ -74,5 +80,21 @@ public class Movie implements Serializable {
 
     public void setPlayInfos(Set<PlayInfo> playInfos) {
         this.playInfos = playInfos;
+    }
+
+    public String getScore() {
+        return score;
+    }
+
+    public void setScore(String score) {
+        this.score = score;
+    }
+
+    public String getActors() {
+        return actors;
+    }
+
+    public void setActors(String actors) {
+        this.actors = actors;
     }
 }

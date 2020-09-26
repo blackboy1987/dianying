@@ -1,4 +1,4 @@
-package com.bootx.util.addressparse.migua818;
+package com.bootx.util.addressparse.vo;
 
 import java.io.Serializable;
 import java.util.HashSet;
