@@ -62,7 +62,7 @@ public class IndexController {
     @GetMapping("/ok")
     public String ok(){
         Integer count = 0;
-        for (long i=70000;i<=80000;i++){
+        for (long i=1;i<=80000;i++){
             boolean aBoolean = stringRedisTemplate.hasKey("local_" + i);
             if(aBoolean){
                 continue;
@@ -100,9 +100,11 @@ public class IndexController {
             }
             Movie movie = transform(localMovie);
             try{
-                movieService.save(movie);
+                movie = movieService.save(movie);
+                stringRedisTemplate.opsForValue().set(movie.getVideoId(),movie.getId()+"");
             }catch (Exception e){
                 movie = movieService.findByVideoId(movie1.getVideoId());
+                stringRedisTemplate.opsForValue().set(movie.getVideoId(),movie.getId()+"");
                 if(movie!=null){
                     movie = transform(localMovie);
                     movieService.update(movie);
