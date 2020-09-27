@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 /**
  * Dao - 文章标签
  * 
+ * @author bootx Team
  * @version 6.1
  */
 @Repository

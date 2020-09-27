@@ -1,8 +1,6 @@
 
 package com.bootx.listener;
 
-import com.bootx.service.IndexService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -23,9 +21,6 @@ public class InitListener {
 	 */
 	private static final Logger LOGGER = Logger.getLogger(InitListener.class.getName());
 
-	@Autowired
-	private IndexService indexService;
-
 	/**
 	 * 事件处理
 	 * 
@@ -37,7 +32,6 @@ public class InitListener {
 		if (contextRefreshedEvent.getApplicationContext() == null || contextRefreshedEvent.getApplicationContext().getParent() != null) {
 			return;
 		}
-		indexService.init();
 	}
 
 }

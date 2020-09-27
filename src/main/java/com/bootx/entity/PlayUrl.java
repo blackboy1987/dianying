@@ -1,6 +1,7 @@
 package com.bootx.entity;
 
 import com.bootx.common.BaseAttributeConverter;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ public class PlayUrl extends BaseEntity<Long>{
 
     @Lob
     @Convert(converter = OptionConverter.class)
+    @JsonView({BaseEntity.ViewView.class})
     private List<String> urls = new ArrayList<>();
 
     public Movie getMovie() {

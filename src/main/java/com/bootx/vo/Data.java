@@ -65,7 +65,7 @@ public class Data {
     private String vod_duration;
     private int vod_up;
     private int vod_down;
-    private String vod_score;
+    private Double vod_score;
     private int vod_score_all;
     private int vod_score_num;
     private String vod_time;
@@ -449,10 +449,10 @@ public class Data {
          return vod_down;
      }
 
-    public void setVod_score(String vod_score) {
+    public void setVod_score(Double vod_score) {
          this.vod_score = vod_score;
      }
-     public String getVod_score() {
+     public Double getVod_score() {
          return vod_score;
      }
 

@@ -148,17 +148,11 @@ public class MovieCategoryServiceImpl extends BaseServiceImpl<MovieCategory, Lon
 		}
 		MovieCategory parent = movieCategory.getParent();
 		if (parent != null) {
-			movieCategory.setFullName(parent.getFullName() + movieCategory.getName());
 			movieCategory.setTreePath(parent.getTreePath() + parent.getId() + MovieCategory.TREE_PATH_SEPARATOR);
 		} else {
-			movieCategory.setFullName(movieCategory.getName());
 			movieCategory.setTreePath(MovieCategory.TREE_PATH_SEPARATOR);
 		}
 		movieCategory.setGrade(movieCategory.getParentIds().length);
 	}
 
-	@Override
-	public MovieCategory findByName(String vodLang) {
-		return movieCategoryDao.find("name",vodLang);
-	}
 }
