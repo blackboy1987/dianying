@@ -122,4 +122,24 @@ public class IndexController {
 
         return Result.success("ok");
     }
+
+
+    @GetMapping("/site")
+    @JsonView(BaseEntity.ViewView.class)
+    public Result info(String appCode,String appSecret){
+        StringBuffer sb =new StringBuffer();
+
+        sb.append("select ");
+        sb.append("siteInfo.logo, ");
+        sb.append("siteInfo.name ");
+        sb.append("from ");
+        sb.append("siteInfo as siteInfo, ");
+        sb.append("app as app ");
+        sb.append("where app.appCode='"+appCode+"' ");
+        sb.append("and app.token='"+appSecret+"' ");
+        sb.append("and siteInfo.appId=app.id");
+        return Result.success(jdbcTemplate.queryForMap(sb.toString()));
+    }
+
+
 }
