@@ -12,4 +12,6 @@ import com.bootx.entity.Movie;
 public interface MovieService extends BaseService<Movie,Long> {
 
     public Movie findByVideoId(String videoId);
+
+    Movie findByTitle(String title);
 }

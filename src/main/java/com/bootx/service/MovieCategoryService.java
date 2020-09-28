@@ -103,4 +103,5 @@ public interface MovieCategoryService extends BaseService<MovieCategory, Long> {
 	 */
 	List<MovieCategory> findChildren(Long movieCategoryId, boolean recursive, Integer count, boolean useCache);
 
+	MovieCategory findByName(String name);
 }

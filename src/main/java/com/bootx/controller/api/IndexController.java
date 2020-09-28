@@ -67,10 +67,10 @@ public class IndexController {
             sb.append(" and movieTag.movieTags_id=").append(categoryId);
             sb.append(" and movieTag.movies_id=movie.id");
         }else{
-            sb.append(" movie_moviecategories as moveCategory");
+            sb.append(" movie_moviecategories as moveTag");
             sb.append(" where 1=1");
-            sb.append(" and moveCategory.movieCategories_id=").append(categoryId);
-            sb.append(" and moveCategory.movies_id=movie.id");
+            sb.append(" and moveTag.movieCategories_id=").append(categoryId);
+            sb.append(" and moveTag.movies_id=movie.id");
         }
         sb.append(" limit "+(pageNumber-1)*18+", 18");
         return jdbcTemplate.queryForList(sb.toString());
@@ -114,12 +114,7 @@ public class IndexController {
             }else{
                 System.out.println(movie.getTitle()+":"+data.size());
             }
-
-
         }
-
-
-
         return Result.success("ok");
     }
 
@@ -131,6 +126,13 @@ public class IndexController {
 
         sb.append("select ");
         sb.append("siteInfo.logo, ");
+        sb.append("siteInfo.bannerAdId, ");
+        sb.append("siteInfo.gridAdId, ");
+        sb.append("siteInfo.interstitialAdId, ");
+        sb.append("siteInfo.nativeAdId, ");
+        sb.append("siteInfo.rewardedVideoAdId, ");
+        sb.append("siteInfo.videoAdId, ");
+        sb.append("siteInfo.videoFrontAdId, ");
         sb.append("siteInfo.name ");
         sb.append("from ");
         sb.append("siteInfo as siteInfo, ");
