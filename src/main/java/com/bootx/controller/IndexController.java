@@ -60,9 +60,10 @@ public class IndexController {
     }
 
     @GetMapping("/ok")
-    public String ok(){
+    public String ok() throws Exception{
         Integer count = 0;
-        for (long i=70000;i<=80000;i++){
+        for (long i=1;i<=80000;i++){
+            Thread.sleep(20);
             boolean aBoolean = stringRedisTemplate.hasKey("local_" + i);
             if(aBoolean){
                 continue;
@@ -70,13 +71,7 @@ public class IndexController {
             count++;
             LocalMovie localMovie = new LocalMovie();
             localMovie.setId(i);
-            new Thread(()->{
-                try {
-                    parseLocalMovie(localMovie);
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-            }).start();
+            parseLocalMovie(localMovie);
         }
         return ""+count;
     }
