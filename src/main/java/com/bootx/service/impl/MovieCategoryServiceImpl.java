@@ -27,6 +27,11 @@ public class MovieCategoryServiceImpl extends BaseServiceImpl<MovieCategory, Lon
 	private MovieCategoryDao movieCategoryDao;
 
 	@Override
+	public MovieCategory findByName(String name) {
+		return movieCategoryDao.find("name",name);
+	}
+
+	@Override
 	@Transactional(readOnly = true)
 	public List<MovieCategory> findRoots() {
 		return movieCategoryDao.findRoots(null);

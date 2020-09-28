@@ -31,4 +31,5 @@ public interface MovieTagService extends BaseService<MovieTag, Long> {
 	 */
 	List<MovieTag> findList(Integer count, List<Filter> filters, List<Order> orders, boolean useCache);
 
+	MovieTag findByName(String name);
 }

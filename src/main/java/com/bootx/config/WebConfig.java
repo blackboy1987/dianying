@@ -23,6 +23,8 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(corsInterceptor())
                 .addPathPatterns("/**");
+       /*registry.addInterceptor(validateInterceptor())
+                .addPathPatterns("/**"); */
         registry.addInterceptor(validateInterceptor())
                 .addPathPatterns("/**").excludePathPatterns("/admin/**");
 

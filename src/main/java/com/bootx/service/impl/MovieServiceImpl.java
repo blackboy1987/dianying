@@ -23,4 +23,9 @@ public class MovieServiceImpl extends BaseServiceImpl<Movie, Long> implements Mo
     public Movie findByVideoId(String videoId) {
         return movieDao.find("videoId",videoId);
     }
+
+    @Override
+    public Movie findByTitle(String title) {
+        return movieDao.find("title",title);
+    }
 }
