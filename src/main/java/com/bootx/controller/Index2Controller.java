@@ -43,16 +43,18 @@ public class Index2Controller {
 
     @GetMapping
     @JsonView(BaseEntity.ViewView.class)
-    public Result index(int type) throws Exception{
-        for (int j = 3000; j < 4000; j++) {
-            Thread.sleep(10);
-            List<Data> dataList = Demo.main5(type,j);
-            for (Data data:dataList) {
-                new Thread(()->{
-                    Movie movie = save(data);
-                }).start();
+    public Result index() throws Exception{
+        for (int type = 30; type >=1; type--) {
+            for (int j = 10; j < 100; j++) {
+                Thread.sleep(10);
+                List<Data> dataList = Demo.main5(type,j);
+                for (Data data:dataList) {
+                    new Thread(()->{
+                        Movie movie = save(data);
+                    }).start();
+                }
+                System.out.println(type+"===========j====================="+j);
             }
-            System.out.println(type+"===========j====================="+j);
         }
         return Result.success(null);
     }

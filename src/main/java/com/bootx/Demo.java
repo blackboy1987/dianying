@@ -81,7 +81,8 @@ public class Demo {
 
 
     public static List<Data> main5(Integer type,Integer page){
-        String baseUrl="https://bg.zqbkk.cn/app/index.php?i=2&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426";
+        String baseUrl="https://www.i-gomall.com/app/index.php?i=2&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426";
+
         Map<String,Object> params = new HashMap<>();
         params.put("t",type);
         params.put("page",page);
