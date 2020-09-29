@@ -12,4 +12,6 @@ import com.bootx.entity.App;
 public interface AppService extends BaseService<App,Long> {
 
     App findByAppCode(String appCode);
+
+    boolean exist(String appCode, String appSecret);
 }

@@ -195,7 +195,7 @@ public class IndexController {
     @GetMapping("/update1")
     public Integer update1(){
         Integer count = 0;
-        for (Long i = 14393L; i < 80000L; i++) {
+        for (Long i = 34857L; i < 80000L; i++) {
             Movie movie1 = movieService.find(i);
             if(movie1==null){
                 continue;

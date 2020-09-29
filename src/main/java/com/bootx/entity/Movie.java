@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -79,6 +80,7 @@ public class Movie extends BaseEntity<Long> {
     @ManyToMany(fetch = FetchType.LAZY)
     private Set<MovieTag> movieTags = new HashSet<>();
 
+    private Date updateTime;
 
     public String getVideoId() {
         return videoId;
@@ -174,5 +176,13 @@ public class Movie extends BaseEntity<Long> {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }
