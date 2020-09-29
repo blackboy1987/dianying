@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
+import java.util.List;
 
 @RestController("Index2Controller")
 @RequestMapping("/index2")
@@ -42,13 +43,16 @@ public class Index2Controller {
 
     @GetMapping
     @JsonView(BaseEntity.ViewView.class)
-    public Result index(){
-        for (int i = 1; i < 9999999; i++) {
-            Data data = Demo.main4(i + "");
-            if(data!=null){
-                Movie movie = save(data);
-                return Result.success(movie);
+    public Result index(int type) throws Exception{
+        for (int j = 3000; j < 4000; j++) {
+            Thread.sleep(10);
+            List<Data> dataList = Demo.main5(type,j);
+            for (Data data:dataList) {
+                new Thread(()->{
+                    Movie movie = save(data);
+                }).start();
             }
+            System.out.println(type+"===========j====================="+j);
         }
         return Result.success(null);
     }
@@ -90,6 +94,8 @@ public class Index2Controller {
         if(movie==null){
             movie = new Movie();
             movie.setVideoId("igomall_"+data.getVod_id());
+        }else {
+            return movie;
         }
 
         movie.setTitle(data.getVod_name());

@@ -37,32 +37,38 @@ public class Movie extends BaseEntity<Long> {
     /**
      * 演员
      */
+    @JsonView({BaseEntity.ViewView.class})
     private String actors;
 
     /**
      * 导演
      */
+    @JsonView({BaseEntity.ViewView.class})
     private String director;
 
     /**
      * 区域
      */
+    @JsonView({BaseEntity.ViewView.class})
     private String area;
 
     /**
      * 语言
      */
+    @JsonView({BaseEntity.ViewView.class})
     private String lang;
 
     /**
      * 评分
      */
+    @JsonView({BaseEntity.ViewView.class})
     private Double score;
 
     /**
      * 简介
      */
     @Lob
+    @JsonView({BaseEntity.ViewView.class})
     private String content;
 
     /**
@@ -80,6 +86,7 @@ public class Movie extends BaseEntity<Long> {
     @ManyToMany(fetch = FetchType.LAZY)
     private Set<MovieTag> movieTags = new HashSet<>();
 
+    @JsonView({BaseEntity.ViewView.class})
     private Date updateTime;
 
     public String getVideoId() {

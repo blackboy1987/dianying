@@ -5,6 +5,7 @@ import cn.hutool.crypto.symmetric.SymmetricCrypto;
 import com.bootx.util.JsonUtils;
 import com.bootx.util.WebUtils;
 import com.bootx.vo.Data;
+import com.bootx.vo.JsonRootBean;
 import com.bootx.vo.detail.JsonRootDetailBean;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -13,6 +14,7 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -78,7 +80,22 @@ public class Demo {
     }
 
 
+    public static List<Data> main5(Integer type,Integer page){
+        String baseUrl="https://bg.zqbkk.cn/app/index.php?i=2&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideoList&m=sg_movie&sign=1027208b869c87eda171c4a80706b426";
+        Map<String,Object> params = new HashMap<>();
+        params.put("t",type);
+        params.put("page",page);
+        String result = WebUtils.get(baseUrl,params);
+        JsonRootBean jsonRootDetailBean = JsonUtils.toObject(result,JsonRootBean.class);
+        List<Data> datas = jsonRootDetailBean.getData();
+        for (Data data:datas) {
+            data.setVod_play_url(parseUrl(data.getVod_play_url()));
+        }
+        return datas;
+    }
+
     public static Data main4(String id){
+        System.out.println("main:"+id);
         String url = "https://bg.zqbkk.cn/app/index.php?i=2&t=0&v=1.0&from=wxapp&c=entry&a=wxapp&do=GetVideo&m=sg_movie&sign=0dbccf54fe0919ef7bcde945407ceb13";
         Map<String,Object> params = new HashMap<>();
         params.put("id",id);
