@@ -1,8 +1,6 @@
-
-package com.bootx.service.impl;
+package com.bootx.job;
 
 import com.bootx.Demo;
-import com.bootx.dao.MovieDao;
 import com.bootx.entity.Movie;
 import com.bootx.entity.MovieCategory;
 import com.bootx.entity.MovieTag;
@@ -14,27 +12,22 @@ import com.bootx.util.DateUtils;
 import com.bootx.vo.Data;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Service;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
-/**
- * Service - 素材目录
- * 
- * @author blackboy
- * @version 1.0
- */
-@Service
-public class MovieServiceImpl extends BaseServiceImpl<Movie, Long> implements MovieService {
+@Component
+public class MovieJob {
 
+    @Autowired
+    private MovieService movieService;
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
-    @Autowired
-    private MovieDao movieDao;
     @Autowired
     private MovieTagService movieTagService;
     @Autowired
@@ -42,23 +35,16 @@ public class MovieServiceImpl extends BaseServiceImpl<Movie, Long> implements Mo
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @Override
-    @Cacheable(value = "movie",key = "#id",unless = "#result != null ",condition = "#id != null ")
-    public Movie find(Long id) {
-        return super.find(id);
+    /**
+     * 每天一点执行一次
+     */
+    @Scheduled(cron = "0 36 10 * * ?")
+    public void run(){
+        System.out.println("start");
+        sync();
+        System.out.println("end");
     }
 
-    @Override
-    public Movie findByVideoId(String videoId) {
-        return movieDao.find("videoId",videoId);
-    }
-
-    @Override
-    public Movie findByTitle(String title) {
-        return movieDao.find("title",title);
-    }
-
-    @Override
     public void sync() {
         Integer page = 1;
         Boolean flag = true;
@@ -70,23 +56,32 @@ public class MovieServiceImpl extends BaseServiceImpl<Movie, Long> implements Mo
                 System.out.println(new Date()+":"+page);
                 page = page+1;
                 for (Data data:dataList) {
-                    Movie movie = save(data);
-                    find(movie.getId());
-                    stringRedisTemplate.opsForValue().set(movie.getVideoId(),movie.getId()+"");
+                    Boolean aBoolean = stringRedisTemplate.hasKey("igomall_" + data.getVod_id());
+                    if(aBoolean){
+                        continue;
+                    }
+                    new Thread(()->{
+                        Movie movie = save(data);
+                        new Thread(()->{
+                            movieService.find(movie.getId());
+                            stringRedisTemplate.opsForValue().set(movie.getVideoId(),movie.getId()+"");
+                        }).start();
+                    }).start();
                 }
             }
 
         }
     }
 
-    private Movie save(Data data) {
-        Movie movie = findByVideoId("igomall_"+data.getVod_id());
+    @Transactional
+    public Movie save(Data data) {
+        Movie movie =  movieService.findByVideoId("igomall_"+data.getVod_id());
         if(movie==null){
             movie = new Movie();
             movie.setVideoId("igomall_"+data.getVod_id());
             movie.setTitle(data.getVod_name());
             movie.setImg(data.getVod_pic());
-            movie = super.save(movie);
+            movie =  movieService.save(movie);
             setInfo(movie,data);
             // 处理播放地址的问题
             parseUrl(movie,data.getVod_play_url());
@@ -102,7 +97,7 @@ public class MovieServiceImpl extends BaseServiceImpl<Movie, Long> implements Mo
                 }
             }
         }
-        return super.update(updateOther(movie,data));
+        return  movieService.update(updateOther(movie,data));
     }
 
     private Movie updateOther(Movie movie, Data data) {

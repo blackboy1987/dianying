@@ -55,6 +55,14 @@ public class SiteInfo extends BaseEntity<Long> {
      */
     private String nativeAdId;
 
+    /**
+     * 状态：
+     * 0：关闭
+     * 1：审核中
+     * 2：审核通过
+     */
+    private Integer status;
+
     @Lob
     @Convert(converter = CarouselConverter.class)
     @JsonView({BaseEntity.ViewView.class})
@@ -139,6 +147,14 @@ public class SiteInfo extends BaseEntity<Long> {
 
     public void setNativeAdId(String nativeAdId) {
         this.nativeAdId = nativeAdId;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public List<Carousel> getCarousels() {

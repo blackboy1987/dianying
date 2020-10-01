@@ -4,6 +4,7 @@
 package com.bootx.entity;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -33,6 +34,10 @@ public class Movie extends BaseEntity<Long> {
     @OneToMany(mappedBy = "movie",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JsonView({BaseEntity.ViewView.class})
     private Set<PlayUrl> playUrls = new HashSet<>();
+
+    @OneToMany(mappedBy = "movie",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JsonView({BaseEntity.ViewView.class})
+    private Set<DownloadUrl> downloadUrls = new HashSet<>();
 
     /**
      * 演员
@@ -74,10 +79,8 @@ public class Movie extends BaseEntity<Long> {
     /**
      * 文章分类
      */
-    @NotNull
-    @JsonView(BaseView.class)
-    @ManyToMany(fetch = FetchType.LAZY)
-    private Set<MovieCategory> movieCategories = new HashSet<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    private MovieCategory movieCategory;
 
     /**
      * 文章标签
@@ -88,6 +91,40 @@ public class Movie extends BaseEntity<Long> {
 
     @JsonView({BaseEntity.ViewView.class})
     private Date updateTime;
+
+    /**
+     * 上映时间
+     */
+    @JsonView({BaseEntity.ViewView.class})
+    private String year;
+
+    private String remarks;
+
+    private Integer status;
+
+    /**
+     * 别名
+     */
+    private String sub;
+
+    /**
+     * 英文名
+     */
+    private String english;
+
+    /**
+     * 首字母
+     */
+    private String letter;
+
+    private String behind;
+
+    @Length(max = 2000)
+    @Column(length = 2000)
+    private String blurb;
+
+    private String serial;
+
 
     public String getVideoId() {
         return videoId;
@@ -121,12 +158,20 @@ public class Movie extends BaseEntity<Long> {
         this.playUrls = playUrls;
     }
 
-    public Set<MovieCategory> getMovieCategories() {
-        return movieCategories;
+    public Set<DownloadUrl> getDownloadUrls() {
+        return downloadUrls;
     }
 
-    public void setMovieCategories(Set<MovieCategory> movieCategories) {
-        this.movieCategories = movieCategories;
+    public void setDownloadUrls(Set<DownloadUrl> downloadUrls) {
+        this.downloadUrls = downloadUrls;
+    }
+
+    public MovieCategory getMovieCategory() {
+        return movieCategory;
+    }
+
+    public void setMovieCategory(MovieCategory movieCategory) {
+        this.movieCategory = movieCategory;
     }
 
     public Set<MovieTag> getMovieTags() {
@@ -191,5 +236,77 @@ public class Movie extends BaseEntity<Long> {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public String getSub() {
+        return sub;
+    }
+
+    public void setSub(String sub) {
+        this.sub = sub;
+    }
+
+    public String getEnglish() {
+        return english;
+    }
+
+    public void setEnglish(String english) {
+        this.english = english;
+    }
+
+    public String getLetter() {
+        return letter;
+    }
+
+    public void setLetter(String letter) {
+        this.letter = letter;
+    }
+
+    public String getBehind() {
+        return behind;
+    }
+
+    public void setBehind(String behind) {
+        this.behind = behind;
+    }
+
+    public String getBlurb() {
+        return blurb;
+    }
+
+    public void setBlurb(String blurb) {
+        this.blurb = blurb;
+    }
+
+    public String getSerial() {
+        return serial;
+    }
+
+    public void setSerial(String serial) {
+        this.serial = serial;
     }
 }

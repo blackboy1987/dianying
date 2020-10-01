@@ -14,4 +14,6 @@ public interface MovieService extends BaseService<Movie,Long> {
     Movie findByVideoId(String videoId);
 
     Movie findByTitle(String title);
+
+    void sync();
 }

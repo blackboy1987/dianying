@@ -64,8 +64,14 @@ public class MovieCategory extends OrderedEntity<Long> {
 	/**
 	 * 文章
 	 */
-	@ManyToMany(mappedBy = "movieCategories", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "movieCategory", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	private Set<Movie> movies = new HashSet<>();
+
+	/**
+	 * 其他平台的id
+	 */
+	@Column(unique = true,updatable = false)
+	private String otherId;
 
 	/**
 	 * 获取名称
@@ -164,7 +170,7 @@ public class MovieCategory extends OrderedEntity<Long> {
 
 	/**
 	 * 获取文章
-	 * 
+	 *
 	 * @return 文章
 	 */
 	public Set<Movie> getMovies() {
@@ -173,12 +179,20 @@ public class MovieCategory extends OrderedEntity<Long> {
 
 	/**
 	 * 设置文章
-	 * 
+	 *
 	 * @param movies
 	 *            文章
 	 */
 	public void setMovies(Set<Movie> movies) {
 		this.movies = movies;
+	}
+
+	public String getOtherId() {
+		return otherId;
+	}
+
+	public void setOtherId(String otherId) {
+		this.otherId = otherId;
 	}
 
 	/**
@@ -235,7 +249,7 @@ public class MovieCategory extends OrderedEntity<Long> {
 		Set<Movie> movies = getMovies();
 		if (movies != null) {
 			for (Movie movie : movies) {
-				movie.getMovieCategories().remove(this);
+				movie.setMovieCategory(null);
 			}
 		}
 	}

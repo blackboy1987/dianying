@@ -18,7 +18,7 @@ public class IndexServiceImpl implements IndexService {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    @Cacheable(value="siteInfo",key = "#appCode +'-'+ #appSecret",sync=true)
+    // @Cacheable(value="siteInfo",key = "#appCode +'-'+ #appSecret",sync=true)
     public Map<String,Object> site(String appCode, String appSecret){
         StringBuffer sb =new StringBuffer();
 
@@ -31,6 +31,7 @@ public class IndexServiceImpl implements IndexService {
         sb.append("siteInfo.rewardedVideoAdId, ");
         sb.append("siteInfo.videoAdId, ");
         sb.append("siteInfo.videoFrontAdId, ");
+        sb.append("siteInfo.status, ");
         sb.append("siteInfo.name ");
         sb.append("from ");
         sb.append("siteInfo as siteInfo, ");
@@ -52,16 +53,17 @@ public class IndexServiceImpl implements IndexService {
         Map<String,Object> data = new HashMap<>();
         if(categoryId==null){
             StringBuffer sb = new StringBuffer();
-            sb.append("id,");
-            sb.append("area,");
-            sb.append("img,");
-            sb.append("lang,");
-            sb.append("title,");
-            sb.append("score");
-
-            data.put("hotMovies", jdbcTemplate.queryForList("select "+sb.toString()+" from movie limit 18"));
-            data.put("hottv", jdbcTemplate.queryForList("select "+sb.toString()+" from movie limit 18"));
-            data.put("news", jdbcTemplate.queryForList("select "+sb.toString()+" from movie limit 18"));
+            sb.append("movie.id,");
+            sb.append("movie.area,");
+            sb.append("movie.img,");
+            sb.append("movie.lang,");
+            sb.append("movie.title,");
+            sb.append("movie.remarks,");
+            sb.append("movieCategory.name typeName,");
+            sb.append("movie.score");
+            data.put("hotMovies", jdbcTemplate.queryForList("select "+sb.toString()+" from movie as movie,moviecategory as movieCategory where movie.movieCategory_id=movieCategory.id and ( movieCategory.id = 1 OR movieCategory.treePath like '%,1,%') order by movie.score desc LIMIT 18"));
+            data.put("hottv", jdbcTemplate.queryForList("select "+sb.toString()+" from movie as movie,moviecategory as movieCategory where movie.movieCategory_id=movieCategory.id and ( movieCategory.id = 2 OR movieCategory.treePath like '%,2,%') order by movie.score desc LIMIT 18"));
+            data.put("news", jdbcTemplate.queryForList("select "+sb.toString()+" from movie as movie,moviecategory as movieCategory where movie.movieCategory_id=movieCategory.id order by movie.updateTime desc limit 18"));
             return data;
         }
         return movies(categoryId,pageNumber);
@@ -76,12 +78,14 @@ public class IndexServiceImpl implements IndexService {
         }
         StringBuffer sb = new StringBuffer();
         sb.append("select ");
-        sb.append("id,");
-        sb.append("area,");
-        sb.append("img,");
-        sb.append("lang,");
-        sb.append("title,");
-        sb.append("score");
+        sb.append("movie.id,");
+        sb.append("movie.area,");
+        sb.append("movie.img,");
+        sb.append("movie.lang,");
+        sb.append("movie.title,");
+        sb.append("movie.remarks,");
+        sb.append("movieCategory.name typeName,");
+        sb.append("movie.score");
         sb.append(" from");
         sb.append(" movie as movie,");
 
@@ -91,12 +95,14 @@ public class IndexServiceImpl implements IndexService {
             sb.append(" and movieTag.movieTags_id=").append(categoryId);
             sb.append(" and movieTag.movies_id=movie.id");
         }else{
-            sb.append(" movie_moviecategories as moveTag");
+            sb.append("moviecategory as movieCategory");
             sb.append(" where 1=1");
-            sb.append(" and moveTag.movieCategories_id=").append(categoryId);
-            sb.append(" and moveTag.movies_id=movie.id");
+            sb.append(" and ");
+            sb.append(" movie.movieCategory_id=movieCategory.id ");
+            sb.append(" and ");
+            sb.append( " ( movieCategory.id = "+categoryId+" OR movieCategory.treePath like '%,"+categoryId+",%') ");
         }
-        sb.append(" limit "+(pageNumber-1)*18+", 18");
+        sb.append(" order by movie.score desc limit "+(pageNumber-1)*18+", 18");
         return jdbcTemplate.queryForList(sb.toString());
 
 

@@ -160,4 +160,8 @@ public class MovieCategoryServiceImpl extends BaseServiceImpl<MovieCategory, Lon
 		movieCategory.setGrade(movieCategory.getParentIds().length);
 	}
 
+	@Override
+	public MovieCategory findByOtherId(String otherId) {
+		return movieCategoryDao.find("otherId",otherId);
+	}
 }

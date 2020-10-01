@@ -1,11 +1,18 @@
 
-package com.bootx.vo;
+package com.bootx.vo.okzy.com.jsoncn.pojo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.Lob;
-
+/**
+ * Auto-generated: 2020-10-01 12:59:4
+ *
+ * @author bejson.com (i@bejson.com)
+ * @website http://www.bejson.com/java2pojo/
+ */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Data {
-    private long vod_id;
-    private int type_id;
+
+    private int vod_id;
+    private Long type_id;
     private int type_id_1;
     private int group_id;
     private String vod_name;
@@ -59,7 +66,7 @@ public class Data {
     private int vod_score_num;
     private String vod_time;
     private long vod_time_add;
-    private long vod_time_hits;
+    private int vod_time_hits;
     private int vod_time_make;
     private int vod_trysee;
     private int vod_douban_id;
@@ -77,28 +84,23 @@ public class Data {
     private String vod_play_from;
     private String vod_play_server;
     private String vod_play_note;
-
-    @Lob
     private String vod_play_url;
     private String vod_down_from;
     private String vod_down_server;
     private String vod_down_note;
     private String vod_down_url;
-    private int vod_plot;
-    private String vod_plot_name;
-    private String vod_plot_detail;
     private String type_name;
-    public void setVod_id(long vod_id) {
+    public void setVod_id(int vod_id) {
          this.vod_id = vod_id;
      }
-     public long getVod_id() {
+     public int getVod_id() {
          return vod_id;
      }
 
-    public void setType_id(int type_id) {
+    public void setType_id(Long type_id) {
          this.type_id = type_id;
      }
-     public int getType_id() {
+     public Long getType_id() {
          return type_id;
      }
 
@@ -473,10 +475,10 @@ public class Data {
          return vod_time_add;
      }
 
-    public void setVod_time_hits(long vod_time_hits) {
+    public void setVod_time_hits(int vod_time_hits) {
          this.vod_time_hits = vod_time_hits;
      }
-     public long getVod_time_hits() {
+     public int getVod_time_hits() {
          return vod_time_hits;
      }
 
@@ -632,27 +634,6 @@ public class Data {
      }
      public String getVod_down_url() {
          return vod_down_url;
-     }
-
-    public void setVod_plot(int vod_plot) {
-         this.vod_plot = vod_plot;
-     }
-     public int getVod_plot() {
-         return vod_plot;
-     }
-
-    public void setVod_plot_name(String vod_plot_name) {
-         this.vod_plot_name = vod_plot_name;
-     }
-     public String getVod_plot_name() {
-         return vod_plot_name;
-     }
-
-    public void setVod_plot_detail(String vod_plot_detail) {
-         this.vod_plot_detail = vod_plot_detail;
-     }
-     public String getVod_plot_detail() {
-         return vod_plot_detail;
      }
 
     public void setType_name(String type_name) {
