@@ -1,134 +1,54 @@
-/**
- * Copyright 2020 bejson.com
- */
-package com.bootx.entity;
+package com.bootx.vo.es;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import org.hibernate.validator.constraints.Length;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
-/**
- * Auto-generated: 2020-09-21 19:51:50
- *
- * @author bejson.com (i@bejson.com)
- * @website http://www.bejson.com/java2pojo/
- */
-@Entity
-public class Movie extends BaseEntity<Long> {
+public class MovieES {
 
-    @NotNull
-    @Column(nullable = false,unique = true,updatable = false)
     private String videoId;
 
-    @JsonView({BaseEntity.ViewView.class})
+    private Long id;
+
     private String title;
 
-    @JsonView({BaseEntity.ViewView.class})
     private String img;
 
-    @OneToMany(mappedBy = "movie",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JsonView({BaseEntity.ViewView.class})
-    private Set<PlayUrl> playUrls = new HashSet<>();
-
-    @OneToMany(mappedBy = "movie",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JsonView({BaseEntity.ViewView.class})
-    private Set<DownloadUrl> downloadUrls = new HashSet<>();
-
-    /**
-     * 演员
-     */
-    @JsonView({BaseEntity.ViewView.class})
-    private String actors;
-
-    /**
-     * 导演
-     */
-    @JsonView({BaseEntity.ViewView.class})
-    private String director;
-
-    /**
-     * 区域
-     */
-    @JsonView({BaseEntity.ViewView.class})
-    private String area;
-
-    /**
-     * 语言
-     */
-    @JsonView({BaseEntity.ViewView.class})
-    private String lang;
-
-    /**
-     * 评分
-     */
-    @JsonView({BaseEntity.ViewView.class})
     private Double score;
 
-    /**
-     * 简介
-     */
-    @Lob
-    @JsonView({BaseEntity.ViewView.class})
+    private String typeName;
+
+    private String actors;
+
+    private String director;
+
+    private String area;
+
+    private String lang;
+
     private String content;
 
-    /**
-     * 文章分类
-     */
-    @ManyToOne(fetch = FetchType.LAZY)
-    private MovieCategory movieCategory;
-
-    /**
-     * 文章标签
-     */
-    @JsonView(BaseView.class)
-    @ManyToMany(fetch = FetchType.LAZY)
-    private Set<MovieTag> movieTags = new HashSet<>();
-
-    @JsonView({BaseEntity.ViewView.class})
     private Date updateTime;
 
-    /**
-     * 上映时间
-     */
-    @JsonView({BaseEntity.ViewView.class})
     private String year;
 
-    @JsonView({BaseEntity.ViewView.class})
     private String remarks;
 
     private Integer status;
 
-    /**
-     * 别名
-     */
-    @JsonView({BaseEntity.ViewView.class})
     private String sub;
 
-    /**
-     * 英文名
-     */
-    @JsonView({BaseEntity.ViewView.class})
     private String english;
 
-    /**
-     * 首字母
-     */
     private String letter;
 
     private String behind;
 
-    @Length(max = 2000)
-    @Column(length = 2000)
     private String blurb;
 
-    @JsonView({BaseEntity.ViewView.class})
     private String serial;
 
+    private Category category;
+
+    private String categoryIds;
 
     public String getVideoId() {
         return videoId;
@@ -136,6 +56,14 @@ public class Movie extends BaseEntity<Long> {
 
     public void setVideoId(String videoId) {
         this.videoId = videoId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -154,36 +82,20 @@ public class Movie extends BaseEntity<Long> {
         this.img = img;
     }
 
-    public Set<PlayUrl> getPlayUrls() {
-        return playUrls;
+    public Double getScore() {
+        return score;
     }
 
-    public void setPlayUrls(Set<PlayUrl> playUrls) {
-        this.playUrls = playUrls;
+    public void setScore(Double score) {
+        this.score = score;
     }
 
-    public Set<DownloadUrl> getDownloadUrls() {
-        return downloadUrls;
+    public String getTypeName() {
+        return typeName;
     }
 
-    public void setDownloadUrls(Set<DownloadUrl> downloadUrls) {
-        this.downloadUrls = downloadUrls;
-    }
-
-    public MovieCategory getMovieCategory() {
-        return movieCategory;
-    }
-
-    public void setMovieCategory(MovieCategory movieCategory) {
-        this.movieCategory = movieCategory;
-    }
-
-    public Set<MovieTag> getMovieTags() {
-        return movieTags;
-    }
-
-    public void setMovieTags(Set<MovieTag> movieTags) {
-        this.movieTags = movieTags;
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
     }
 
     public String getActors() {
@@ -216,14 +128,6 @@ public class Movie extends BaseEntity<Long> {
 
     public void setLang(String lang) {
         this.lang = lang;
-    }
-
-    public Double getScore() {
-        return score;
-    }
-
-    public void setScore(Double score) {
-        this.score = score;
     }
 
     public String getContent() {
@@ -313,4 +217,43 @@ public class Movie extends BaseEntity<Long> {
     public void setSerial(String serial) {
         this.serial = serial;
     }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public String getCategoryIds() {
+        return categoryIds;
+    }
+
+    public void setCategoryIds(String categoryIds) {
+        this.categoryIds = categoryIds;
+    }
+
+    public static class Category {
+        private Long id;
+
+        private String name;
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+    }
+
 }

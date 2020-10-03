@@ -11,12 +11,14 @@ import com.bootx.util.WebUtils;
 import com.bootx.vo.Data;
 import com.bootx.vo.JsonRootBean;
 import com.fasterxml.jackson.annotation.JsonView;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,7 +59,33 @@ public class IndexController {
     @GetMapping("/search")
     @JsonView(BaseEntity.ListView.class)
     public Result search(String keywords){
-        return Result.success(jdbcTemplate.queryForList("select * from movie where title like '%"+keywords+"%' limit 20"));
+        if(StringUtils.isEmpty(keywords)|| StringUtils.isEmpty(keywords.trim())){
+          return Result.success(Collections.EMPTY_LIST);
+        }
+        StringBuffer sb = new StringBuffer();
+        sb.append("select ");
+        sb.append("movie.id,");
+        sb.append("movie.area,");
+        sb.append("movie.img,");
+        sb.append("movie.lang,");
+        sb.append("movie.title,");
+        sb.append("movie.remarks,");
+        sb.append("movieCategory.name typeName,");
+        sb.append("movie.score");
+        sb.append(" from");
+        sb.append(" movie as movie,");
+        sb.append("moviecategory as movieCategory");
+        sb.append(" where 1=1");
+        sb.append(" and ");
+        sb.append(" movie.movieCategory_id=movieCategory.id ");
+        sb.append(" and ");
+        sb.append(" movie.title like '%").append(keywords).append("%' ");
+        sb.append(" order by movie.score desc limit 20");
+        List<Map<String,Object>> result = jdbcTemplate.queryForList(sb.toString());
+        // 异步在其他平台更新一下资源看看
+        indexService.updateResource(keywords);
+
+        return Result.success(result);
     }
 
     @GetMapping("/search1")
@@ -94,8 +122,5 @@ public class IndexController {
             return Result.success(indexService.site(appCode,appSecret));
         }
         return Result.error("不存在");
-
-
-
     }
 }

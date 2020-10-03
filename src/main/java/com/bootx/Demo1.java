@@ -5,7 +5,9 @@ import com.bootx.util.WebUtils;
 import com.bootx.vo.okzy.com.jsoncn.pojo.Data;
 import com.bootx.vo.okzy.com.jsoncn.pojo.JsonRootBean;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,6 +40,17 @@ public class Demo1 {
     }
 
 
+    public static JsonRootBean search(String keywords,Integer page) {
+        Map<String,Object> params = new HashMap<>();
+        params.put("wd",keywords);
+        params.put("pg",page);
+
+        String s = WebUtils.get("https://api.okzy.tv/api.php/provide/vod/at/json/?ac=detail", params);
+        JsonRootBean jsonRootBean = JsonUtils.toObject(s,JsonRootBean.class);
+        return jsonRootBean;
+    }
+
+
 
     // $$$ 源的区分。$:集数的区分
     private static String parseUrl(String vodPlayUrl) {
@@ -46,5 +59,15 @@ public class Demo1 {
         Matcher m = p.matcher(vodPlayUrl);
         return m.replaceAll(":");
 
+    }
+
+    public static JsonRootBean list(int page) {
+        String url ="https://api.okzy.tv/api.php/provide/vod/at/json/?ac=detail";
+        Map<String,Object> params = new HashMap<>();
+        params.put("h",24);
+        params.put("pg",page);
+        String s = WebUtils.get(url, params);
+        JsonRootBean jsonRootBean = JsonUtils.toObject(s,JsonRootBean.class);
+        return jsonRootBean;
     }
 }
