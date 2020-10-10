@@ -98,7 +98,7 @@ public class MemberServiceImpl extends BaseServiceImpl<Member, Long> implements 
 		data.put("rankName",member.getMemberRank().getName());
 		data.put("nickName",member.getNickName());
 		data.put("point",member.getPoint());
-		data.put("days", DateUtils.getIntervalDay(member.getCreatedDate(),new Date()));
+		data.put("days", DateUtils.getIntervalDay(new Date(),member.getCreatedDate()));
 		data.put("isAuth",member.getIsAuth());
 		// 观影时长
 		data.putAll(jdbcTemplate.queryForMap("select SUM(seconds) visitSeconds from playrecord where member_id="+member.getId()));
