@@ -23,7 +23,7 @@ public class BonusJob {
     /**
      * 每天12点10分，进行统计
      */
-    @Scheduled(cron = "0 0/1 * * * ?")
+    @Scheduled(cron = "0 10 0 * * ?")
     public void run(){
         Map<Long, BigDecimal> members = new HashMap<>();
         Date beginDate = DateUtils.getNextDay(-1);
