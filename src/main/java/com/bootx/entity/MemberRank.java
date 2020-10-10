@@ -1,11 +1,13 @@
 package com.bootx.entity;
 
-import com.bootx.common.Constants;
 import com.fasterxml.jackson.annotation.JsonView;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 @Entity
 public class MemberRank extends BaseEntity<Long> {
@@ -17,37 +19,25 @@ public class MemberRank extends BaseEntity<Long> {
 
     @NotNull
     @Column(nullable = false)
-    @JsonView({ViewView.class})
-    private String title;
-
-    @NotNull
-    @Column(nullable = false)
-    @JsonView({ViewView.class})
-    private Integer gold;
-
-    @NotNull
-    @Column(nullable = false)
     private Boolean isDefault;
 
-    @NotNull
+    /**
+     * 消费金额
+     */
     @Min(0)
-    @Column(nullable = false,unique = true)
-    private Integer level;
+    @Digits(integer = 12, fraction = 3)
+    @Column(precision = 21, scale = 6)
+    private BigDecimal amount;
 
-    @OneToOne
-    private MemberRank next;
+    /**
+     * 是否特殊
+     */
+    @NotNull
+    @Column(nullable = false)
+    private Boolean isSpecial;
 
-    @OneToOne
-    private MemberRank prv;
-
-
-
-
-
-
-
-
-
+    @Column(nullable = false)
+    private Long point;
 
 
 
@@ -59,22 +49,6 @@ public class MemberRank extends BaseEntity<Long> {
         this.name = name;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Integer getGold() {
-        return gold;
-    }
-
-    public void setGold(Integer gold) {
-        this.gold = gold;
-    }
-
     public Boolean getIsDefault() {
         return isDefault;
     }
@@ -83,43 +57,27 @@ public class MemberRank extends BaseEntity<Long> {
         this.isDefault = isDefault;
     }
 
-    public Integer getLevel() {
-        return level;
+    public BigDecimal getAmount() {
+        return amount;
     }
 
-    public void setLevel(Integer level) {
-        this.level = level;
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 
-    public MemberRank getNext() {
-        return next;
+    public Boolean getIsSpecial() {
+        return isSpecial;
     }
 
-    public void setNext(MemberRank next) {
-        this.next = next;
+    public void setIsSpecial(Boolean isSpecial) {
+        this.isSpecial = isSpecial;
     }
 
-    public MemberRank getPrv() {
-        return prv;
+    public Long getPoint() {
+        return point;
     }
 
-    public void setPrv(MemberRank prv) {
-        this.prv = prv;
-    }
-
-    @Transient
-    @JsonView({ViewView.class})
-    public String getImg(){
-        return Constants.RESOURCEURL+ "images/rank/dg"+getId()+".png";
-    }
-    @Transient
-    @JsonView({ViewView.class})
-    public String getRankImg(){
-        return Constants.RESOURCEURL+ "images/rank/rank"+getId()+".png";
-    }
-    @Transient
-    @JsonView({ViewView.class})
-    public String getRankNameImg(){
-        return Constants.RESOURCEURL+ "images/rank/rank"+getId()+"_1.png";
+    public void setPoint(Long point) {
+        this.point = point;
     }
 }

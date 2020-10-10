@@ -119,31 +119,31 @@ public class DateUtils {
 
 
     //计算2个时间的插值（秒）
-    public Long getIntervalSecond(Date startDate, Date endDate) {
+    public static Long getIntervalSecond(Date startDate, Date endDate) {
         Duration duration = Duration.between(convertDateToLocalDateTime(endDate),convertDateToLocalDateTime(startDate));
         return duration.getSeconds();
     }
 
     //计算2个时间的插值（分）
-    public Long getIntervalMin(Date startDate, Date endDate) {
+    public static Long getIntervalMin(Date startDate, Date endDate) {
         Duration duration = Duration.between(convertDateToLocalDateTime(endDate),convertDateToLocalDateTime(startDate));
         return duration.toMinutes();
     }
 
     //计算2个时间的插值（时）
-    public Long getIntervalHour(Date startDate, Date endDate) {
+    public static Long getIntervalHour(Date startDate, Date endDate) {
         Duration duration = Duration.between(convertDateToLocalDateTime(endDate),convertDateToLocalDateTime(startDate));
         return duration.toHours();
     }
 
     //计算2个时间的插值（天）
-    public Long getIntervalDay(Date startDate, Date endDate) {
+    public static Long getIntervalDay(Date startDate, Date endDate) {
         Duration duration = Duration.between(convertDateToLocalDateTime(endDate),convertDateToLocalDateTime(startDate));
         return duration.toDays();
     }
 
     //根据时间段获取所有天数(以0时0分0秒开始)
-    public List<Date> findDates(Date beginDate, Date endDate,Integer hours,Integer minutes,Integer seconds) {
+    public static List<Date> findDates(Date beginDate, Date endDate,Integer hours,Integer minutes,Integer seconds) {
         List<Date> list = new ArrayList<>();
         LocalDateTime localDateTime = convertDateToLocalDateTime(beginDate);
         if(hours==null||hours<0){

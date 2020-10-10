@@ -129,6 +129,10 @@ public class Movie extends BaseEntity<Long> {
     @JsonView({BaseEntity.ViewView.class})
     private String serial;
 
+    @NotNull
+    @Column(nullable = false)
+    private Boolean isShow;
+
 
     public String getVideoId() {
         return videoId;
@@ -312,5 +316,13 @@ public class Movie extends BaseEntity<Long> {
 
     public void setSerial(String serial) {
         this.serial = serial;
+    }
+
+    public Boolean getIsShow() {
+        return isShow;
+    }
+
+    public void setIsShow(Boolean isShow) {
+        this.isShow = isShow;
     }
 }

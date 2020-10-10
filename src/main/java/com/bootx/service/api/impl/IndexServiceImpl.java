@@ -40,10 +40,10 @@ public class IndexServiceImpl implements IndexService {
     private ESService esService;
 
     @Override
-    // @Cacheable(value="siteInfo",key = "#appCode +'-'+ #appSecret",sync=true)
+    @Cacheable(value="siteInfo",key = "#appCode +'-'+ #appSecret",sync=true)
     public Map<String,Object> site(String appCode, String appSecret){
         StringBuffer sb =new StringBuffer();
-
+        Map<String,Object> data = new HashMap<>();
         sb.append("select ");
         sb.append("siteInfo.logo, ");
         sb.append("siteInfo.bannerAdId, ");
@@ -54,6 +54,10 @@ public class IndexServiceImpl implements IndexService {
         sb.append("siteInfo.videoAdId, ");
         sb.append("siteInfo.videoFrontAdId, ");
         sb.append("siteInfo.status, ");
+        sb.append("siteInfo.everyMinuteToPoint, ");
+        sb.append("siteInfo.jumpAdDiscoutPoint, ");
+        sb.append("siteInfo.minVisitMinute, ");
+        sb.append("siteInfo.openPoint, ");
         sb.append("siteInfo.name ");
         sb.append("from ");
         sb.append("siteInfo as siteInfo, ");
@@ -61,12 +65,19 @@ public class IndexServiceImpl implements IndexService {
         sb.append("where app.appCode='"+appCode+"' ");
         sb.append("and app.token='"+appSecret+"' ");
         sb.append("and siteInfo.appId=app.id");
+
         try {
-            return jdbcTemplate.queryForMap(sb.toString());
+            data = jdbcTemplate.queryForMap(sb.toString());
         }catch (Exception e){
             e.printStackTrace();
-            return null;
         }
+        // 处理轮播图。最近更新的十部
+        StringBuffer sb1 = new StringBuffer();
+        sb1.append("id,");
+        sb1.append("img,");
+        sb1.append("title");
+        data.put("carousels",jdbcTemplate.queryForList("select "+sb1.toString()+" from movie where movie.isShow=true order by score desc limit 10"));
+        return data;
     }
 
     @Override
@@ -83,9 +94,9 @@ public class IndexServiceImpl implements IndexService {
             sb.append("movie.remarks,");
             sb.append("movieCategory.name typeName,");
             sb.append("movie.score");
-            data.put("hotMovies", jdbcTemplate.queryForList("select "+sb.toString()+" from movie as movie,moviecategory as movieCategory where movie.movieCategory_id=movieCategory.id and ( movieCategory.id = 1 OR movieCategory.treePath like '%,1,%') order by movie.score desc LIMIT 30"));
-            data.put("hottv", jdbcTemplate.queryForList("select "+sb.toString()+" from movie as movie,moviecategory as movieCategory where movie.movieCategory_id=movieCategory.id and ( movieCategory.id = 2 OR movieCategory.treePath like '%,2,%') order by movie.score desc LIMIT 30"));
-            data.put("news", jdbcTemplate.queryForList("select "+sb.toString()+" from movie as movie,moviecategory as movieCategory where movie.movieCategory_id=movieCategory.id order by movie.updateTime desc limit 30"));
+            data.put("hotMovies", jdbcTemplate.queryForList("select "+sb.toString()+" from movie as movie,moviecategory as movieCategory where movie.isShow=true and movie.movieCategory_id=movieCategory.id and ( movieCategory.id = 1 OR movieCategory.treePath like '%,1,%') order by movie.score desc LIMIT 30"));
+            data.put("hottv", jdbcTemplate.queryForList("select "+sb.toString()+" from movie as movie,moviecategory as movieCategory where movie.isShow=true and movie.movieCategory_id=movieCategory.id and ( movieCategory.id = 2 OR movieCategory.treePath like '%,2,%') order by movie.score desc LIMIT 30"));
+            data.put("news", jdbcTemplate.queryForList("select "+sb.toString()+" from movie as movie,moviecategory as movieCategory where movie.isShow=true and movie.movieCategory_id=movieCategory.id order by movie.updateTime desc limit 30"));
             return data;
         }
         return movies(categoryId,pageNumber);
@@ -120,6 +131,7 @@ public class IndexServiceImpl implements IndexService {
             sb.append("moviecategory as movieCategory");
             sb.append(" where 1=1");
             sb.append(" and ");
+            sb.append("  movie.isShow=true and ");
             sb.append(" movie.movieCategory_id=movieCategory.id ");
             sb.append(" and ");
             sb.append( " ( movieCategory.id = "+categoryId+" OR movieCategory.treePath like '%,"+categoryId+",%') ");
@@ -165,6 +177,7 @@ public class IndexServiceImpl implements IndexService {
         Movie movie =  movieService.findByVideoId("okzy_"+data.getVod_id());
         if(movie==null){
             movie = new Movie();
+            movie.setIsShow(true);
             movie.setVideoId("okzy_"+data.getVod_id());
             movie.setTitle(data.getVod_name());
             movie.setImg(data.getVod_pic());
@@ -223,7 +236,9 @@ public class IndexServiceImpl implements IndexService {
     }
 
     private void parseUrl(Movie movie,String vodPlayUrl) {
-        String[] playUrlsArray = vodPlayUrl.split(":::");
+        // 先数据库删除shuju
+        jdbcTemplate.update("delete from playurl where movie_id=?",movie.getId());
+        String[] playUrlsArray = vodPlayUrl.split("@@@@@@@@@");
         Set<PlayUrl> playUrls = new HashSet<>();
         int index = 0;
         for (String u:playUrlsArray) {

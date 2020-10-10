@@ -1,9 +1,10 @@
 package com.bootx.config;
 
 import org.apache.http.HttpHost;
-import org.apache.http.HttpResponse;
-import org.apache.http.nio.protocol.HttpAsyncResponseConsumer;
-import org.elasticsearch.client.*;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestClientBuilder;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
 
@@ -21,7 +22,7 @@ public class ElasticSearchConfig {
     @Bean
     public RestHighLevelClient restHighLevelClient(){
 
-        RestClientBuilder restClientBuilder = RestClient.builder(new HttpHost("127.0.0.1",9200,"http"));
+        RestClientBuilder restClientBuilder = RestClient.builder(new HttpHost("es-cn-st21uv7pc000afsuz.public.elasticsearch.aliyuncs.com",9200,"http"));
 
         RestHighLevelClient restHighLevelClient =  new RestHighLevelClient(restClientBuilder);
 

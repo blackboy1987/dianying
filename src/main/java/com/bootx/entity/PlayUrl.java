@@ -4,6 +4,7 @@ import com.bootx.common.BaseAttributeConverter;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,10 @@ public class PlayUrl extends BaseEntity<Long>{
     @Convert(converter = OptionConverter.class)
     @JsonView({BaseEntity.ViewView.class})
     private List<String> urls = new ArrayList<>();
+
+    @NotNull
+    @Column(nullable = false)
+    private Boolean isEnabled;
 
     public Movie getMovie() {
         return movie;
@@ -42,6 +47,14 @@ public class PlayUrl extends BaseEntity<Long>{
 
     public void setUrls(List<String> urls) {
         this.urls = urls;
+    }
+
+    public Boolean getIsEnabled() {
+        return isEnabled;
+    }
+
+    public void setIsEnabled(Boolean isEnabled) {
+        this.isEnabled = isEnabled;
     }
 
     /**

@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 
 public class Demo1 {
 
-    public static void main(String[] args) {
+    public static void main2(String[] args) {
         String s = WebUtils.get("https://api.okzy.tv/api.php/provide/vod/at/json/?ac=list", null);
         JsonRootBean jsonRootBean = JsonUtils.toObject(s,JsonRootBean.class);
 
@@ -40,6 +40,18 @@ public class Demo1 {
     }
 
 
+    public static List<Data> detail(String ids) {
+        String s = WebUtils.get("https://api.okzy.tv/api.php/provide/vod/at/json/?ac=detail&ids="+ids, null);
+        JsonRootBean jsonRootBean = JsonUtils.toObject(s,JsonRootBean.class);
+        List<Data> datas = jsonRootBean.getData();
+        for (Data data:datas) {
+            data.setVod_play_url(parseUrl(data.getVod_play_url()));
+            data.setVod_down_url(parseUrl(data.getVod_down_url()));
+        }
+        return datas;
+    }
+
+
     public static JsonRootBean search(String keywords,Integer page) {
         Map<String,Object> params = new HashMap<>();
         params.put("wd",keywords);
@@ -47,6 +59,11 @@ public class Demo1 {
 
         String s = WebUtils.get("https://api.okzy.tv/api.php/provide/vod/at/json/?ac=detail", params);
         JsonRootBean jsonRootBean = JsonUtils.toObject(s,JsonRootBean.class);
+        List<Data> datas = jsonRootBean.getData();
+        for (Data data:datas) {
+            data.setVod_play_url(parseUrl(data.getVod_play_url()));
+            data.setVod_down_url(parseUrl(data.getVod_down_url()));
+        }
         return jsonRootBean;
     }
 
@@ -57,7 +74,7 @@ public class Demo1 {
         String regEx="[$]";
         Pattern p = Pattern.compile(regEx);
         Matcher m = p.matcher(vodPlayUrl);
-        return m.replaceAll(":");
+        return m.replaceAll("@@@");
 
     }
 
@@ -69,5 +86,11 @@ public class Demo1 {
         String s = WebUtils.get(url, params);
         JsonRootBean jsonRootBean = JsonUtils.toObject(s,JsonRootBean.class);
         return jsonRootBean;
+    }
+
+    public static void main(String[] args) {
+        List<Data> detail = detail("62402");
+
+        System.out.println(detail);
     }
 }

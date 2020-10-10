@@ -63,6 +63,23 @@ public class SiteInfo extends BaseEntity<Long> {
      */
     private Integer status;
 
+    private Boolean openPoint;
+
+    /**
+     * 至少观看多少分钟，才获取积分奖励
+     */
+    private Long minVisitMinute;
+
+    /**
+     * 每分钟奖励多少积分
+     */
+    private Long everyMinuteToPoint;
+
+    /**
+     * 跳过广告，扣除积分
+     */
+    private Long jumpAdDiscoutPoint;
+
     @Lob
     @Convert(converter = CarouselConverter.class)
     @JsonView({BaseEntity.ViewView.class})
@@ -163,6 +180,38 @@ public class SiteInfo extends BaseEntity<Long> {
 
     public void setCarousels(List<Carousel> carousels) {
         this.carousels = carousels;
+    }
+
+    public Boolean getOpenPoint() {
+        return openPoint;
+    }
+
+    public void setOpenPoint(Boolean openPoint) {
+        this.openPoint = openPoint;
+    }
+
+    public Long getMinVisitMinute() {
+        return minVisitMinute;
+    }
+
+    public void setMinVisitMinute(Long minVisitMinute) {
+        this.minVisitMinute = minVisitMinute;
+    }
+
+    public Long getEveryMinuteToPoint() {
+        return everyMinuteToPoint;
+    }
+
+    public void setEveryMinuteToPoint(Long everyMinuteToPoint) {
+        this.everyMinuteToPoint = everyMinuteToPoint;
+    }
+
+    public Long getJumpAdDiscoutPoint() {
+        return jumpAdDiscoutPoint;
+    }
+
+    public void setJumpAdDiscoutPoint(Long jumpAdDiscoutPoint) {
+        this.jumpAdDiscoutPoint = jumpAdDiscoutPoint;
     }
 
     /**

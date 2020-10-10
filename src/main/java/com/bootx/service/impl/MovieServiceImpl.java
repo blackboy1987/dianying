@@ -20,6 +20,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Service - 素材目录
@@ -45,7 +46,10 @@ public class MovieServiceImpl extends BaseServiceImpl<Movie, Long> implements Mo
     @Override
     @Cacheable(value = "movie",key = "#id",unless = "#result != null ",condition = "#id != null ")
     public Movie find(Long id) {
-        return super.find(id);
+        Movie movie = super.find(id);
+        Set<PlayUrl> playUrls = movie.getPlayUrls().stream().filter(PlayUrl::getIsEnabled).collect(Collectors.toSet());
+        movie.setPlayUrls(playUrls);
+        return movie;
     }
 
     @Override
@@ -83,6 +87,7 @@ public class MovieServiceImpl extends BaseServiceImpl<Movie, Long> implements Mo
         Movie movie = findByVideoId("igomall_"+data.getVod_id());
         if(movie==null){
             movie = new Movie();
+            movie.setIsShow(true);
             movie.setVideoId("igomall_"+data.getVod_id());
             movie.setTitle(data.getVod_name());
             movie.setImg(data.getVod_pic());
