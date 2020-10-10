@@ -46,7 +46,7 @@ public class IndexController {
     @GetMapping("/categories")
     @JsonView(BaseEntity.ListView.class)
     public Result categories(Long id){
-        return Result.success(jdbcTemplate.queryForList("select id,name from moviecategory order by orders asc"));
+        return Result.success(jdbcTemplate.queryForList("select id,name from moviecategory where isShow=true order by orders asc"));
     }
 
     @GetMapping("/list")

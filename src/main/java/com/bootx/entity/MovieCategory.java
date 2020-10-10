@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -72,6 +73,10 @@ public class MovieCategory extends OrderedEntity<Long> {
 	 */
 	@Column(unique = true,updatable = false)
 	private String otherId;
+
+	@NotNull
+	@Column(nullable = false)
+	private Boolean isShow;
 
 	/**
 	 * 获取名称
@@ -193,6 +198,14 @@ public class MovieCategory extends OrderedEntity<Long> {
 
 	public void setOtherId(String otherId) {
 		this.otherId = otherId;
+	}
+
+	public Boolean getIsShow() {
+		return isShow;
+	}
+
+	public void setIsShow(Boolean isShow) {
+		this.isShow = isShow;
 	}
 
 	/**
