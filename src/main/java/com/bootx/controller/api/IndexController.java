@@ -59,6 +59,9 @@ public class IndexController {
     @GetMapping("/info")
     @JsonView(BaseEntity.ViewView.class)
     public Result info(Long id){
+        if(id==null||id<0){
+            return Result.error("");
+        }
         return Result.success(movieService.find(id));
     }
 
@@ -268,8 +271,6 @@ public class IndexController {
         return Result.success("");
     }
 
-
-
     @GetMapping("/danMu_list")
     public Result danMuList(String appCode, String appSecret,Long id,String key){
         return Result.success(jdbcTemplate.queryForList("select tex,color,`time` from danmu where videoId=? and playUrlKey=?",id,key));
@@ -303,5 +304,28 @@ public class IndexController {
         current.setGrade(parent.getGrade()+1);
         memberService.update(current);
         return Result.success("");
+    }
+
+
+
+    @GetMapping("/play")
+    public Result play(Long id, String currentPlayUrlKey,String appCode,  String appSecret, String userToken){
+        Movie movie = movieService.find(id);
+        if(movie!=null){
+            Set<PlayUrl> playUrls = movie.getPlayUrls();
+            Integer index = Integer.valueOf(currentPlayUrlKey.split("_")[0]);
+            Integer i=0;
+            Iterator<PlayUrl> iterator = playUrls.iterator();
+            while (iterator.hasNext()){
+                PlayUrl playUrl = iterator.next();
+                if(i==index){
+                    jdbcTemplate.update("update playurl set isEnabled=false,lastModifiedDate=now() where id=?",playUrl.getId());
+                }
+                i++;
+            }
+        }
+
+        return Result.success("");
+
     }
 }

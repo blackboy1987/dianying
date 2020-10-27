@@ -197,7 +197,12 @@ public class IndexServiceImpl implements IndexService {
         setInfo(movie,data);
         // 处理播放地址的问题
         parseUrl(movie,data.getVod_play_url());
-        return  movieService.update(movie);
+        try{
+           movie = movieService.update(movie);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return movie;
     }
 
     private void setInfo(Movie movie, Data data) {
@@ -245,6 +250,7 @@ public class IndexServiceImpl implements IndexService {
             PlayUrl playUrl = new PlayUrl();
             playUrl.setTitle("线路"+(++index));
             playUrl.setMovie(movie);
+            playUrl.setIsEnabled(true);
             String[] jishusArray = u.split("#");
             playUrl.getUrls().addAll(Arrays.asList(jishusArray));
             playUrls.add(playUrl);

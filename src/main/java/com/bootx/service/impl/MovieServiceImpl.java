@@ -44,7 +44,7 @@ public class MovieServiceImpl extends BaseServiceImpl<Movie, Long> implements Mo
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    @Cacheable(value = "movie",key = "#id",unless = "#result != null ",condition = "#id != null ")
+    @Cacheable(value = "movie",key = "#id")
     public Movie find(Long id) {
         Movie movie = super.find(id);
         Set<PlayUrl> playUrls = movie.getPlayUrls().stream().filter(PlayUrl::getIsEnabled).collect(Collectors.toSet());

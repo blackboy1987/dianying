@@ -23,8 +23,7 @@ public class VisitRecord extends BaseEntity<Long>{
     @Column(nullable = false,updatable = false)
     private String title;
 
-    @NotNull
-    @Column(nullable = false,updatable = false)
+    @Column(updatable = false)
     private String lang;
 
     @NotNull

@@ -8,10 +8,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableCaching
 @EnableScheduling
-public class BootxWzryApplication {
+public class BootxMovieApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(BootxWzryApplication.class, args);
+        SpringApplication.run(BootxMovieApplication.class, args);
     }
 
 }

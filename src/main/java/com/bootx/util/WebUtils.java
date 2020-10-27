@@ -357,4 +357,23 @@ public final class WebUtils {
 		return result;
 	}
 
+	public static String post2(String url, Map<String, String> parameterMap) {
+		Assert.hasText(url, "[Assertion failed] - url must have text; it must not be null, empty, or blank");
+
+		try {
+			List<NameValuePair> nameValuePairs = new ArrayList<>();
+			if (parameterMap != null) {
+				for (Map.Entry<String, String> entry : parameterMap.entrySet()) {
+					String name = entry.getKey();
+					String value = ConvertUtils.convert(entry.getValue());
+					if (StringUtils.isNotEmpty(name)) {
+						nameValuePairs.add(new BasicNameValuePair(name, value));
+					}
+				}
+			}
+			return post(url, null, new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException(e.getMessage(), e);
+		}
+	}
 }

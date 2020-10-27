@@ -22,7 +22,7 @@ public class ElasticSearchConfig {
     @Bean
     public RestHighLevelClient restHighLevelClient(){
 
-        RestClientBuilder restClientBuilder = RestClient.builder(new HttpHost("es-cn-st21uv7pc000afsuz.public.elasticsearch.aliyuncs.com",9200,"http"));
+        RestClientBuilder restClientBuilder = RestClient.builder(new HttpHost("localhost",9200,"http"));
 
         RestHighLevelClient restHighLevelClient =  new RestHighLevelClient(restClientBuilder);
 
