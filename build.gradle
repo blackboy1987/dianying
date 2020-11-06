@@ -13,6 +13,9 @@ repositories {
         maven {
             url 'https://maven.aliyun.com/repository/public/'
         }
+        maven {
+            url "https://mirrors.huaweicloud.com/repository/maven/huaweicloudsdk/"
+        }
         mavenLocal()
         mavenCentral()
     }
@@ -38,6 +41,10 @@ dependencies {
     compile group: 'org.jsoup', name: 'jsoup', version: '1.13.1'
     compile group: 'net.sourceforge.htmlunit', name: 'htmlunit', version: '2.43.0'
 
+    compile('com.huawei.hwclouds.ais:ais-java-client:2.0.0') {
+        exclude group: 'org.slf4j'
+    }
+    compile('com.alibaba:fastjson:1.2.68')
 
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'

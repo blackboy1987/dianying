@@ -37,4 +37,13 @@ public class PageController {
             return JsonUtils.toJson(Result.error("APIConfig 没有配置 "+baseModel+" 的值"));
         }
     }
+
+    @PostMapping(value="/cache")
+    public String index(String url,String baseModel){
+        if(StringUtils.isEmpty(url)){
+            return JsonUtils.toJson(Result.error("请求参数没有url参数"));
+        }
+        APIConfig apiConfig = apiConfigService.findByApiKey(baseModel);
+        return WebUtils.post2(apiConfig.getApiValue()+url,null);
+    }
 }

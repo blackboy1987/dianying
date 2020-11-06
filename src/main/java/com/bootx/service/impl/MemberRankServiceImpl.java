@@ -5,7 +5,7 @@ import com.bootx.dao.MemberRankDao;
 import com.bootx.entity.MemberRank;
 import com.bootx.service.MemberRankService;
 import org.apache.commons.lang3.BooleanUtils;
-import org.elasticsearch.common.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -22,7 +22,7 @@ import java.math.BigDecimal;
 @Service
 public class MemberRankServiceImpl extends BaseServiceImpl<MemberRank, Long> implements MemberRankService {
 
-	@Inject
+	@Autowired
 	private MemberRankDao memberRankDao;
 
 	@Override

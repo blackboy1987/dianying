@@ -7,7 +7,7 @@ import com.bootx.dao.MemberDepositLogDao;
 import com.bootx.entity.Member;
 import com.bootx.entity.MemberDepositLog;
 import com.bootx.service.MemberDepositLogService;
-import org.elasticsearch.common.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class MemberDepositLogServiceImpl extends BaseServiceImpl<MemberDepositLog, Long> implements MemberDepositLogService {
 
-	@Inject
+	@Autowired
 	private MemberDepositLogDao memberDepositLogDao;
 
 	@Override
