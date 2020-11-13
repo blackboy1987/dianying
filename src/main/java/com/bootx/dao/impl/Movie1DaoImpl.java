@@ -1,8 +1,8 @@
 
 package com.bootx.dao.impl;
 
-import com.bootx.dao.MovieDao;
-import com.bootx.entity.Movie;
+import com.bootx.dao.Movie1Dao;
+import com.bootx.entity.Movie1;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -12,6 +12,6 @@ import org.springframework.stereotype.Repository;
  * @version 1.0
  */
 @Repository
-public class MovieDaoImpl extends BaseDaoImpl<Movie, Long> implements MovieDao {
+public class Movie1DaoImpl extends BaseDaoImpl<Movie1, Long> implements Movie1Dao {
 
 }

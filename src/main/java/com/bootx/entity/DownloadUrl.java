@@ -11,7 +11,7 @@ import java.util.List;
 public class DownloadUrl extends BaseEntity<Long>{
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Movie movie;
+    private Movie1 movie1;
 
     private String title;
 
@@ -20,12 +20,12 @@ public class DownloadUrl extends BaseEntity<Long>{
     @JsonView({ViewView.class})
     private List<String> urls = new ArrayList<>();
 
-    public Movie getMovie() {
-        return movie;
+    public Movie1 getMovie1() {
+        return movie1;
     }
 
-    public void setMovie(Movie movie) {
-        this.movie = movie;
+    public void setMovie1(Movie1 movie1) {
+        this.movie1 = movie1;
     }
 
     public String getTitle() {

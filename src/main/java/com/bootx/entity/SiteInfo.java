@@ -80,6 +80,8 @@ public class SiteInfo extends BaseEntity<Long> {
      */
     private Long jumpAdDiscoutPoint;
 
+    private Boolean openAd;
+
     @Lob
     @Convert(converter = CarouselConverter.class)
     @JsonView({BaseEntity.ViewView.class})
@@ -212,6 +214,14 @@ public class SiteInfo extends BaseEntity<Long> {
 
     public void setJumpAdDiscoutPoint(Long jumpAdDiscoutPoint) {
         this.jumpAdDiscoutPoint = jumpAdDiscoutPoint;
+    }
+
+    public Boolean getOpenAd() {
+        return openAd;
+    }
+
+    public void setOpenAd(Boolean openAd) {
+        this.openAd = openAd;
     }
 
     /**

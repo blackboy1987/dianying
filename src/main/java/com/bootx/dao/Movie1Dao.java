@@ -1,7 +1,7 @@
 
 package com.bootx.dao;
 
-import com.bootx.entity.Movie;
+import com.bootx.entity.Movie1;
 
 /**
  * Dao - 素材目录
@@ -9,6 +9,6 @@ import com.bootx.entity.Movie;
  * @author blackboy
  * @version 1.0
  */
-public interface MovieDao extends BaseDao<Movie, Long> {
+public interface Movie1Dao extends BaseDao<Movie1, Long> {
 
 }

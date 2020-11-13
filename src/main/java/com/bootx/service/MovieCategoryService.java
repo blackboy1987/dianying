@@ -4,6 +4,7 @@ package com.bootx.service;
 import com.bootx.entity.MovieCategory;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Service - 文章分类
@@ -106,4 +107,6 @@ public interface MovieCategoryService extends BaseService<MovieCategory, Long> {
 	MovieCategory findByName(String name);
 
     MovieCategory findByOtherId(String otherId);
+
+    List<Map<String,Object>> list();
 }

@@ -66,7 +66,7 @@ public class MovieCategory extends OrderedEntity<Long> {
 	 * 文章
 	 */
 	@OneToMany(mappedBy = "movieCategory", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-	private Set<Movie> movies = new HashSet<>();
+	private Set<Movie1> movie1s = new HashSet<>();
 
 	/**
 	 * 其他平台的id
@@ -178,18 +178,18 @@ public class MovieCategory extends OrderedEntity<Long> {
 	 *
 	 * @return 文章
 	 */
-	public Set<Movie> getMovies() {
-		return movies;
+	public Set<Movie1> getMovie1s() {
+		return movie1s;
 	}
 
 	/**
 	 * 设置文章
 	 *
-	 * @param movies
+	 * @param movie1s
 	 *            文章
 	 */
-	public void setMovies(Set<Movie> movies) {
-		this.movies = movies;
+	public void setMovie1s(Set<Movie1> movie1s) {
+		this.movie1s = movie1s;
 	}
 
 	public String getOtherId() {
@@ -259,10 +259,10 @@ public class MovieCategory extends OrderedEntity<Long> {
 	 */
 	@PreRemove
 	public void preRemove() {
-		Set<Movie> movies = getMovies();
-		if (movies != null) {
-			for (Movie movie : movies) {
-				movie.setMovieCategory(null);
+		Set<Movie1> movie1s = getMovie1s();
+		if (movie1s != null) {
+			for (Movie1 movie1 : movie1s) {
+				movie1.setMovieCategory(null);
 			}
 		}
 	}

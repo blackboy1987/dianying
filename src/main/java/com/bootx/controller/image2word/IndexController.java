@@ -46,7 +46,7 @@ public class IndexController {
         System.out.println(file);
         Map<String,Object> map = new HashMap<>();
 
-        String destPath = "d:/" + UUID.randomUUID() + "." + FilenameUtils.getExtension(file.getOriginalFilename());
+        String destPath = "/file/"+UUID.randomUUID() + "." + FilenameUtils.getExtension(file.getOriginalFilename());
         File destFile = new File(destPath);
         File destDir = destFile.getParentFile();
         if (destDir != null) {

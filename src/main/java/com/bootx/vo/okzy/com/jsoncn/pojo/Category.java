@@ -12,12 +12,12 @@ package com.bootx.vo.okzy.com.jsoncn.pojo;
 
 public class Category {
 
-    private Long type_id;
+    private Integer type_id;
     private String type_name;
-    public void setType_id(Long type_id) {
+    public void setType_id(Integer type_id) {
          this.type_id = type_id;
      }
-     public Long getType_id() {
+     public Integer getType_id() {
          return type_id;
      }
 

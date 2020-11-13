@@ -7,12 +7,14 @@ import com.bootx.service.MovieCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Service - 文章分类
@@ -25,6 +27,8 @@ public class MovieCategoryServiceImpl extends BaseServiceImpl<MovieCategory, Lon
 
 	@Autowired
 	private MovieCategoryDao movieCategoryDao;
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 
 	@Override
 	public MovieCategory findByName(String name) {
@@ -164,4 +168,10 @@ public class MovieCategoryServiceImpl extends BaseServiceImpl<MovieCategory, Lon
 	public MovieCategory findByOtherId(String otherId) {
 		return movieCategoryDao.find("otherId",otherId);
 	}
+
+    @Override
+	@Cacheable(value = "movieCategoryList")
+    public List<Map<String, Object>> list() {
+		return jdbcTemplate.queryForList("select id,name from moviecategory where isShow=true order by orders asc");
+    }
 }

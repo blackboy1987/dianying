@@ -22,9 +22,30 @@ public class Demo1 {
     }
 
 
+    // https://api.okzy.tv/api.php/provide/vod
     public static JsonRootBean category() {
         String s = WebUtils.get("https://api.okzy.tv/api.php/provide/vod/at/json/?ac=list", null);
         JsonRootBean jsonRootBean = JsonUtils.toObject(s,JsonRootBean.class);
+        return jsonRootBean;
+    }
+
+    public static com.bootx.vo.list.JsonRootBean list(String categoryId,Integer page) {
+        if(page==null || page<=0){
+            page = 1;
+        }
+        System.out.println(categoryId+"=============="+page);
+        String s = WebUtils.get("https://api.okzy.tv/api.php/provide/vod/?ac=list&t="+categoryId+"&pg="+page, null);
+        com.bootx.vo.list.JsonRootBean jsonRootBean = JsonUtils.toObject(s,com.bootx.vo.list.JsonRootBean.class);
+        return jsonRootBean;
+    }
+
+    public static com.bootx.vo.list.JsonRootBean list(Integer page) {
+        if(page==null || page<=0){
+            page = 1;
+        }
+        System.out.println("=============="+page);
+        String s = WebUtils.get("https://api.okzy.tv/api.php/provide/vod/?ac=list&pg="+page, null);
+        com.bootx.vo.list.JsonRootBean jsonRootBean = JsonUtils.toObject(s,com.bootx.vo.list.JsonRootBean.class);
         return jsonRootBean;
     }
 
@@ -78,7 +99,7 @@ public class Demo1 {
 
     }
 
-    public static JsonRootBean list(int page) {
+    public static JsonRootBean list2(int page) {
         String url ="https://api.okzy.tv/api.php/provide/vod/at/json/?ac=detail";
         Map<String,Object> params = new HashMap<>();
         params.put("h",24);

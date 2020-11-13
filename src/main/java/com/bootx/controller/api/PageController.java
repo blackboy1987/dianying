@@ -38,7 +38,7 @@ public class PageController {
         }
     }
 
-    @PostMapping(value="/cache")
+    @GetMapping(value="/cache")
     public String index(String url,String baseModel){
         if(StringUtils.isEmpty(url)){
             return JsonUtils.toJson(Result.error("请求参数没有url参数"));
