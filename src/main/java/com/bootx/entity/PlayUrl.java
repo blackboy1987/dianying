@@ -1,6 +1,8 @@
 package com.bootx.entity;
 
 import com.bootx.common.BaseAttributeConverter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.persistence.*;
@@ -9,9 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PlayUrl extends BaseEntity<Long>{
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private Movie1 movie1;
 
     private String title;

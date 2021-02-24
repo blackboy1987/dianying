@@ -2,8 +2,6 @@ package com.bootx.controller.api;
 
 import com.bootx.common.Result;
 import com.bootx.entity.*;
-import com.bootx.es.service.EsMovieService;
-import com.bootx.es.service.EsSearchService;
 import com.bootx.service.*;
 import com.bootx.service.api.IndexService;
 import com.bootx.util.DateUtils;
@@ -19,13 +17,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
-import java.io.IOException;
 import java.util.*;
 
-@RestController("apiIndexController")
-@RequestMapping("/api")
-public class IndexController {
+@RestController("apiIndex2Controller")
+@RequestMapping("/api2")
+public class Index2Controller {
 
     @Autowired
     private MovieCategoryService movieCategoryService;
@@ -46,11 +42,6 @@ public class IndexController {
     private VisitRecordService visitRecordService;
     @Autowired
     private PlayRecordService playRecordService;
-
-    @Resource
-    private EsSearchService esSearchService;
-    @Resource
-    private EsMovieService esMovieService;
 
     /**
      * 分类
@@ -102,20 +93,7 @@ public class IndexController {
      */
     @GetMapping("/list")
     @JsonView(BaseEntity.ListView.class)
-    public Result list(Long categoryId,Integer pageNumber) throws IOException {
-        if(categoryId==null){
-            // 热门推荐
-            Map<String,Object> data = new HashMap<>();
-            // 热播电影
-            data.put("hotMovies", esMovieService.list("hotMovies"));
-            // 热播电视剧
-            data.put("hottv", esMovieService.list("hotMovies"));
-            // 最近更新
-            data.put("news", esMovieService.list("hotMovies"));
-            return Result.success(data);
-        }
-
-
+    public Result list(Long categoryId,Integer pageNumber){
         return Result.success(indexService.list(categoryId, pageNumber));
     }
 
@@ -203,11 +181,33 @@ public class IndexController {
 
     @GetMapping("/search")
     @JsonView(BaseEntity.ListView.class)
-    public Result search(String keywords) throws IOException {
+    public Result search(String keywords){
         if(StringUtils.isEmpty(keywords)|| StringUtils.isEmpty(keywords.trim())){
             return Result.success(Collections.EMPTY_LIST);
         }
-        return Result.success(esSearchService.search(keywords,1));
+        StringBuffer sb = new StringBuffer();
+        sb.append("select ");
+        sb.append("movie.id,");
+        sb.append("movie.pic,");
+        sb.append("movie.title,");
+        sb.append("movie.remarks,");
+        sb.append("movie.year,");
+        sb.append("movie.actor,");
+        sb.append("movie.area,");
+        sb.append("movieCategory.name typeName");
+        sb.append(" from");
+        sb.append(" movie1 as movie,");
+        sb.append("moviecategory as movieCategory");
+        sb.append(" where 1=1");
+        sb.append(" and ");
+        sb.append(" movie.isShow = true");
+        sb.append(" and ");
+        sb.append(" movie.movieCategory_id=movieCategory.id ");
+        sb.append(" and ");
+        sb.append(" movie.title like '%").append(keywords).append("%' ");
+        sb.append(" order by movie.score desc limit 20");
+        List<Map<String,Object>> result = jdbcTemplate.queryForList(sb.toString());
+        return Result.success(result);
     }
 
     @GetMapping("/user")

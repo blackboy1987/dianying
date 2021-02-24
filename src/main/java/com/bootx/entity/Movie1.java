@@ -36,13 +36,27 @@ public class Movie1 extends BaseEntity<Long> {
     @JsonView({ViewView.class})
     private String english;
 
+    /**
+     * 更新时间
+     */
     private Date time;
+
+    /**
+     * 更新时间(同time)
+     */
+    private Date updateTime;
+
+    /**
+     * 添加时间
+     */
+    private Date addTime;
 
     @JsonView({ViewView.class})
     private String remarks;
 
     private String playFrom;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     private MovieCategory movieCategory;
 
@@ -66,11 +80,16 @@ public class Movie1 extends BaseEntity<Long> {
     @JsonView({ViewView.class})
     private String year;
 
-    private Date addTime;
 
     @Lob
     @JsonView({ViewView.class})
     private String content;
+
+    /**
+     * 简介
+     */
+    @JsonView({ViewView.class})
+    private String blurb;
 
     @OneToMany(mappedBy = "movie1",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JsonView({BaseEntity.ViewView.class})
@@ -84,8 +103,6 @@ public class Movie1 extends BaseEntity<Long> {
     private Double score;
 
     private Boolean isShow;
-
-    private Date updateTime;
 
     public String getVideoId() {
         return videoId;
@@ -213,6 +230,14 @@ public class Movie1 extends BaseEntity<Long> {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getBlurb() {
+        return blurb;
+    }
+
+    public void setBlurb(String blurb) {
+        this.blurb = blurb;
     }
 
     public Set<PlayUrl> getPlayUrls() {

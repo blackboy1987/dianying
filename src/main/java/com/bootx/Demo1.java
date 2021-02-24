@@ -13,15 +13,6 @@ import java.util.regex.Pattern;
 
 public class Demo1 {
 
-    public static void main2(String[] args) {
-        String s = WebUtils.get("https://api.okzy.tv/api.php/provide/vod/at/json/?ac=list", null);
-        JsonRootBean jsonRootBean = JsonUtils.toObject(s,JsonRootBean.class);
-
-
-        System.out.println(jsonRootBean);
-    }
-
-
     // https://api.okzy.tv/api.php/provide/vod
     public static JsonRootBean category() {
         String s = WebUtils.get("https://api.okzy.tv/api.php/provide/vod/at/json/?ac=list", null);
@@ -72,6 +63,17 @@ public class Demo1 {
         return datas;
     }
 
+    public static List<Data> detail2(Integer page) {
+        String s = WebUtils.get("https://api.okzy.tv/api.php/provide/vod/at/json/?ac=detail&pg="+page, null);
+        JsonRootBean jsonRootBean = JsonUtils.toObject(s,JsonRootBean.class);
+        List<Data> datas = jsonRootBean.getData();
+        for (Data data:datas) {
+            data.setVod_play_url(parseUrl(data.getVod_play_url()));
+            data.setVod_down_url(parseUrl(data.getVod_down_url()));
+        }
+        return datas;
+    }
+
 
     public static JsonRootBean search(String keywords,Integer page) {
         Map<String,Object> params = new HashMap<>();
@@ -109,9 +111,14 @@ public class Demo1 {
         return jsonRootBean;
     }
 
-    public static void main(String[] args) {
-        List<Data> detail = detail("62402");
-
-        System.out.println(detail);
+    public static JsonRootBean sync(Integer page) {
+        String s = WebUtils.get("https://api.okzy.tv/api.php/provide/vod/at/json/?ac=detail&h=240&pg="+page, null);
+        JsonRootBean jsonRootBean = JsonUtils.toObject(s,JsonRootBean.class);
+        List<Data> datas = jsonRootBean.getData();
+        for (Data data:datas) {
+            data.setVod_play_url(parseUrl(data.getVod_play_url()));
+            data.setVod_down_url(parseUrl(data.getVod_down_url()));
+        }
+        return jsonRootBean;
     }
 }

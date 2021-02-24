@@ -47,5 +47,4 @@ public interface MovieCategoryDao extends BaseDao<MovieCategory, Long> {
 	 * @return 下级文章分类
 	 */
 	List<MovieCategory> findChildren(MovieCategory movieCategory, boolean recursive, Integer count);
-
 }

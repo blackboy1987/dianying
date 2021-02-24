@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.3.4.RELEASE'
+    id 'org.springframework.boot' version '2.4.2'
     id 'io.spring.dependency-management' version '1.0.10.RELEASE'
     id 'java'
 }
@@ -24,7 +24,7 @@ repositories {
 dependencies {
     compile group: 'org.jsoup', name: 'jsoup', version: '1.13.1'
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.11'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.3.3.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.4.2'
     compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.4'
     compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.4'
     compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.12'
@@ -35,13 +35,14 @@ dependencies {
 
     compile group: 'net.sf.ehcache', name: 'ehcache', version: '2.10.6'
     compile group: 'net.sf.ehcache', name: 'ehcache-web', version: '2.0.4'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-cache', version: '2.3.4.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-cache', version: '2.4.2'
 
     compile group: 'org.elasticsearch', name: 'elasticsearch', version: '7.9.2'
     compile group: 'org.elasticsearch.client', name: 'elasticsearch-rest-high-level-client', version: '7.9.2'
 
     compile group: 'org.jsoup', name: 'jsoup', version: '1.13.1'
     compile group: 'net.sourceforge.htmlunit', name: 'htmlunit', version: '2.43.0'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-elasticsearch', version: '2.4.2'
 
     compile('com.huawei.hwclouds.ais:ais-java-client:2.0.0') {
         exclude group: 'org.slf4j'

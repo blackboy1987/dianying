@@ -1,9 +1,9 @@
 
 package com.bootx.dao.impl;
 
-import com.bootx.dao.PlayUrlDao;
+import com.bootx.dao.DownloadUrlDao;
+import com.bootx.entity.DownloadUrl;
 import com.bootx.entity.Movie1;
-import com.bootx.entity.PlayUrl;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -20,20 +20,19 @@ import java.util.List;
  * @version 1.0
  */
 @Repository
-public class PlayUrlDaoImpl extends BaseDaoImpl<PlayUrl, Long> implements PlayUrlDao {
+public class DownloadUrlDaoImpl extends BaseDaoImpl<DownloadUrl, Long> implements DownloadUrlDao {
 
     @Override
-    public List<PlayUrl> findListByMovie(Movie1 movie1) {
+    public List<DownloadUrl> findListByMovie(Movie1 movie1) {
         if(movie1==null){
             return Collections.emptyList();
         }
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<PlayUrl> criteriaQuery = criteriaBuilder.createQuery(PlayUrl.class);
-        Root<PlayUrl> root = criteriaQuery.from(PlayUrl.class);
+        CriteriaQuery<DownloadUrl> criteriaQuery = criteriaBuilder.createQuery(DownloadUrl.class);
+        Root<DownloadUrl> root = criteriaQuery.from(DownloadUrl.class);
         criteriaQuery.select(root);
         Predicate restrictions = criteriaBuilder.conjunction();
         restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.equal(root.get("movie1"), movie1));
-        restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.equal(root.get("isEnabled"), true));
         criteriaQuery.where(restrictions);
         return super.findList(criteriaQuery);
     }
