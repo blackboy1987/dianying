@@ -104,6 +104,8 @@ public class Movie1 extends BaseEntity<Long> {
 
     private Boolean isShow;
 
+    private Integer status;
+
     public String getVideoId() {
         return videoId;
     }
@@ -278,5 +280,13 @@ public class Movie1 extends BaseEntity<Long> {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

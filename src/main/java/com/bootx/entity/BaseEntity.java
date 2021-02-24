@@ -66,6 +66,8 @@ public abstract class BaseEntity<ID extends Serializable> implements Serializabl
 
 	public interface ListView {}
 
+	public interface PageView {}
+
 	public interface ViewView{}
 
 	public interface EditView{}
@@ -73,7 +75,7 @@ public abstract class BaseEntity<ID extends Serializable> implements Serializabl
 	/**
 	 * ID
 	 */
-	@JsonView({BaseView.class,ListView.class,ViewView.class,EditView.class})
+	@JsonView({BaseView.class,ListView.class,ViewView.class,EditView.class,PageView.class})
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private ID id;
@@ -81,7 +83,7 @@ public abstract class BaseEntity<ID extends Serializable> implements Serializabl
 	/**
 	 * 创建日期
 	 */
-	@JsonView(BaseView.class)
+	@JsonView({BaseView.class,PageView.class})
 	@CreatedDate
 	@Column(nullable = false, updatable = false)
 	private Date createdDate;

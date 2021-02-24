@@ -29,8 +29,7 @@ public class VisitRecord extends BaseEntity<Long>{
     @NotNull
     @Column(nullable = false,updatable = false)
     private String categoryName;
-
-
+    
     public Long getMemberId() {
         return memberId;
     }

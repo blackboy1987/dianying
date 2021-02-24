@@ -1,6 +1,8 @@
 
 package com.bootx.service.impl;
 
+import com.bootx.common.Page;
+import com.bootx.common.Pageable;
 import com.bootx.dao.MovieCategoryDao;
 import com.bootx.entity.MovieCategory;
 import com.bootx.service.MovieCategoryService;
@@ -143,6 +145,16 @@ public class MovieCategoryServiceImpl extends BaseServiceImpl<MovieCategory, Lon
 	@CacheEvict(value = { "movie", "movieCategory" }, allEntries = true)
 	public void delete(MovieCategory movieCategory) {
 		super.delete(movieCategory);
+	}
+
+	@Override
+	public Page<Map<String, Object>> findPageJdbc(Pageable pageable) {
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> findJdbc(Long id) {
+		return null;
 	}
 
 	/**

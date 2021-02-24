@@ -22,7 +22,7 @@ public class ValidateInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		System.out.println(request.getRequestURI());
-		if(request.getRequestURI().contains("/es") || request.getRequestURI().contains("/cache")){
+		if(request.getRequestURI().contains("/es") || request.getRequestURI().contains("/cache") || request.getRequestURI().contains("/admin/api")){
 			return true;
 		}
 

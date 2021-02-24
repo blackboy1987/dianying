@@ -1,6 +1,8 @@
 
 package com.bootx.service.impl;
 
+import com.bootx.common.Page;
+import com.bootx.common.Pageable;
 import com.bootx.dao.MemberDao;
 import com.bootx.dao.MemberDepositLogDao;
 import com.bootx.dao.MemberRankDao;
@@ -227,5 +229,15 @@ public class MemberServiceImpl extends BaseServiceImpl<Member, Long> implements 
 			}
 		}
 		memberDao.flush();
+	}
+
+	@Override
+	public Page<Map<String, Object>> findPageJdbc(Pageable pageable) {
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> findJdbc(Long id) {
+		return null;
 	}
 }
