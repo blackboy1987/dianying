@@ -2,6 +2,7 @@ package com.bootx.controller.api.v2;
 
 import com.bootx.common.Result;
 import com.bootx.entity.App;
+import com.bootx.entity.BaseEntity;
 import com.bootx.entity.Member;
 import com.bootx.entity.SiteInfo;
 import com.bootx.es.service.EsMovieService;
@@ -12,6 +13,7 @@ import com.bootx.service.SiteInfoService;
 import com.bootx.util.JWTUtils;
 import com.bootx.util.JsonUtils;
 import com.bootx.util.WebUtils;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,8 +126,9 @@ public class IndexController {
     }
 
     @PostMapping("/detail")
+    @JsonView(BaseEntity.ViewView.class)
     public Result detail(Long id){
-        return Result.success(esMovieService.find(id));
+        return Result.success(movie1Service.find(id));
     }
 
 

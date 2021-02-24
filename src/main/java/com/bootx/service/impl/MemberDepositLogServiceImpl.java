@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Map;
 
 
 /**
@@ -31,4 +32,13 @@ public class MemberDepositLogServiceImpl extends BaseServiceImpl<MemberDepositLo
 		return memberDepositLogDao.findPage(member, pageable);
 	}
 
+	@Override
+	public Page<Map<String, Object>> findPageJdbc(Pageable pageable) {
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> findJdbc(Long id) {
+		return null;
+	}
 }

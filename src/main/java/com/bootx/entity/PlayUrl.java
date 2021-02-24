@@ -18,6 +18,7 @@ public class PlayUrl extends BaseEntity<Long>{
     @JsonIgnore
     private Movie1 movie1;
 
+    @JsonView({ViewView.class})
     private String title;
 
     @Lob

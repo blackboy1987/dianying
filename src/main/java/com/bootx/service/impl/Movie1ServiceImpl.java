@@ -2,6 +2,8 @@
 package com.bootx.service.impl;
 
 import com.bootx.Demo1;
+import com.bootx.common.Page;
+import com.bootx.common.Pageable;
 import com.bootx.dao.Movie1Dao;
 import com.bootx.entity.DownloadUrl;
 import com.bootx.entity.Movie1;
@@ -13,12 +15,15 @@ import com.bootx.service.MovieCategoryService;
 import com.bootx.util.DateUtils;
 import com.bootx.vo.okzy.com.jsoncn.pojo.Data;
 import com.bootx.vo.okzy.com.jsoncn.pojo.JsonRootBean;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Service - 素材目录
@@ -136,7 +141,7 @@ public class Movie1ServiceImpl extends BaseServiceImpl<Movie1, Long> implements 
                 movie1 = new Movie1();
                 System.out.println("============================================================================新增============================:"+listItem.getVod_name());
             }else{
-                System.out.println("更新============================:"+listItem.getVod_name());
+                System.out.println(movie1.getId()+"更新============================:"+listItem.getVod_name());
             }
             movie1.setEnglish(listItem.getVod_en());
             movie1.setPlayFrom(listItem.getVod_play_from());
@@ -184,16 +189,44 @@ public class Movie1ServiceImpl extends BaseServiceImpl<Movie1, Long> implements 
         String vod_down_url = data.getVod_down_url();
         movie1.setDownloadUrls(parseDownloadUrl(vod_down_url,movie1));
         movie1.setBlurb(data.getVod_blurb());
+        movie1.setStatus(data.getVod_status());
         return movie1;
     }
 
-    private Set<DownloadUrl> parseDownloadUrl(String vod_down_url, Movie1 movie1) {
+    @Override
+    public Page<Map<String, Object>> findPageJdbc(Pageable pageable) {
+        StringBuffer sb = new StringBuffer("select movie1.id,movie1.videoId,movie1.createdDate,movie1.time,movie1.addTime,movie1.isShow,movie1.lang,movie1.remarks,movie1.score,movie1.title,movie1.year,movie1.movieCategory_id movieCategoryId,moviecategory.`name` movieCategoryName from movie1,moviecategory where moviecategory.id=movie1.movieCategory_id");
+        StringBuffer totalSql = new StringBuffer("select count(1) from movie1");
 
+        if(StringUtils.isNotBlank(pageable.getOrderProperty())&&pageable.getOrderDirection()!=null){
+            sb.append(" ORDER BY "+pageable.getOrderProperty()+" "+pageable.getOrderDirection().name());
+        }else{
+            sb.append(" ORDER BY time desc");
+        }
+        sb.append(" LIMIT "+(pageable.getPageNumber()-1)*pageable.getPageSize()+","+pageable.getPageSize());
+
+        List<Map<String, Object>> list = jdbcTemplate.queryForList(sb.toString());
+        Long total = jdbcTemplate.queryForObject(totalSql.toString(),Long.class);
+
+        return new Page(list,total,pageable);
+    }
+
+    @Override
+    public Map<String, Object> findJdbc(Long id) {
+        return null;
+    }
+
+    private Set<DownloadUrl> parseDownloadUrl(String vod_down_url, Movie1 movie1) {
+        String playFrom = movie1.getPlayFrom();
+        String regEx="[$]";
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(playFrom);
+        String [] playFroms = m.replaceAll("@").split("@@@");
         List<DownloadUrl> downloadUrls = new ArrayList<>();
         String[] playUrlStrArray = vod_down_url.split("@@@@@@@@@");
         for (int i=0;i<playUrlStrArray.length;i++){
             DownloadUrl playUrl = new DownloadUrl();
-            playUrl.setTitle("线路"+(i+1));
+            playUrl.setTitle(playFroms[i]);
             playUrl.setMovie1(movie1);
             String playUrlStr = playUrlStrArray[i];
             String[] playUrlDetails = playUrlStr.split("#");

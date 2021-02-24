@@ -1,6 +1,8 @@
 
 package com.bootx.service.impl;
 
+import com.bootx.common.Page;
+import com.bootx.common.Pageable;
 import com.bootx.dao.MemberRankDao;
 import com.bootx.entity.MemberRank;
 import com.bootx.service.MemberRankService;
@@ -11,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 
 /**
@@ -70,6 +73,16 @@ public class MemberRankServiceImpl extends BaseServiceImpl<MemberRank, Long> imp
 			memberRankDao.clearDefault(pMemberRank);
 		}
 		return pMemberRank;
+	}
+
+	@Override
+	public Page<Map<String, Object>> findPageJdbc(Pageable pageable) {
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> findJdbc(Long id) {
+		return null;
 	}
 
 }

@@ -128,7 +128,7 @@ public class IndexController {
                        detail(finalI +"");
                        stringRedisTemplate.opsForValue().set("okzy_"+ finalI,"okzy_"+ finalI);
                    }).start();;
-                   Thread.sleep(200);
+                   Thread.sleep(380);
                }catch (Exception e){
                    e.printStackTrace();
                }

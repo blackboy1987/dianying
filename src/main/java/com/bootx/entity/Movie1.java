@@ -54,6 +54,7 @@ public class Movie1 extends BaseEntity<Long> {
     @JsonView({ViewView.class})
     private String remarks;
 
+    @JsonView({ViewView.class})
     private String playFrom;
 
     @NotNull
@@ -103,6 +104,8 @@ public class Movie1 extends BaseEntity<Long> {
     private Double score;
 
     private Boolean isShow;
+
+    private Integer status;
 
     public String getVideoId() {
         return videoId;
@@ -278,5 +281,51 @@ public class Movie1 extends BaseEntity<Long> {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    @JsonView({ViewView.class})
+    public String getMovieCategoryName(){
+        if(movieCategory!=null){
+            return movieCategory.getName();
+        }
+        return null;
+    }
+
+    @JsonView({ViewView.class})
+    public Long getMovieCategoryId(){
+        if(movieCategory!=null){
+            return movieCategory.getId();
+        }
+        return null;
+    }
+    @JsonView({ViewView.class})
+    public String getRootMovieCategoryName(){
+        if(movieCategory!=null){
+             MovieCategory parent = movieCategory.getParent();
+             if(parent!=null){
+                 return parent.getName();
+             }
+            return movieCategory.getName();
+        }
+        return null;
+    }
+    @JsonView({ViewView.class})
+    public Long getRootMovieCategoryId(){
+        if(movieCategory!=null){
+            MovieCategory parent = movieCategory.getParent();
+            if(parent!=null){
+                return parent.getId();
+            }
+            return movieCategory.getId();
+        }
+        return null;
     }
 }

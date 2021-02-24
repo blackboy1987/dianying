@@ -225,4 +225,10 @@ public class IndexController {
         }
         return Result.success("");
     }
+
+    @GetMapping("/sync")
+    public String sync(){
+        movie1Service.sync();
+        return "ok";
+    }
 }

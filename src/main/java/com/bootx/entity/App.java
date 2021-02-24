@@ -23,6 +23,15 @@ public class App extends BaseEntity<Long>{
     @Column(nullable = false,updatable = false,unique = true)
     private String appCode;
 
+    @NotNull
+    @Column(nullable = false,updatable = false,unique = true)
+    private String username;
+
+
+    @NotNull
+    @Column(nullable = false,updatable = false)
+    private String password;
+
 
     public String getAppId() {
         return appId;
@@ -54,5 +63,21 @@ public class App extends BaseEntity<Long>{
 
     public void setAppCode(String appCode) {
         this.appCode = appCode;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

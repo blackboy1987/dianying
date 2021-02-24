@@ -112,7 +112,7 @@ public class Demo1 {
     }
 
     public static JsonRootBean sync(Integer page) {
-        String s = WebUtils.get("https://api.okzy.tv/api.php/provide/vod/at/json/?ac=detail&h=240&pg="+page, null);
+        String s = WebUtils.get("https://api.okzy.tv/api.php/provide/vod/at/json/?ac=detail&h=48&pg="+page, null);
         JsonRootBean jsonRootBean = JsonUtils.toObject(s,JsonRootBean.class);
         List<Data> datas = jsonRootBean.getData();
         for (Data data:datas) {

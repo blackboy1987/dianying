@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Map;
+
 /**
  * Service - 积分记录
  * 
@@ -29,4 +31,13 @@ public class PointLogServiceImpl extends BaseServiceImpl<PointLog, Long> impleme
 		return pointLogDao.findPage(member, pageable);
 	}
 
+	@Override
+	public Page<Map<String, Object>> findPageJdbc(Pageable pageable) {
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> findJdbc(Long id) {
+		return null;
+	}
 }
