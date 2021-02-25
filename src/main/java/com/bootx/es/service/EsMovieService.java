@@ -21,4 +21,6 @@ public interface EsMovieService extends EsBaseService {
     List<Map<String,Object>> list(String hotMovies) throws IOException;
 
     Movie1 find(Long id);
+
+    void clear() throws IOException;
 }

@@ -15,6 +15,7 @@ import com.bootx.service.PlayUrlService;
 import com.bootx.util.JsonUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.commons.lang3.StringUtils;
+import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
@@ -217,5 +218,11 @@ public class EsMovieServiceImpl extends EsBaseServiceImpl implements EsMovieServ
         }
         return movie1;
     }
+
+    @Override
+    public void clear() {
+        esMovieRepository.deleteAll();
+    }
+
 
 }

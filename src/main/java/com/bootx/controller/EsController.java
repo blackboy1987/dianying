@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -28,6 +29,12 @@ public class EsController {
         for (Movie1 movie1:all) {
             esMovieService.add(movie1);
         }
+        return "ok";
+    }
+
+    @GetMapping("/clear")
+    private String clear() throws IOException {
+        esMovieService.clear();
         return "ok";
     }
 }

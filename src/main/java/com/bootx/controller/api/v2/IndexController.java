@@ -118,28 +118,28 @@ public class IndexController {
         Map<String,Object> map = new HashMap<>();
         map.put("tag","最新电影");
        //map.put("list",jdbcTemplate.queryForList("select id,title,pic,actor,remarks,score,movieCategory_id from movie1 where movieCategory_id in (1,6,7,8,9,10,11,12) order by `time` desc limit 30"));
-        map.put("list",esSearchService.searchIndex(1L,0,15,new String[]{
+        map.put("list",esSearchService.searchIndex(1L,0,6,new String[]{
                 "id","title","pic","actor","remarks","score"
         }));
 
         Map<String,Object> map1 = new HashMap<>();
         map1.put("tag","动画动漫");
        // map1.put("list",jdbcTemplate.queryForList("select id,title,pic,actor,remarks,score,movieCategory_id from movie1 where movieCategory_id in (4,29,30,31,32) order by `time` desc limit 30"));
-        map1.put("list",esSearchService.searchIndex(4L,0,15,new String[]{
+        map1.put("list",esSearchService.searchIndex(4L,0,6,new String[]{
                 "id","title","pic","actor","remarks","score"
         }));
 
         Map<String,Object> map2 = new HashMap<>();
         map2.put("tag","热门综艺");
-        map2.put("list",jdbcTemplate.queryForList("select id,title,pic,actor,remarks,score,movieCategory_id from movie1 where movieCategory_id in (3,24,25,26,27) order by `time` desc limit 30"));
-        map1.put("list",esSearchService.searchIndex(3L,0,15,new String[]{
+        //map2.put("list",jdbcTemplate.queryForList("select id,title,pic,actor,remarks,score,movieCategory_id from movie1 where movieCategory_id in (3,24,25,26,27) order by `time` desc limit 30"));
+        map2.put("list",esSearchService.searchIndex(3L,0,6,new String[]{
                 "id","title","pic","actor","remarks","score"
         }));
 
         Map<String,Object> map3 = new HashMap<>();
         map3.put("tag","同步剧场");
         //map3.put("list",jdbcTemplate.queryForList("select id,title,pic,actor,remarks,score,movieCategory_id from movie1 where movieCategory_id in (2,13,14,15,16) order by `time` desc limit 30"));
-        map3.put("list",esSearchService.searchIndex(2L,0,15,new String[]{
+        map3.put("list",esSearchService.searchIndex(2L,0,6,new String[]{
                 "id","title","pic","actor","remarks","score"
         }));
 
