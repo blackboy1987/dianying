@@ -35,4 +35,8 @@ public interface EsSearchService extends EsBaseService {
      * @throws IOException
      */
     List<Map<String,Object>> search(Long tabListId,Long categoryId,String areaName,String yearName,Integer sortIndex,Integer page) throws IOException;
+
+
+
+    List<Map<String,Object>> searchIndex(Long movieCategoryId,Integer from, Integer size,String [] fields) throws IOException;
 }

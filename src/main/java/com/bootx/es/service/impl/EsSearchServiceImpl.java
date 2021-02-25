@@ -124,4 +124,45 @@ public class EsSearchServiceImpl extends EsBaseServiceImpl implements EsSearchSe
         }
         return esPddCrawlerProducts;
     }
+
+    @Override
+    public List<Map<String, Object>> searchIndex(Long movieCategoryId,Integer from, Integer size,String [] fields) throws IOException {
+        SearchRequest searchRequest = new SearchRequest();
+        List<Map<String,Object>> esPddCrawlerProducts = new ArrayList<>();
+        searchRequest.indices(EsMovie.ES_NAME);
+
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        if(fields!=null&&fields.length>0){
+            searchSourceBuilder.fetchSource(fields,null);
+        }
+        if(from==null){
+            searchSourceBuilder.from(0);
+        }else{
+            searchSourceBuilder.from(from);
+        }
+        if(size==null|| size<=0){
+            searchSourceBuilder.size(30);
+        }else{
+            searchSourceBuilder.size(size);
+        }
+
+
+
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+
+        if(movieCategoryId!=null){
+            boolQueryBuilder.must(QueryBuilders.matchQuery("movieCategoryParentId",movieCategoryId));
+        }
+        boolQueryBuilder.must(QueryBuilders.matchQuery("isShow",true));
+        searchSourceBuilder.query(boolQueryBuilder);
+        searchRequest.source(searchSourceBuilder);
+        SearchResponse search = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+        SearchHits hits = search.getHits();
+        SearchHit[] hits1 = hits.getHits();
+        for (SearchHit searchHit:hits1) {
+            Map<String, Object> sourceAsMap = searchHit.getSourceAsMap();
+            esPddCrawlerProducts.add(sourceAsMap);
+        }
+        return esPddCrawlerProducts;
+    }
 }

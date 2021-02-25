@@ -213,7 +213,8 @@ public class Movie1ServiceImpl extends BaseServiceImpl<Movie1, Long> implements 
 
     @Override
     public Map<String, Object> findJdbc(Long id) {
-        return null;
+        String sql = "SELECT id,title,actor,`year`,area,director,blurb,content,score,pic FROM movie1 WHERE id="+id;
+        return jdbcTemplate.queryForMap(sql);
     }
 
     private Set<DownloadUrl> parseDownloadUrl(String vod_down_url, Movie1 movie1) {
