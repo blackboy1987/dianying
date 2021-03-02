@@ -107,7 +107,7 @@ public final class WechatUtils {
         url = url.replace("ACCESS_TOKEN",getAccessToken(app));
         params.put("touser",openId);
         params.put("template_id",templateId);
-
+        System.out.println(params);
         String result = doWXPost1(url,params);
         return JsonUtils.toObject(result, BaseResponse.class);
     }
