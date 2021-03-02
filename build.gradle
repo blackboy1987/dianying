@@ -18,6 +18,7 @@ repositories {
         }
         mavenLocal()
         mavenCentral()
+
     }
 }
 
@@ -33,20 +34,18 @@ dependencies {
     compile group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.66'
     compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 
-    compile group: 'net.sf.ehcache', name: 'ehcache', version: '2.10.6'
-    compile group: 'net.sf.ehcache', name: 'ehcache-web', version: '2.0.4'
+    compile 'org.ehcache:ehcache:3.8.1'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-cache', version: '2.4.2'
-
-    compile group: 'org.elasticsearch', name: 'elasticsearch', version: '7.9.2'
-    compile group: 'org.elasticsearch.client', name: 'elasticsearch-rest-high-level-client', version: '7.9.2'
 
     compile group: 'org.jsoup', name: 'jsoup', version: '1.13.1'
     compile group: 'net.sourceforge.htmlunit', name: 'htmlunit', version: '2.43.0'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-elasticsearch', version: '2.4.2'
 
     compile('com.huawei.hwclouds.ais:ais-java-client:2.0.0') {
         exclude group: 'org.slf4j'
+        exclude group: 'joda-time'
     }
+    compile fileTree(dir:'lib',includes:['*jar'])
+
     compile('com.alibaba:fastjson:1.2.68')
 
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'

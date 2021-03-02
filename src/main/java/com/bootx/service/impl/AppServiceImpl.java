@@ -9,7 +9,9 @@ import com.bootx.service.AppService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -36,12 +38,31 @@ public class AppServiceImpl extends BaseServiceImpl<App, Long> implements AppSer
         if(app==null){
             return false;
         }
-        if(!StringUtils.equals(appSecret, app.getToken())){
+        if(!StringUtils.equals(appSecret, app.getAppToken())){
             return false;
         }
 
 
         return true;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public App get(HttpServletRequest request) {
+        String appCode = request.getHeader("appCode");
+        String appToken = request.getHeader("appToken");
+        if(StringUtils.isBlank(appCode)){
+            appCode = request.getParameter("appCode");
+        }
+        if(StringUtils.isBlank(appToken)){
+            appToken = request.getParameter("appToken");
+        }
+
+        App app = findByAppCode(appCode);
+        if(app==null||!StringUtils.equals(appToken,app.getAppToken())){
+            return null;
+        }
+        return app;
     }
 
     @Override
