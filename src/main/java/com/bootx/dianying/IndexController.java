@@ -137,7 +137,7 @@ public class IndexController {
          */
         String tmpIds = request.getParameter("tmpIds");
         Long count = 0L;
-        if(StringUtils.isNotBlank(tmpIds)&&app!=null&&member!=null&&member.getApp()==app){
+        if(StringUtils.isNotBlank(tmpIds)&&app!=null&&member!=null&&member.getAppId()==app.getId()){
             List<SubscriptionTemplate> subscriptionTemplates =  subscriptionTemplateService.findListByAppAndSubscriptionTemplateIds(app,tmpIds.split(","));
             for (SubscriptionTemplate subscriptionTemplate:subscriptionTemplates) {
                 // 判断当天该模板该用户订阅的次数

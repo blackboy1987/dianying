@@ -1,10 +1,10 @@
 package com.bootx.member.entity;
 
+import com.bootx.entity.App;
 import com.bootx.entity.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonView;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 public class MemberRank extends BaseEntity<Long> {
 
     @NotNull
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false)
     @JsonView({ViewView.class})
     private String name;
 
@@ -40,6 +40,10 @@ public class MemberRank extends BaseEntity<Long> {
     @Column(nullable = false)
     private Long point;
 
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false,updatable = false)
+    private App app;
 
 
     public String getName() {
@@ -80,5 +84,13 @@ public class MemberRank extends BaseEntity<Long> {
 
     public void setPoint(Long point) {
         this.point = point;
+    }
+
+    public App getApp() {
+        return app;
+    }
+
+    public void setApp(App app) {
+        this.app = app;
     }
 }

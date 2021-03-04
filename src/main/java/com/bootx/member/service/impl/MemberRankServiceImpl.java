@@ -3,6 +3,7 @@ package com.bootx.member.service.impl;
 
 import com.bootx.common.Page;
 import com.bootx.common.Pageable;
+import com.bootx.entity.App;
 import com.bootx.member.dao.MemberRankDao;
 import com.bootx.member.entity.MemberRank;
 import com.bootx.member.service.MemberRankService;
@@ -31,26 +32,26 @@ public class MemberRankServiceImpl extends BaseServiceImpl<MemberRank, Long> imp
 
 	@Override
 	@Transactional(readOnly = true)
-	public boolean amountExists(BigDecimal amount) {
+	public boolean amountExists(BigDecimal amount, App app) {
 		return memberRankDao.exists("amount", amount);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public boolean amountUnique(Long id, BigDecimal amount) {
+	public boolean amountUnique(Long id, BigDecimal amount, App app) {
 		return memberRankDao.unique(id, "amount", amount);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public MemberRank findDefault() {
-		return memberRankDao.findDefault();
+	public MemberRank findDefault(App app) {
+		return memberRankDao.findDefault(app);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public MemberRank findByAmount(BigDecimal amount) {
-		return memberRankDao.findByAmount(amount);
+	public MemberRank findByAmount(BigDecimal amount, App app) {
+		return memberRankDao.findByAmount(amount,app);
 	}
 
 	@Override
@@ -59,7 +60,7 @@ public class MemberRankServiceImpl extends BaseServiceImpl<MemberRank, Long> imp
 		Assert.notNull(memberRank,"");
 
 		if (BooleanUtils.isTrue(memberRank.getIsDefault())) {
-			memberRankDao.clearDefault();
+			memberRankDao.clearDefault(memberRank.getApp());
 		}
 		return super.save(memberRank);
 	}
@@ -71,7 +72,7 @@ public class MemberRankServiceImpl extends BaseServiceImpl<MemberRank, Long> imp
 
 		MemberRank pMemberRank = super.update(memberRank);
 		if (BooleanUtils.isTrue(pMemberRank.getIsDefault())) {
-			memberRankDao.clearDefault(pMemberRank);
+			memberRankDao.clearDefault(pMemberRank, memberRank.getApp());
 		}
 		return pMemberRank;
 	}

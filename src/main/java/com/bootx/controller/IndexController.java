@@ -8,8 +8,6 @@ import com.bootx.service.AppService;
 import com.bootx.util.JWTUtils;
 import com.bootx.util.JsonUtils;
 import com.bootx.util.WebUtils;
-import com.bootx.util.WechatUtils;
-import com.bootx.util.wechat.QRCodeParam;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,6 +53,7 @@ public class IndexController {
 
         Member member = memberService.create(result,app,scene);
         Map<String,Object> data1 = memberService.getData(member);
+        data.put("userInfo",data1);
         data.put("code",200);
         data.put("token", JWTUtils.create(member.getId()+"",data1));
         return Result.success(data);
@@ -73,13 +72,13 @@ public class IndexController {
             return Result.error("非法请求");
         }
 
-        WechatUtils.createQRCode(app, QRCodeParam.create("123"));
+        //WechatUtils.createQRCode(app, QRCodeParam.create("123"));
 
 
         Map<String,Object> data = new HashMap<>();
         data.put("name",app.getAppName());
         data.put("ads",app.getAds());
-        return Result.success(app);
+        return Result.success(data);
     }
 
     /**

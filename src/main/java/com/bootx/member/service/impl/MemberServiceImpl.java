@@ -14,6 +14,7 @@ import com.bootx.member.entity.MemberRank;
 import com.bootx.member.entity.PointLog;
 import com.bootx.member.service.MemberRankService;
 import com.bootx.member.service.MemberService;
+import com.bootx.service.AppService;
 import com.bootx.service.impl.BaseServiceImpl;
 import com.bootx.util.JWTUtils;
 import io.jsonwebtoken.Claims;
@@ -24,6 +25,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import javax.annotation.Resource;
 import javax.persistence.LockModeType;
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
@@ -52,6 +54,8 @@ public class MemberServiceImpl extends BaseServiceImpl<Member, Long> implements 
 	private MemberRankDao memberRankDao;
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	@Resource
+	private AppService appService;
 
 	@Override
 	public Member find(String openId, App app) {
@@ -74,10 +78,11 @@ public class MemberServiceImpl extends BaseServiceImpl<Member, Long> implements 
 		if(member==null){
 			Member parent = findByAppAndId(app,scene);
 			member = new Member();
+			member.setLevel(0);
 			member.setOpenId(openId);
 			member.setUnionid(unionid);
 			member.setSessionKey(sessionKey);
-			member.setApp(app);
+			member.setAppId(app.getId());
 			member.setAmount(BigDecimal.ZERO);
 			member.setBalance(BigDecimal.ZERO);
 			member.setPoint(0L);
@@ -85,7 +90,25 @@ public class MemberServiceImpl extends BaseServiceImpl<Member, Long> implements 
 			member.setParent(null);
 			member.setGrade(1);
 			member.setParent(parent);
-			member.setMemberRank(memberRankService.findDefault());
+			member.setMemberRank(memberRankService.findDefault(app));
+
+			try {
+				if(app.getConfig().get("registerRewardPoint")!=null){
+					Long point = Long.valueOf(app.getConfig().get("registerRewardPoint"));
+					member.setPoint(point);
+				}
+			}catch (Exception ignored){
+
+			}
+			try {
+				if(app.getConfig().get("registerRewardBalance")!=null){
+					member.setBalance(new BigDecimal(app.getConfig().get("registerRewardBalance")));
+				}
+			}catch (Exception ignored){
+
+			}
+
+
 			member = super.save(member);
 		}
 		member.setNickName(map.get("name"));
@@ -94,9 +117,8 @@ public class MemberServiceImpl extends BaseServiceImpl<Member, Long> implements 
 	}
 
 	private Member findByAppAndId(App app, Long id) {
-
 		Member member = find(id);
-		if(member!=null&&member.getApp()==app){
+		if(member!=null&&member.getAppId()==app.getId()){
 			return member;
 		}
 		return null;
@@ -120,6 +142,7 @@ public class MemberServiceImpl extends BaseServiceImpl<Member, Long> implements 
 		data.put("nickName",member.getNickName());
 		data.put("isAuth",member.getIsAuth());
 		data.put("user_id",member.getId());
+		data.put("level",member.getLevel());
 
 		return data;
 	}
@@ -239,7 +262,7 @@ public class MemberServiceImpl extends BaseServiceImpl<Member, Long> implements 
 		member.setAmount(member.getAmount().add(amount));
 		MemberRank memberRank = member.getMemberRank();
 		if (memberRank != null && BooleanUtils.isFalse(memberRank.getIsSpecial())) {
-			MemberRank newMemberRank = memberRankDao.findByAmount(member.getAmount());
+			MemberRank newMemberRank = memberRankDao.findByAmount(member.getAmount(),appService.find(member.getAppId()));
 			if (newMemberRank != null && newMemberRank.getAmount() != null && newMemberRank.getAmount().compareTo(memberRank.getAmount()) > 0) {
 				member.setMemberRank(newMemberRank);
 			}

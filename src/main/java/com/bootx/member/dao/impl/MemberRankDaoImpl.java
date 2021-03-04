@@ -2,6 +2,7 @@
 package com.bootx.member.dao.impl;
 
 import com.bootx.dao.impl.BaseDaoImpl;
+import com.bootx.entity.App;
 import com.bootx.member.dao.MemberRankDao;
 import com.bootx.member.entity.MemberRank;
 import org.springframework.stereotype.Repository;
@@ -20,33 +21,33 @@ import java.math.BigDecimal;
 public class MemberRankDaoImpl extends BaseDaoImpl<MemberRank, Long> implements MemberRankDao {
 
 	@Override
-	public MemberRank findDefault() {
+	public MemberRank findDefault(App app) {
 		try {
-			String jpql = "select memberRank from MemberRank memberRank where memberRank.isDefault = true";
-			return entityManager.createQuery(jpql, MemberRank.class).getSingleResult();
+			String jpql = "select memberRank from MemberRank memberRank where memberRank.isDefault = true and memberRank.app = :app";
+			return entityManager.createQuery(jpql, MemberRank.class).setParameter("app",app).getSingleResult();
 		} catch (NoResultException e) {
 			return null;
 		}
 	}
 
 	@Override
-	public MemberRank findByAmount(BigDecimal amount) {
-		String jpql = "select memberRank from MemberRank memberRank where memberRank.isSpecial = false and memberRank.amount <= :amount order by memberRank.amount desc";
-		return entityManager.createQuery(jpql, MemberRank.class).setParameter("amount", amount).setMaxResults(1).getSingleResult();
+	public MemberRank findByAmount(BigDecimal amount, App app) {
+		String jpql = "select memberRank from MemberRank memberRank where memberRank.isSpecial = false and memberRank.amount <= :amount and memberRank.app = :app order by memberRank.amount desc";
+		return entityManager.createQuery(jpql, MemberRank.class).setParameter("amount", amount).setParameter("app",app).setMaxResults(1).getSingleResult();
 	}
 
 	@Override
-	public void clearDefault() {
-		String jpql = "update MemberRank memberRank set memberRank.isDefault = false where memberRank.isDefault = true";
-		entityManager.createQuery(jpql).executeUpdate();
+	public void clearDefault(App app) {
+		String jpql = "update MemberRank memberRank set memberRank.isDefault = false where memberRank.isDefault = true and memberRank.app = : app";
+		entityManager.createQuery(jpql).setParameter("app",app).executeUpdate();
 	}
 
 	@Override
-	public void clearDefault(MemberRank exclude) {
+	public void clearDefault(MemberRank exclude, App app) {
 		Assert.notNull(exclude);
 
-		String jpql = "update MemberRank memberRank set memberRank.isDefault = false where memberRank.isDefault = true and memberRank != :exclude";
-		entityManager.createQuery(jpql).setParameter("exclude", exclude).executeUpdate();
+		String jpql = "update MemberRank memberRank set memberRank.isDefault = false where memberRank.isDefault = true and memberRank != :exclude and memberRank.app = : app";
+		entityManager.createQuery(jpql).setParameter("exclude", exclude).setParameter("app",app).executeUpdate();
 	}
 
 }

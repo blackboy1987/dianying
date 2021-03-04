@@ -45,6 +45,12 @@ public class App extends BaseEntity<Long>{
 
     private String logo;
 
+    @NotNull
+    @Convert(converter = ConfigConfigConvert.class)
+    @Column(length = 3000,nullable = false)
+    private Map<String,String> config = new HashMap<>();
+
+
     /**
      * 广告配置
      */
@@ -118,6 +124,14 @@ public class App extends BaseEntity<Long>{
 
     public void setLogo(String logo) {
         this.logo = logo;
+    }
+
+    public Map<String, String> getConfig() {
+        return config;
+    }
+
+    public void setConfig(Map<String, String> config) {
+        this.config = config;
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -217,6 +231,11 @@ public class App extends BaseEntity<Long>{
 
     @Convert
     public static class AdConfigConvert extends BaseAttributeConverter<Map<String,AdConfig>>{
+
+    }
+
+    @Convert
+    public static class ConfigConfigConvert extends BaseAttributeConverter<Map<String,String>>{
 
     }
 }

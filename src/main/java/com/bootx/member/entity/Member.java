@@ -1,6 +1,5 @@
 package com.bootx.member.entity;
 
-import com.bootx.entity.App;
 import com.bootx.entity.BaseEntity;
 
 import javax.persistence.*;
@@ -17,10 +16,9 @@ public class Member extends BaseEntity<Long> {
     @Column(nullable = false,updatable = false,unique = true)
     private String openId;
 
-    @ManyToOne
     @NotNull
-    @JoinColumn(updatable = false,nullable = false)
-    private App app;
+    @Column(updatable = false,nullable = false)
+    private Long appId;
 
     @ManyToOne
     @NotNull
@@ -76,6 +74,11 @@ public class Member extends BaseEntity<Long> {
     @Column(nullable = false)
     private Integer grade;
 
+    @Min(0)
+    @NotNull
+    @Column(nullable = false)
+    private Integer level;
+
     public String getOpenId() {
         return openId;
     }
@@ -84,12 +87,12 @@ public class Member extends BaseEntity<Long> {
         this.openId = openId;
     }
 
-    public App getApp() {
-        return app;
+    public Long getAppId() {
+        return appId;
     }
 
-    public void setApp(App app) {
-        this.app = app;
+    public void setAppId(Long appId) {
+        this.appId = appId;
     }
 
     public MemberRank getMemberRank() {
@@ -222,6 +225,14 @@ public class Member extends BaseEntity<Long> {
 
     public Integer getGrade() {
         return grade;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
     }
 
     public void setGrade(Integer grade) {

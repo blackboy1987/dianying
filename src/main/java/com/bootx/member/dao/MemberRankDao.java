@@ -2,6 +2,7 @@
 package com.bootx.member.dao;
 
 import com.bootx.dao.BaseDao;
+import com.bootx.entity.App;
 import com.bootx.member.entity.MemberRank;
 
 import java.math.BigDecimal;
@@ -19,7 +20,7 @@ public interface MemberRankDao extends BaseDao<MemberRank, Long> {
 	 * 
 	 * @return 默认会员等级，若不存在则返回null
 	 */
-	MemberRank findDefault();
+	MemberRank findDefault(App app);
 
 	/**
 	 * 根据消费金额查找符合此条件的最高会员等级
@@ -28,12 +29,12 @@ public interface MemberRankDao extends BaseDao<MemberRank, Long> {
 	 *            消费金额
 	 * @return 会员等级，不包含特殊会员等级，若不存在则返回null
 	 */
-	MemberRank findByAmount(BigDecimal amount);
+	MemberRank findByAmount(BigDecimal amount, App app);
 
 	/**
 	 * 清除默认
 	 */
-	void clearDefault();
+	void clearDefault(App app);
 
 	/**
 	 * 清除默认
@@ -41,6 +42,6 @@ public interface MemberRankDao extends BaseDao<MemberRank, Long> {
 	 * @param exclude
 	 *            排除会员等级
 	 */
-	void clearDefault(MemberRank exclude);
+	void clearDefault(MemberRank exclude, App app);
 
 }
