@@ -300,7 +300,7 @@ public class MemberServiceImpl extends BaseServiceImpl<Member, Long> implements 
 
 	@Override
 	public List<Map<String, Object>> rank(App app, int count) {
-		return jdbcTemplate.queryForList("select id,level,nickName,avatarUrl from member where and appId="+app.getId()+" order by level desc limit "+count);
+		return jdbcTemplate.queryForList("select id,level,nickName,avatarUrl from member where appId="+app.getId()+" order by level desc limit "+count);
 	}
 
 	@Override
