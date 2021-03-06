@@ -9,10 +9,7 @@ package com.bootx.util;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.NameValuePair;
-import org.apache.http.ParseException;
+import org.apache.http.*;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -319,6 +316,49 @@ public final class WebUtils {
 	 *            请求参数
 	 * @return 返回结果
 	 */
+	public static String get(String url,Map<String,String> headers, Map<String, Object> parameterMap) {
+		Assert.hasText(url, "[Assertion failed] - url must have text; it must not be null, empty, or blank");
+
+		String result = null;
+		try {
+			List<NameValuePair> nameValuePairs = new ArrayList<>();
+			if (parameterMap != null) {
+				for (Map.Entry<String, Object> entry : parameterMap.entrySet()) {
+					String name = entry.getKey();
+					String value = ConvertUtils.convert(entry.getValue());
+					if (StringUtils.isNotEmpty(name)) {
+						nameValuePairs.add(new BasicNameValuePair(name, value));
+					}
+				}
+			}
+			HttpGet httpGet = new HttpGet(url + (StringUtils.contains(url, "?") ? "&" : "?") + EntityUtils.toString(new UrlEncodedFormEntity(nameValuePairs, "UTF-8")));
+			if (headers != null&&headers.size()>0) {
+				for (String key:headers.keySet()) {
+					httpGet.setHeader(key,headers.get(key));
+				}
+			}
+			CloseableHttpResponse httpResponse = HTTP_CLIENT.execute(httpGet);
+			try {
+				HttpEntity httpEntity = httpResponse.getEntity();
+				if (httpEntity != null) {
+					result = EntityUtils.toString(httpEntity);
+					EntityUtils.consume(httpEntity);
+				}
+			} finally {
+				IOUtils.closeQuietly(httpResponse);
+			}
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException(e.getMessage(), e);
+		} catch (ParseException e) {
+			throw new RuntimeException(e.getMessage(), e);
+		} catch (ClientProtocolException e) {
+			throw new RuntimeException(e.getMessage(), e);
+		} catch (IOException e) {
+			throw new RuntimeException(e.getMessage(), e);
+		}
+		return result;
+	}
+
 	public static String get(String url, Map<String, Object> parameterMap) {
 		Assert.hasText(url, "[Assertion failed] - url must have text; it must not be null, empty, or blank");
 

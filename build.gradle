@@ -48,6 +48,8 @@ dependencies {
 
     compile('com.alibaba:fastjson:1.2.68')
 
+    compile 'com.aliyun.oss:aliyun-sdk-oss:3.10.2'
+
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
