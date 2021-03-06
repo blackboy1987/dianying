@@ -2,6 +2,7 @@
 package com.bootx.member.service;
 
 import com.bootx.entity.App;
+import com.bootx.entity.RewardType;
 import com.bootx.member.entity.Member;
 import com.bootx.member.entity.MemberDepositLog;
 import com.bootx.member.entity.PointLog;
@@ -9,6 +10,7 @@ import com.bootx.service.BaseService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -84,4 +86,6 @@ public interface MemberService extends BaseService<Member,Long> {
     Member get(HttpServletRequest request);
 
     List<Map<String,Object>> rank(App app, int count);
+
+    Integer countPointLog(Date date, Member member, PointLog.Type type);
 }

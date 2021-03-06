@@ -2,6 +2,7 @@ package com.bootx.controller;
 
 import com.bootx.common.Result;
 import com.bootx.entity.App;
+import com.bootx.entity.RewardType;
 import com.bootx.member.entity.Member;
 import com.bootx.member.entity.PointLog;
 import com.bootx.member.service.MemberService;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -126,13 +128,26 @@ public class IndexController {
      * 奖励
      */
     @PostMapping("/reward")
-    private Result reward(HttpServletRequest request,String type) {
+    private Result reward(HttpServletRequest request, RewardType type) {
         Member member = memberService.get(request);
-        App app = appService.get(request);
-        if(member.getAppId()!=app.getId()){
+        if(member==null){
             return Result.error("非法访问");
         }
-        if(StringUtils.equalsAnyIgnoreCase("sign",type)){
+        App app = appService.get(request);
+        if(app==null){
+            return Result.error("非法访问");
+        }
+        if(!member.getAppId().equals(app.getId())){
+            return Result.error("非法访问");
+        }
+        if(RewardType.sign==type){
+            /**
+             * 判断当天是否签到
+             */
+            Integer count = memberService.countPointLog(new Date(),member,PointLog.Type.sign);
+            if(count>0){
+                return Result.error("今日已签到，明日再来吧");
+            }
             //签到
             String signPoint = app.getConfig().get("signPoint");
             if(StringUtils.isBlank(signPoint)){
@@ -142,7 +157,7 @@ public class IndexController {
             }catch (Exception ignored){
 
             }
-        }else if(StringUtils.equalsAnyIgnoreCase("reviewRewardedVideoAd",type)){
+        }else if(RewardType.reviewRewardedVideoAd==type){
             // 浏览视频广告
             String perVideoGold = app.getConfig().get("perVideoGold");
             if(StringUtils.isBlank(perVideoGold)){

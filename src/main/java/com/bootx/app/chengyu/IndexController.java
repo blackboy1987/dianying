@@ -72,15 +72,18 @@ public class IndexController {
      * 答题扣减积分
      */
     @PostMapping("/discount")
-    public Result discount(HttpServletRequest request,String memo,Integer level){
+    public Result discount(HttpServletRequest request,String memo,Integer level,Integer type){
         Member member = memberService.get(request);
         App app = appService.get(request);
-        if(member.getAppId()!=app.getId()){
+        if(!member.getAppId().equals(app.getId())){
             return Result.error("非法访问");
         }
         String levelPoint = app.getConfig().get("levelPoint");
         if(StringUtil.isBlank(levelPoint)){
             levelPoint = "100";
+        }
+        if(type!=null&&type==1){
+            member.setLevel(level);
         }
         memberService.addPoint(member,Long.parseLong(levelPoint)*(-1), PointLog.Type.deduct,level+":"+memo);
         return Result.success("ok");
@@ -88,13 +91,5 @@ public class IndexController {
 
     /**
      * 红包开启
-     */
-
-    /**
-     * 看广告得积分
-     */
-
-    /**
-     * 看广告得红包
      */
 }

@@ -192,7 +192,9 @@ public class InitController {
         List<Map<String, Object>> list = jdbcTemplate.queryForList("SELECT id,word FROM chengyu_idiom_level AS t1 JOIN (SELECT ROUND(RAND() * (SELECT MAX(id) FROM chengyu_idiom_level)) AS id2) AS t2 WHERE t1.id >= t2.id2 and t1.level>"+max+" ORDER BY t1.id ASC LIMIT "+count);
         while (list.size()>0){
             for (Map<String,Object> map:list) {
-                jdbcTemplate.update("update chengyu_idiom_level set level="+(level++)+",position="+RANDOM.nextInt(4)+" where id="+map.get("id"));
+                jdbcTemplate.update("update chengyu_idiom_level set level="+level+",position="+RANDOM.nextInt(4)+" where id="+map.get("id"));
+                // idiomLevelService.addCache(idiomLevelService.findByLevel(level));
+                level++;
             }
             list = jdbcTemplate.queryForList("SELECT id,word FROM chengyu_idiom_level AS t1 JOIN (SELECT ROUND(RAND() * (SELECT MAX(id) FROM chengyu_idiom_level)) AS id2) AS t2 WHERE t1.id >= t2.id2 and t1.level>"+max+" ORDER BY t1.id ASC LIMIT 1");
         }
@@ -202,8 +204,11 @@ public class InitController {
 
     @GetMapping("/idiom_answer")
     public void idiomAnswer(){
-        List<IdiomLevel> idiomLevels = idiomLevelService.findAll();
-        for (IdiomLevel idiomLevel:idiomLevels) {
+        for (int i=1;i<30000;i++) {
+            IdiomLevel idiomLevel = idiomLevelService.findByLevel(i);
+            if(idiomLevel==null){
+                continue;
+            }
             Integer position = RANDOM.nextInt(idiomLevel.getWord().length());
             String answer = idiomLevel.getWord().toCharArray()[position]+"";
             String s1 = jdbcTemplate.queryForObject("SELECT word FROM chengyu_word AS t1 JOIN (SELECT ROUND(RAND() * (SELECT MAX(id) FROM chengyu_word)) AS id2) AS t2 WHERE t1.id >= t2.id2 ORDER BY t1.id ASC LIMIT 1", String.class);
@@ -219,10 +224,6 @@ public class InitController {
             idiomLevel.setAnswers(answers);
             idiomLevel.setPosition(position);
             idiomLevelService.update(idiomLevel);
-
-
-
-
         }
     }
 
