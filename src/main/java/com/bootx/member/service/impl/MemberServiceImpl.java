@@ -4,6 +4,7 @@ package com.bootx.member.service.impl;
 import com.bootx.common.Page;
 import com.bootx.common.Pageable;
 import com.bootx.entity.App;
+import com.bootx.entity.RewardType;
 import com.bootx.member.dao.MemberDao;
 import com.bootx.member.dao.MemberDepositLogDao;
 import com.bootx.member.dao.MemberRankDao;
@@ -16,6 +17,7 @@ import com.bootx.member.service.MemberRankService;
 import com.bootx.member.service.MemberService;
 import com.bootx.service.AppService;
 import com.bootx.service.impl.BaseServiceImpl;
+import com.bootx.util.DateUtils;
 import com.bootx.util.JWTUtils;
 import io.jsonwebtoken.Claims;
 import org.apache.commons.lang3.BooleanUtils;
@@ -29,7 +31,9 @@ import javax.annotation.Resource;
 import javax.persistence.LockModeType;
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -133,6 +137,9 @@ public class MemberServiceImpl extends BaseServiceImpl<Member, Long> implements 
 	@Override
 	public Map<String, Object> getData(Member member) {
 		Map<String,Object> data = new HashMap<>();
+		if(member==null){
+			return data;
+		}
 		data.put("id",member.getId());
 		data.put("balance",member.getBalance());
 		data.put("amount",member.getAmount());
@@ -143,6 +150,8 @@ public class MemberServiceImpl extends BaseServiceImpl<Member, Long> implements 
 		data.put("isAuth",member.getIsAuth());
 		data.put("user_id",member.getId());
 		data.put("level",member.getLevel());
+		data.put("reviewRewardedVideoAdCount", countPointLog(new Date(), member, PointLog.Type.reviewRewardedVideoAd));
+		data.put("isSign", countPointLog(new Date(), member, PointLog.Type.sign)>0);
 
 		return data;
 	}
@@ -289,7 +298,21 @@ public class MemberServiceImpl extends BaseServiceImpl<Member, Long> implements 
 
 	}
 
-    @Override
+	@Override
+	public List<Map<String, Object>> rank(App app, int count) {
+		return jdbcTemplate.queryForList("select id,level,nickName,avatarUrl from member where and appId="+app.getId()+" order by level desc limit "+count);
+	}
+
+	@Override
+	public Integer countPointLog(Date date, Member member, PointLog.Type type) {
+		if(date==null||member==null||type==null){
+			return 0;
+		}
+		Integer count = jdbcTemplate.queryForObject("select count(id) from pointlog where type="+type.ordinal()+" and member_id="+member.getId()+" and DATE_FORMAT(createdDate,'%Y-%m-%d')=DATE_FORMAT('"+ DateUtils.formatDateToString(date, "yyyy-MM-dd") +"','%Y-%m-%d');", Integer.class);
+		return count;
+	}
+
+	@Override
 	public Page<Map<String, Object>> findPageJdbc(Pageable pageable) {
 		return null;
 	}
