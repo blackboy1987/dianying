@@ -17,7 +17,7 @@ public class ShortVideoJob {
     private RedisService redisService;
 
 
-    @Scheduled(cron = "0 0/1 * * * ?")
+    @Scheduled(cron = "0/20 * * * * ?")
     public void run (){
         Integer pageInt = 1;
         Integer count = 9;
@@ -29,7 +29,10 @@ public class ShortVideoJob {
         }
         long start = System.currentTimeMillis();
         System.out.println(pageInt+"===============start================="+start);
-        shortVideoService.sync(pageInt,count+pageInt);
+        Integer finalPageInt = pageInt;
+        new Thread(()->{
+            shortVideoService.sync(finalPageInt,count+ finalPageInt);
+        }).start();
         redisService.set("page",(pageInt+count)+"");
         System.out.println(pageInt+"===============end==================="+(System.currentTimeMillis()-start)/1000);
     }

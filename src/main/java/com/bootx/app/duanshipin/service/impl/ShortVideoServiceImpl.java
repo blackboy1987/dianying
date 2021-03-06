@@ -21,6 +21,7 @@ import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -66,20 +67,27 @@ public class ShortVideoServiceImpl extends BaseServiceImpl<ShortVideo, Long> imp
 
             ShortVideo shortVideo = new ShortVideo();
             shortVideo.setShortVideoChannel(shortVideoChannel);
-            shortVideo.setChannelName(item.getChannelName());
-            shortVideo.setChannelId(item.getChannelId());
+            shortVideo.setChannelName(shortVideoChannel.getName());
+            shortVideo.setChannelId(shortVideoChannel.getChannelId());
             shortVideo.setTime(item.getTime());
             shortVideo.setVideoId(item.getVideoid());
             shortVideo.setTitle(item.getVideoname());
             shortVideo.setVideoImage(item.getVideoimgurl());
             String s1 = WebUtils.get("https://weixinapi.baomihua.com/getvideourl.aspx?flvid="+shortVideo.getVideoId()+"&devicetype=wap&dataType=json", null);
+            System.out.println(s1);
             JsonRootBean1 jsonRootBean1 = JsonUtils.toObject(s1,JsonRootBean1.class);
             if(jsonRootBean1.getAlipalyurl().indexOf("http")==0){
                 shortVideo.setVideoUrl(jsonRootBean1.getAlipalyurl());
             }else{
                 shortVideo.setVideoUrl("https://"+jsonRootBean1.getAlipalyurl());
             }
-            shortVideo.setUploadTime(jsonRootBean1.getUploadTime());
+            try{
+                shortVideo.setUploadTime(new Date(jsonRootBean1.getUploadTime()*1000));
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            shortVideo.setDuration(jsonRootBean1.getTotaltime());
+            shortVideo.setSize(jsonRootBean1.getVideofilesize());
             super.save(shortVideo);
            /* try {
                 upload(shortVideo.getVideoImage(),shortVideo.getVideoId());

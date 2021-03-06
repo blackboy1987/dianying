@@ -4,6 +4,7 @@ import com.bootx.entity.BaseEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.Date;
 
 @Entity
 @Table(name = "duanshipin_short_video")
@@ -24,6 +25,8 @@ public class ShortVideo extends BaseEntity<Long> {
 
     private Long duration;
 
+    private Long size;
+
     private String time;
 
     private String channelName;
@@ -32,7 +35,7 @@ public class ShortVideo extends BaseEntity<Long> {
 
     private String videoUrl;
 
-    private Long uploadTime;
+    private Date uploadTime;
 
     public String getVideoId() {
         return videoId;
@@ -82,6 +85,14 @@ public class ShortVideo extends BaseEntity<Long> {
         this.duration = duration;
     }
 
+    public Long getSize() {
+        return size;
+    }
+
+    public void setSize(Long size) {
+        this.size = size;
+    }
+
     public String getTime() {
         return time;
     }
@@ -114,11 +125,11 @@ public class ShortVideo extends BaseEntity<Long> {
         this.videoUrl = videoUrl;
     }
 
-    public Long getUploadTime() {
+    public Date getUploadTime() {
         return uploadTime;
     }
 
-    public void setUploadTime(Long uploadTime) {
+    public void setUploadTime(Date uploadTime) {
         this.uploadTime = uploadTime;
     }
 }

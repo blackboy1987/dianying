@@ -21,7 +21,6 @@ public class RetStr {
     private String videoimgurl;
     private String videourl;
     private String channelImgUrl;
-    private String channelName;
     private String time;
     private String channelId;
     private String insertAd;
@@ -76,13 +75,6 @@ public class RetStr {
      }
      public String getChannelImgUrl() {
          return channelImgUrl;
-     }
-
-    public void setChannelName(String channelName) {
-         this.channelName = channelName;
-     }
-     public String getChannelName() {
-         return channelName;
      }
 
     public void setTime(String time) {

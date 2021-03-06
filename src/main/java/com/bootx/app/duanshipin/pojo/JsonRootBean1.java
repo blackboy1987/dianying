@@ -17,7 +17,7 @@ public class JsonRootBean1 {
     private String flvid;
     private String title;
     private String grabphotourl;
-    private String totaltime;
+    private Long totaltime;
     private String source;
     private String host;
     private String stream_name;
@@ -30,7 +30,7 @@ public class JsonRootBean1 {
     private String video_img;
     private String otherHost;
     private String videofiletype;
-    private String videofilesize;
+    private Long videofilesize;
     private String videoIssuer;
     private String dealstatus;
     private String ishls;
@@ -72,10 +72,10 @@ public class JsonRootBean1 {
          return grabphotourl;
      }
 
-    public void setTotaltime(String totaltime) {
+    public void setTotaltime(Long totaltime) {
          this.totaltime = totaltime;
      }
-     public String getTotaltime() {
+     public Long getTotaltime() {
          return totaltime;
      }
 
@@ -163,10 +163,10 @@ public class JsonRootBean1 {
          return videofiletype;
      }
 
-    public void setVideofilesize(String videofilesize) {
+    public void setVideofilesize(Long videofilesize) {
          this.videofilesize = videofilesize;
      }
-     public String getVideofilesize() {
+     public Long getVideofilesize() {
          return videofilesize;
      }
 
