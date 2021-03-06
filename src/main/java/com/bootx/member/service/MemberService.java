@@ -9,6 +9,7 @@ import com.bootx.service.BaseService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -81,4 +82,6 @@ public interface MemberService extends BaseService<Member,Long> {
     void addAmount(Member member, BigDecimal amount);
 
     Member get(HttpServletRequest request);
+
+    List<Map<String,Object>> rank(App app, int count);
 }

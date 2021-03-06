@@ -30,6 +30,7 @@ import javax.persistence.LockModeType;
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -133,6 +134,9 @@ public class MemberServiceImpl extends BaseServiceImpl<Member, Long> implements 
 	@Override
 	public Map<String, Object> getData(Member member) {
 		Map<String,Object> data = new HashMap<>();
+		if(member==null){
+			return data;
+		}
 		data.put("id",member.getId());
 		data.put("balance",member.getBalance());
 		data.put("amount",member.getAmount());
@@ -289,7 +293,12 @@ public class MemberServiceImpl extends BaseServiceImpl<Member, Long> implements 
 
 	}
 
-    @Override
+	@Override
+	public List<Map<String, Object>> rank(App app, int count) {
+		return jdbcTemplate.queryForList("select id,level,nickName,avatarUrl from member where app_id="+app.getId()+" order by level desc limit "+count);
+	}
+
+	@Override
 	public Page<Map<String, Object>> findPageJdbc(Pageable pageable) {
 		return null;
 	}

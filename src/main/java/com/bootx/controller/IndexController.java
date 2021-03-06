@@ -3,12 +3,14 @@ package com.bootx.controller;
 import com.bootx.common.Result;
 import com.bootx.entity.App;
 import com.bootx.member.entity.Member;
+import com.bootx.member.entity.PointLog;
 import com.bootx.member.service.MemberService;
 import com.bootx.service.AppService;
 import com.bootx.util.JWTUtils;
 import com.bootx.util.JsonUtils;
 import com.bootx.util.WebUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -78,6 +80,7 @@ public class IndexController {
         Map<String,Object> data = new HashMap<>();
         data.put("name",app.getAppName());
         data.put("ads",app.getAds());
+        data.put("config",app.getConfig());
         return Result.success(data);
     }
 
@@ -107,5 +110,53 @@ public class IndexController {
         }
         return Result.success("");
     }
+
+    /**
+     * 获取用户信息
+     * @param request
+     * @return
+     */
+    @PostMapping("/userInfo")
+    private Result userInfo(HttpServletRequest request) {
+        Member member = memberService.get(request);
+        return Result.success(memberService.getData(member));
+    }
+
+    /**
+     * 奖励
+     */
+    @PostMapping("/reward")
+    private Result reward(HttpServletRequest request,String type) {
+        Member member = memberService.get(request);
+        App app = appService.get(request);
+        if(member.getAppId()!=app.getId()){
+            return Result.error("非法访问");
+        }
+        if(StringUtils.equalsAnyIgnoreCase("sign",type)){
+            //签到
+            String signPoint = app.getConfig().get("signPoint");
+            if(StringUtils.isBlank(signPoint)){
+                signPoint = "300";
+            }try {
+                memberService.addPoint(member,Long.parseLong(signPoint), PointLog.Type.sign,"签到赠送积分");
+            }catch (Exception ignored){
+
+            }
+        }else if(StringUtils.equalsAnyIgnoreCase("reviewRewardedVideoAd",type)){
+            // 浏览视频广告
+            String perVideoGold = app.getConfig().get("perVideoGold");
+            if(StringUtils.isBlank(perVideoGold)){
+                perVideoGold = "2000";
+            }try {
+                memberService.addPoint(member,Long.parseLong(perVideoGold), PointLog.Type.reviewRewardedVideoAd,"浏览视频赠送积分");
+            }catch (Exception ignored){
+
+            }
+        }
+
+        return Result.success("ok");
+    }
+
+
 
 }
